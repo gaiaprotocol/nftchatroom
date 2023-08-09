@@ -1,4 +1,4 @@
-.about-nft-chat-room-popup.component {
+.about-popup.component {
     max-width     : 440px;
     width         : 90%;
     margin        : auto;
@@ -58,6 +58,15 @@
             &:focus {
                 outline       : 1px dotted #000000;
                 outline-offset: -4px;
+            }
+        }
+    }
+
+    >.status-bar {
+        >.status {
+            >a {
+                text-decoration: underline;
+                cursor         : pointer;
             }
         }
     }
