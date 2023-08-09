@@ -262,6 +262,10 @@ img {
 .loader.retro-component.index-2 {
   padding: 8px;
 }
+html,
+body {
+  overflow: hidden;
+}
 .layout {
   height: 100%;
   display: flex;
@@ -343,11 +347,6 @@ img {
   flex-grow: 1;
   display: flex;
 }
-@media only screen and (max-width: 859px) {
-  .chat-room > main {
-    display: block;
-  }
-}
 .chat-room > main > .message-list {
   flex-grow: 1;
   overflow-y: auto;
@@ -386,7 +385,7 @@ img {
 .room-list {
   display: none;
   width: 280px;
-  background-color: blue;
+  background: var(--surface);
 }
 .room-list.active {
   display: block;
@@ -403,7 +402,7 @@ img {
 .user-list {
   display: none;
   width: 240px;
-  background-color: red;
+  background: var(--surface);
 }
 .user-list.active {
   display: block;
