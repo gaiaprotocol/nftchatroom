@@ -394,9 +394,9 @@ body {
   .room-list {
     position: absolute;
     left: 0;
-    top: 56px;
+    top: 58px;
     width: 100%;
-    height: calc(100% - 56px);
+    height: calc(100% - 58px);
   }
 }
 .user-list {
@@ -411,9 +411,9 @@ body {
   .user-list {
     position: absolute;
     left: 0;
-    top: 56px;
+    top: 58px;
     width: 100%;
-    height: calc(100% - 56px);
+    height: calc(100% - 58px);
   }
 }
 
