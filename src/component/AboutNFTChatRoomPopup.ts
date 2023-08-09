@@ -11,7 +11,7 @@ export default class AboutNFTChatRoomPopup extends Popup {
   public content: DomNode;
 
   constructor() {
-    super({ barrierDismissible: true });
+    super({ barrierDismissible: false });
     this.append(
       this.content = new Component(
         ".about-nft-chat-room-popup",

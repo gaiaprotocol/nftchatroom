@@ -171,12 +171,17 @@ meter {
   font-weight: bold;
   font-style: normal;
 }
+html,
+body {
+  height: 100%;
+}
 body {
   background-color: var(--surface);
   font-family: "Pixelated MS Sans Serif", Arial;
   font-size: 11px;
   color: var(--text-color);
   -webkit-font-smoothing: none;
+  border: 1px solid #555555;
 }
 .popup-background {
   position: fixed;
@@ -242,8 +247,8 @@ body {
   margin: 0;
   line-height: 1.5em;
 }
-.layout {
-  border: 1px solid #555555;
+.loader.retro-component.index-2 {
+  padding: 8px;
 }
 .about-nft-chat-room-popup.component {
   max-width: 440px;
