@@ -7,14 +7,14 @@ import {
   RetroTitleBar,
 } from "common-dapp-module";
 
-export default class AboutNFTChatRoomPopup extends Popup {
+export default class AboutPopup extends Popup {
   public content: DomNode;
 
   constructor() {
     super({ barrierDismissible: false });
     this.append(
       this.content = new Component(
-        ".about-nft-chat-room-popup",
+        ".about-popup",
         new RetroTitleBar({
           title: "About NFTChatRoom.com",
           buttons: [{
@@ -40,7 +40,13 @@ export default class AboutNFTChatRoomPopup extends Popup {
         ),
         new RetroStatusBar({
           statuses: [
-            "BUIDL by Gaia Protocol",
+            [
+              "BUIDL by ",
+              el("a", "Gaia Protocol", {
+                target: "_blank",
+                href: "https://gaiaprotocol.com",
+              }),
+            ],
             "Stay Positive",
             "Stage: Beta",
           ],

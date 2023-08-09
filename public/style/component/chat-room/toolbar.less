@@ -1,0 +1,36 @@
+.toolbar {
+    border      : solid transparent;
+    border-width: 2px;
+    border-image: url("/icon/groupbox-border.svg") 2 repeat;
+    display     : flex;
+
+    >button {
+        display       : flex;
+        flex-direction: column;
+        align-items   : center;
+        padding       : 4px 8px;
+        min-width     : 54px;
+
+        &:hover {
+            border     : none;
+            color      : transparent;
+            text-shadow: 0 0 var(--text-color);
+            background : var(--surface);
+            box-shadow : var(--border-raised-outer), var(--border-raised-inner);
+        }
+
+        &.on,
+        &:active {
+            box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+        }
+
+        &:focus {
+            outline       : 1px dotted #000000;
+            outline-offset: -4px;
+        }
+
+        &:last-of-type {
+            margin-left: auto;
+        }
+    }
+}

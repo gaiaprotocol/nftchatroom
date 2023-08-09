@@ -183,6 +183,9 @@ body {
   -webkit-font-smoothing: none;
   border: 1px solid #555555;
 }
+img {
+  image-rendering: pixelated;
+}
 .popup-background {
   position: fixed;
   left: 0;
@@ -202,10 +205,19 @@ body {
   background: linear-gradient(90deg, navy, #1084d0);
   align-items: center;
 }
+.title-bar.retro-component > .title,
 .title-bar.retro-component > h1 {
   flex-grow: 1;
   color: #fff;
   font-weight: bold;
+}
+.title-bar.retro-component > .title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.title-bar.retro-component > .title > img {
+  height: 16px;
 }
 .title-bar.retro-component > .controls {
   display: flex;
@@ -250,7 +262,7 @@ body {
 .loader.retro-component.index-2 {
   padding: 8px;
 }
-.about-nft-chat-room-popup.component {
+.about-popup.component {
   max-width: 440px;
   width: 90%;
   margin: auto;
@@ -261,32 +273,32 @@ body {
   background: var(--surface);
   padding: 3px;
 }
-.about-nft-chat-room-popup.component > header {
+.about-popup.component > header {
   position: sticky;
   top: 0;
 }
-.about-nft-chat-room-popup.component > main {
+.about-popup.component > main {
   display: flex;
   padding: 8px;
   gap: 8px;
 }
-.about-nft-chat-room-popup.component > main > img {
+.about-popup.component > main > img {
   width: 80px;
 }
-.about-nft-chat-room-popup.component > main > p {
+.about-popup.component > main > p {
   padding: 8px 0 8px 8px;
   border: solid transparent;
   border-width: 0 0 0 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
 }
-.about-nft-chat-room-popup.component > footer {
+.about-popup.component > footer {
   padding: 0 8px 8px 8px;
   display: flex;
   justify-content: flex-end;
   gap: 16px;
 }
-.about-nft-chat-room-popup.component > footer > button {
+.about-popup.component > footer > button {
   box-sizing: border-box;
   border: none;
   color: transparent;
@@ -298,12 +310,47 @@ body {
   padding: 0 12px;
   text-align: center;
 }
-.about-nft-chat-room-popup.component > footer > button:active {
+.about-popup.component > footer > button:active {
   box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
   text-shadow: 1px 1px var(--text-color);
 }
-.about-nft-chat-room-popup.component > footer > button:focus {
+.about-popup.component > footer > button:focus {
   outline: 1px dotted #000000;
   outline-offset: -4px;
+}
+.about-popup.component > .status-bar > .status > a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.toolbar {
+  border: solid transparent;
+  border-width: 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  display: flex;
+}
+.toolbar > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 8px;
+  min-width: 54px;
+}
+.toolbar > button:hover {
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+}
+.toolbar > button.on,
+.toolbar > button:active {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+}
+.toolbar > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.toolbar > button:last-of-type {
+  margin-left: auto;
 }
 

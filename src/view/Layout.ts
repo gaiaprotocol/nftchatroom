@@ -1,5 +1,5 @@
 import { BodyNode, DomNode, el, RetroTitleBar, View } from "common-dapp-module";
-import AboutNFTChatRoomPopup from "../component/AboutNFTChatRoomPopup.js";
+import AboutPopup from "../component/AboutPopup.js";
 
 export default class Layout extends View {
   private static current: Layout;
@@ -19,10 +19,14 @@ export default class Layout extends View {
       this.container = el(
         ".layout",
         new RetroTitleBar({
-          title: "NFTChatRoom.com",
+          title: el(
+            ".title",
+            el("img", { src: "images/title-logo.png" }),
+            el("h1", "NFTChatRoom.com (beta)"),
+          ),
           buttons: [{
             type: "help",
-            click: () => new AboutNFTChatRoomPopup(),
+            click: () => new AboutPopup(),
           }],
         }),
         this.content = el("main"),

@@ -1,4 +1,5 @@
 import { DomNode, el, View } from "common-dapp-module";
+import ChatRoom from "../component/chat-room/ChatRoom.js";
 import Layout from "./Layout.js";
 
 export default class Home extends View {
@@ -7,7 +8,7 @@ export default class Home extends View {
   constructor() {
     super();
     Layout.append(
-      this.container = el(".home-view"),
+      this.container = el(".home-view", new ChatRoom()),
     );
   }
 

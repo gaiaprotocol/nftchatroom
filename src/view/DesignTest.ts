@@ -1,5 +1,6 @@
 import { DomNode, el, RetroLoader, View } from "common-dapp-module";
 import Layout from "./Layout.js";
+import WalletManager from "../WalletManager.js";
 
 export default class DesignTest extends View {
   private container: DomNode;
@@ -9,7 +10,7 @@ export default class DesignTest extends View {
     Layout.append(
       this.container = el(".home-view", new RetroLoader()),
     );
-    //new AboutNFTChatRoomPopup();
+    WalletManager.openModal();
   }
 
   public close(): void {
