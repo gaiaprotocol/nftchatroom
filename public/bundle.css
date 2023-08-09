@@ -97,5 +97,208 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
-
+:root {
+  /* Color */
+  --text-color: #222222;
+  --surface: #c0c0c0;
+  --button-highlight: #ffffff;
+  --button-face: #dfdfdf;
+  --button-shadow: #808080;
+  --window-frame: #0a0a0a;
+  --dialog-blue: #000080;
+  --dialog-blue-light: #1084d0;
+  --dialog-gray: #808080;
+  --dialog-gray-light: #b5b5b5;
+  --link-blue: #0000ff;
+  /* Spacing */
+  --element-spacing: 8px;
+  --grouped-button-spacing: 4px;
+  --grouped-element-spacing: 6px;
+  --radio-width: 12px;
+  --checkbox-width: 13px;
+  --radio-label-spacing: 6px;
+  --range-track-height: 4px;
+  --range-spacing: 10px;
+  /* Some detailed computations for radio buttons and checkboxes */
+  --radio-total-width-precalc: var(--radio-width) + var(--radio-label-spacing);
+  --radio-total-width: calc(var(--radio-total-width-precalc));
+  --radio-left: calc(-1 * var(--radio-total-width-precalc));
+  --radio-dot-width: 4px;
+  --radio-dot-top: calc(var(--radio-width) / 2 - var(--radio-dot-width) / 2);
+  --radio-dot-left: calc(-1 * (var(--radio-total-width-precalc)) + var(--radio-width) / 2 - var(--radio-dot-width) / 2);
+  --checkbox-total-width-precalc: var(--checkbox-width) + var(--radio-label-spacing);
+  --checkbox-total-width: calc(var(--checkbox-total-width-precalc));
+  --checkbox-left: calc(-1 * var(--checkbox-total-width-precalc));
+  --checkmark-width: 7px;
+  --checkmark-top: 3px;
+  --checkmark-left: 3px;
+  /* Borders */
+  --border-width: 1px;
+  --border-raised-outer: inset -1px -1px var(--window-frame),
+        inset 1px 1px var(--button-highlight);
+  --border-raised-inner: inset -2px -2px var(--button-shadow),
+        inset 2px 2px var(--button-face);
+  --border-sunken-outer: inset -1px -1px var(--button-highlight),
+        inset 1px 1px var(--window-frame);
+  --border-sunken-inner: inset -2px -2px var(--button-face),
+        inset 2px 2px var(--button-shadow);
+  /* Window borders flip button-face and button-highlight */
+  --border-window-outer: inset -1px -1px var(--window-frame),
+        inset 1px 1px var(--button-face);
+  --border-window-inner: inset -2px -2px var(--button-shadow),
+        inset 2px 2px var(--button-highlight);
+  /* Field borders (checkbox, input, etc) flip window-frame and button-shadow */
+  --border-field: inset -1px -1px var(--button-highlight),
+        inset 1px 1px var(--button-shadow), inset -2px -2px var(--button-face),
+        inset 2px 2px var(--window-frame);
+  /* Tabs */
+  --border-tab: inset -1px 0 var(--window-frame),
+        inset 1px 1px var(--button-face),
+        inset -2px 0 var(--button-shadow),
+        inset 2px 2px var(--button-highlight);
+}
+@font-face {
+  font-family: "Pixelated MS Sans Serif";
+  src: url("/fonts/converted/ms_sans_serif.woff") format("woff");
+  src: url("/fonts/converted/ms_sans_serif.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Pixelated MS Sans Serif";
+  src: url("/fonts/converted/ms_sans_serif_bold.woff") format("woff");
+  src: url("/fonts/converted/ms_sans_serif_bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+body {
+  background-color: var(--surface);
+  font-family: "Pixelated MS Sans Serif", Arial;
+  font-size: 11px;
+  color: var(--text-color);
+  -webkit-font-smoothing: none;
+}
+.popup-background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999999;
+  width: 100%;
+  height: 100%;
+  background-image: url("/images/popup-background.png");
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding: 20px 0;
+}
+.title-bar.retro-component {
+  display: flex;
+  padding: 3px 2px 3px 3px;
+  background: linear-gradient(90deg, navy, #1084d0);
+  align-items: center;
+}
+.title-bar.retro-component > h1 {
+  flex-grow: 1;
+  color: #fff;
+  font-weight: bold;
+}
+.title-bar.retro-component > .controls {
+  display: flex;
+}
+.title-bar.retro-component > .controls > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 16px;
+  min-height: 14px;
+}
+.title-bar.retro-component > .controls > button:active {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.title-bar.retro-component > .controls > button.close {
+  margin-left: 2px;
+  background-image: url("/icon/close.svg");
+  background-repeat: no-repeat;
+  background-position: top 3px left 4px;
+}
+.title-bar.retro-component > .controls > button.help {
+  background-image: url("/icon/help.svg");
+  background-repeat: no-repeat;
+  background-position: top 2px left 5px;
+}
+.status-bar.retro-component {
+  margin: 0px 1px;
+  display: flex;
+  gap: 1px;
+}
+.status-bar.retro-component > .status {
+  box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px #808080;
+  flex-grow: 1;
+  padding: 2px 3px;
+  margin: 0;
+  line-height: 1.5em;
+}
+.layout {
+  border: 1px solid #555555;
+}
+.about-nft-chat-room-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.about-nft-chat-room-popup.component > header {
+  position: sticky;
+  top: 0;
+}
+.about-nft-chat-room-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+}
+.about-nft-chat-room-popup.component > main > img {
+  width: 80px;
+}
+.about-nft-chat-room-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.about-nft-chat-room-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.about-nft-chat-room-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.about-nft-chat-room-popup.component > footer > button:active {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.about-nft-chat-room-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
 

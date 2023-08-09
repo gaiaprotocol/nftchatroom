@@ -1,11 +1,5 @@
-import {
-  BodyNode,
-  DomNode,
-  el,
-  PageFooter,
-  TopBar,
-  View,
-} from "common-dapp-module";
+import { BodyNode, DomNode, el, RetroTitleBar, View } from "common-dapp-module";
+import AboutNFTChatRoomPopup from "../component/AboutNFTChatRoomPopup.js";
 
 export default class Layout extends View {
   private static current: Layout;
@@ -24,23 +18,14 @@ export default class Layout extends View {
     BodyNode.append(
       this.container = el(
         ".layout",
-        new TopBar({
-          logo: el(
-            "h1",
-            "NFTChatRoom.com",
-          ),
+        new RetroTitleBar({
+          title: "NFTChatRoom.com",
+          buttons: [{
+            type: "help",
+            click: () => new AboutNFTChatRoomPopup(),
+          }],
         }),
         this.content = el("main"),
-        new PageFooter({
-          logo: el(
-            "h1",
-            "BUIDL by ",
-            el("a", "Gaia Protocol", {
-              href: "https://gaiaprotocol.com",
-              target: "_blank",
-            }),
-          ),
-        }),
       ),
     );
   }

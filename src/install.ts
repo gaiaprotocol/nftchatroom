@@ -1,5 +1,6 @@
 import { msg, Router } from "common-dapp-module";
 import AuthTest from "./view/AuthTest.js";
+import DesignTest from "./view/DesignTest.js";
 import Home from "./view/Home.js";
 import Layout from "./view/Layout.js";
 
@@ -16,4 +17,5 @@ export default async function install() {
   Router.route("**", Layout);
   Router.route("", Home);
   Router.route("auth-test", AuthTest);
+  Router.route("design-test", DesignTest);
 }
