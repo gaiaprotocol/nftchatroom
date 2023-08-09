@@ -262,6 +262,10 @@ img {
 .loader.retro-component.index-2 {
   padding: 8px;
 }
+html,
+body {
+  overflow: hidden;
+}
 .layout {
   height: 100%;
   display: flex;
