@@ -97,6 +97,20 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+@font-face {
+  font-family: "Pixelated MS Sans Serif";
+  src: url("/fonts/converted/ms_sans_serif.woff") format("woff");
+  src: url("/fonts/converted/ms_sans_serif.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Pixelated MS Sans Serif";
+  src: url("/fonts/converted/ms_sans_serif_bold.woff") format("woff");
+  src: url("/fonts/converted/ms_sans_serif_bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
 :root {
   /* Color */
   --text-color: #222222;
@@ -156,20 +170,6 @@ meter {
         inset 1px 1px var(--button-face),
         inset -2px 0 var(--button-shadow),
         inset 2px 2px var(--button-highlight);
-}
-@font-face {
-  font-family: "Pixelated MS Sans Serif";
-  src: url("/fonts/converted/ms_sans_serif.woff") format("woff");
-  src: url("/fonts/converted/ms_sans_serif.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Pixelated MS Sans Serif";
-  src: url("/fonts/converted/ms_sans_serif_bold.woff") format("woff");
-  src: url("/fonts/converted/ms_sans_serif_bold.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
 }
 html,
 body {
@@ -262,6 +262,17 @@ img {
 .loader.retro-component.index-2 {
   padding: 8px;
 }
+.layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.layout > main {
+  flex-grow: 1;
+}
+.home-view {
+  height: 100%;
+}
 .about-popup.component {
   max-width: 440px;
   width: 90%;
@@ -322,6 +333,25 @@ img {
   text-decoration: underline;
   cursor: pointer;
 }
+.chat-room {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.chat-room > main {
+  flex-grow: 1;
+  display: flex;
+}
+@media only screen and (max-width: 859px) {
+  .chat-room > main {
+    display: block;
+  }
+}
+.chat-room > main > .message-list {
+  flex-grow: 1;
+  overflow-y: auto;
+}
 .toolbar {
   border: solid transparent;
   border-width: 2px;
@@ -352,5 +382,39 @@ img {
 }
 .toolbar > button:last-of-type {
   margin-left: auto;
+}
+.room-list {
+  display: none;
+  width: 280px;
+  background-color: blue;
+}
+.room-list.active {
+  display: block;
+}
+@media only screen and (max-width: 859px) {
+  .room-list {
+    position: absolute;
+    left: 0;
+    top: 56px;
+    width: 100%;
+    height: calc(100% - 56px);
+  }
+}
+.user-list {
+  display: none;
+  width: 240px;
+  background-color: red;
+}
+.user-list.active {
+  display: block;
+}
+@media only screen and (max-width: 859px) {
+  .user-list {
+    position: absolute;
+    left: 0;
+    top: 56px;
+    width: 100%;
+    height: calc(100% - 56px);
+  }
 }
 

@@ -1,0 +1,17 @@
+.user-list {
+    display         : none;
+    width           : 240px;
+    background-color: red;
+
+    &.active {
+        display: block;
+    }
+
+    @media @phone {
+        position: absolute;
+        left    : 0;
+        top     : 56px;
+        width   : 100%;
+        height  : calc(100% - 56px);
+    }
+}
