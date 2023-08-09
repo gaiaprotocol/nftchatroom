@@ -364,12 +364,14 @@ body {
   padding: 4px 8px;
   min-width: 54px;
 }
-.toolbar > button:hover {
-  border: none;
-  color: transparent;
-  text-shadow: 0 0 var(--text-color);
-  background: var(--surface);
-  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+@media only screen and (min-width: 860px) {
+  .toolbar > button:hover {
+    border: none;
+    color: transparent;
+    text-shadow: 0 0 var(--text-color);
+    background: var(--surface);
+    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  }
 }
 .toolbar > button.on,
 .toolbar > button:active {
