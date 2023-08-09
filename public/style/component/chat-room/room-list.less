@@ -1,0 +1,17 @@
+.room-list {
+    display   : none;
+    width     : 280px;
+    background: var(--surface);
+
+    &.active {
+        display: block;
+    }
+
+    @media @phone {
+        position: absolute;
+        left    : 0;
+        top     : 56px;
+        width   : 100%;
+        height  : calc(100% - 56px);
+    }
+}

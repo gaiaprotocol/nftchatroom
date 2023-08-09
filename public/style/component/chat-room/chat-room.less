@@ -1,0 +1,16 @@
+.chat-room {
+    height        : 100%;
+    display       : flex;
+    flex-direction: column;
+    position      : relative;
+
+    >main {
+        flex-grow: 1;
+        display  : flex;
+
+        >.message-list {
+            flex-grow : 1;
+            overflow-y: auto;
+        }
+    }
+}
