@@ -8,12 +8,12 @@ const supabase = createClient(
 
 serveWithOptions(async (req) => {
   const u = new URL(req.url);
-  const address = u.searchParams.get("address");
+  const walletAddress = u.searchParams.get("wallet_address");
 
   const { error: deleteNonceError } = await supabase
     .from("nonce")
     .delete()
-    .eq("id", address);
+    .eq("id", walletAddress);
 
   if (deleteNonceError) {
     return responseError(deleteNonceError);
@@ -21,7 +21,7 @@ serveWithOptions(async (req) => {
 
   const { data, error } = await supabase
     .from("nonce")
-    .insert({ id: address })
+    .insert({ id: walletAddress })
     .select();
 
   if (error) {

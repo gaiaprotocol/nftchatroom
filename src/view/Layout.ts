@@ -21,7 +21,7 @@ export default class Layout extends View {
         new RetroTitleBar({
           title: el(
             ".title",
-            el("img", { src: "images/title-logo.png" }),
+            el("img", { src: "/images/title-logo.png" }),
             el("h1", "NFTChatRoom.com (beta)"),
           ),
           buttons: [{

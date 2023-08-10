@@ -1,7 +1,7 @@
 import { msg, Router } from "common-dapp-module";
 import AuthTest from "./view/AuthTest.js";
+import ChatRoomView from "./view/ChatRoomView.js";
 import DesignTest from "./view/DesignTest.js";
-import Home from "./view/Home.js";
 import Layout from "./view/Layout.js";
 import WalletManager from "./WalletManager.js";
 
@@ -18,7 +18,11 @@ export default async function install() {
   });
 
   Router.route("**", Layout);
-  Router.route("", Home);
   Router.route("auth-test", AuthTest);
   Router.route("design-test", DesignTest);
+  Router.route([
+    "", // general room
+    "{chain}/{address}", // nft room
+    "{uri}", // general room
+  ], ChatRoomView);
 }

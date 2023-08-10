@@ -1,8 +1,21 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el, RetroLoader } from "common-dapp-module";
+import { get } from "../../../_shared/edgeFunctionFetch.js";
+import { Room } from "../../../Room.js";
+import WalletManager from "../../../WalletManager.js";
+import RoomCategory from "./RoomCategory.js";
+import RoomItem from "./RoomItem.js";
 
 export default class RoomList extends DomNode {
+  private _currentRoom?: Room;
+
+  private categories: RoomCategory[] = [];
+  private currentRoomItem?: RoomItem;
+
   constructor() {
     super(".room-list");
+    this.loadRooms();
+    this.onDelegate(WalletManager, "connect", () => this.loadRooms());
+    this.onDelegate(WalletManager, "disconnect", () => this.loadRooms());
   }
 
   public active(): void {
@@ -11,5 +24,52 @@ export default class RoomList extends DomNode {
 
   public inactive(): void {
     this.deleteClass("active");
+  }
+
+  private async loadRooms(): Promise<void> {
+    this.categories = [];
+
+    this.empty().append(new RetroLoader());
+    const roomsResponse = await get(
+      `get-rooms?wallet_address=${WalletManager.address}`,
+    );
+    const roomsData: { [category: string]: Room[] } = await roomsResponse
+      .json();
+    this.empty();
+
+    const container = el("ul.container").appendTo(this);
+    for (const [category, rooms] of Object.entries(roomsData)) {
+      const categoryNode = new RoomCategory(category, rooms).appendTo(
+        container,
+      );
+      categoryNode.on("select", () => this.fireEvent("select"));
+      this.categories.push(categoryNode);
+    }
+
+    if (this._currentRoom) {
+      this.currentRoom = this._currentRoom;
+    }
+  }
+
+  public set currentRoom(room: Room) {
+    this._currentRoom = room;
+    this.currentRoomItem?.inactive();
+    for (const category of this.categories) {
+      for (const roomItem of category.items) {
+        if (
+          roomItem.room.type === room.type && ((
+            room.type === "general" &&
+            room.uri === (roomItem.room as any).uri
+          ) || (
+            room.type === "nft" &&
+            room.chain === (roomItem.room as any).chain &&
+            room.address === (roomItem.room as any).address
+          ))
+        ) {
+          roomItem.active();
+          this.currentRoomItem = roomItem;
+        }
+      }
+    }
   }
 }

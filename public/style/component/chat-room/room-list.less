@@ -2,9 +2,10 @@
     display   : none;
     width     : 280px;
     background: var(--surface);
+    padding   : 8px;
 
     &.active {
-        display: block;
+        display: flex;
     }
 
     @media @phone {
@@ -13,5 +14,104 @@
         top     : 58px;
         width   : 100%;
         height  : calc(100% - 58px);
+    }
+
+    >.container {
+        background: var(--button-highlight);
+        box-shadow: var(--border-field);
+        padding   : 6px;
+        flex-grow : 1;
+
+        >li {
+            >details {
+                >summary {
+                    margin-bottom: 3px;
+                    user-select  : none;
+                    cursor       : pointer;
+                    display      : inline;
+
+                    &:before {
+                        text-align      : center;
+                        display         : block;
+                        float           : left;
+                        content         : "+";
+                        border          : 1px solid #808080;
+                        width           : 11px;
+                        height          : 11px;
+                        line-height     : 8px;
+                        margin-right    : 5px;
+                        padding-left    : 1px;
+                        background-color: #fff;
+                    }
+
+                    &:focus {
+                        outline: 1px dotted #000000;
+                    }
+                }
+
+                &[open]>summary:before {
+                    content: "-";
+                }
+
+                >ul {
+                    margin-bottom: 3px;
+                    margin-left  : 16px;
+                    padding-left : 16px;
+                    /* Goes down too far */
+                    border-left  : 1px dotted #808080;
+
+                    >li {
+                        margin-bottom: 3px;
+                        position     : relative;
+
+                        &::before {
+                            content      : "";
+                            display      : block;
+                            position     : absolute;
+                            left         : -16px;
+                            top          : 6px;
+                            width        : 12px;
+                            border-bottom: 1px dotted #808080;
+                        }
+
+                        &:last-child::after {
+                            content   : "";
+                            display   : block;
+                            position  : absolute;
+                            left      : -20px;
+                            top       : 7px;
+                            bottom    : 0px;
+                            width     : 8px;
+                            background: var(--button-highlight);
+                        }
+
+                        >a {
+                            user-select: none;
+                            cursor     : pointer;
+                            display    : inline-flex;
+                            align-items: center;
+                            gap        : 4px;
+
+                            >img {
+                                height: 32px;
+                            }
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+
+                        &.active {
+                            >a {
+                                background-color: var(--dialog-blue);
+                                outline         : 1px solid var(--dialog-blue);
+                                color           : var(--button-highlight);
+                                font-weight     : bold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

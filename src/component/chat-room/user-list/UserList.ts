@@ -12,4 +12,8 @@ export default class UserList extends DomNode {
   public inactive(): void {
     this.deleteClass("active");
   }
+
+  public async loadUsers(roomId: string): Promise<void> {
+    //TODO:
+  }
 }

@@ -3,6 +3,7 @@ import MessageList from "./message-list/MessageList.js";
 import RoomList from "./room-list/RoomList.js";
 import Toolbar from "./Toolbar.js";
 import UserList from "./user-list/UserList.js";
+import { Room } from "../../Room.js";
 
 export default class ChatRoom extends DomNode {
   private settingStore: Store = new Store("setting");
@@ -32,6 +33,13 @@ export default class ChatRoom extends DomNode {
         this.userList = new UserList(),
       ),
     );
+
+    this.roomList.on("select", () => {
+      if (BrowserInfo.isPhoneSize) {
+        this.deactivateRoomList();
+        this.deactivateUserList();
+      }
+    });
 
     this.roomListOpened ? this.activateRoomList() : this.deactivateRoomList();
     this.userListOpened ? this.activateUserList() : this.deactivateUserList();
@@ -83,5 +91,13 @@ export default class ChatRoom extends DomNode {
     }
     this.userList.inactive();
     this.toolbar.deactivateUserListButton();
+  }
+
+  public set room(room: Room) {
+    console.log(room);
+    const roomId = room.type === "general" ? room.uri : `${room.chain}:${room.address}`;
+    this.userList.loadUsers(roomId);
+    this.messageList.loadMessages(roomId);
+    this.roomList.currentRoom = room;
   }
 }

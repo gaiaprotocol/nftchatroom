@@ -51,7 +51,7 @@ export default class AuthTest extends View {
   private async test() {
     const walletAddress = getAccount().address;
     const nonceResponse = await get(
-      `new-nonce?address=${walletAddress}`,
+      `new-nonce?wallet_address=${walletAddress}`,
     );
     if (nonceResponse.status !== 200) {
       console.log(await nonceResponse.json());
