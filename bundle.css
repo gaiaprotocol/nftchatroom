@@ -347,7 +347,12 @@ body {
   flex-grow: 1;
   display: flex;
 }
-.chat-room > main > .message-list {
+.chat-room > main > .message-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.chat-room > main > .message-container > .message-list {
   flex-grow: 1;
   overflow-y: auto;
 }
@@ -471,6 +476,7 @@ body {
   gap: 4px;
 }
 .room-list > .container > li > details > ul > li > a > img {
+  width: 32px;
   height: 32px;
 }
 .room-list > .container > li > details > ul > li > a:hover {
