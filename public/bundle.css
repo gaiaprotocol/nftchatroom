@@ -364,12 +364,14 @@ body {
   padding: 4px 8px;
   min-width: 54px;
 }
-.toolbar > button:hover {
-  border: none;
-  color: transparent;
-  text-shadow: 0 0 var(--text-color);
-  background: var(--surface);
-  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+@media only screen and (min-width: 860px) {
+  .toolbar > button:hover {
+    border: none;
+    color: transparent;
+    text-shadow: 0 0 var(--text-color);
+    background: var(--surface);
+    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  }
 }
 .toolbar > button.on,
 .toolbar > button:active {
@@ -394,9 +396,9 @@ body {
   .room-list {
     position: absolute;
     left: 0;
-    top: 56px;
+    top: 58px;
     width: 100%;
-    height: calc(100% - 56px);
+    height: calc(100% - 58px);
   }
 }
 .user-list {
@@ -411,9 +413,9 @@ body {
   .user-list {
     position: absolute;
     left: 0;
-    top: 56px;
+    top: 58px;
     width: 100%;
-    height: calc(100% - 56px);
+    height: calc(100% - 58px);
   }
 }
 
