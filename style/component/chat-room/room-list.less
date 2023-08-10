@@ -88,6 +88,13 @@
                         >a {
                             user-select: none;
                             cursor     : pointer;
+                            display    : inline-flex;
+                            align-items: center;
+                            gap        : 4px;
+
+                            >img {
+                                height: 32px;
+                            }
 
                             &:hover {
                                 text-decoration: underline;
@@ -97,6 +104,7 @@
                         &.active {
                             >a {
                                 background-color: var(--dialog-blue);
+                                outline         : 1px solid var(--dialog-blue);
                                 color           : var(--button-highlight);
                                 font-weight     : bold;
                             }

@@ -466,12 +466,19 @@ body {
 .room-list > .container > li > details > ul > li > a {
   user-select: none;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.room-list > .container > li > details > ul > li > a > img {
+  height: 32px;
 }
 .room-list > .container > li > details > ul > li > a:hover {
   text-decoration: underline;
 }
 .room-list > .container > li > details > ul > li.active > a {
   background-color: var(--dialog-blue);
+  outline: 1px solid var(--dialog-blue);
   color: var(--button-highlight);
   font-weight: bold;
 }
