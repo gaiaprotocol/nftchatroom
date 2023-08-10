@@ -1,5 +1,5 @@
 import { BodyNode, DomNode, el, RetroTitleBar, View } from "common-dapp-module";
-import AboutPopup from "../component/AboutPopup.js";
+import AboutPopup from "../popup/AboutPopup.js";
 
 export default class Layout extends View {
   private static current: Layout;
