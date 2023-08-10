@@ -10,7 +10,7 @@ export default class DesignTest extends View {
     Layout.append(
       this.container = el(".home-view", new RetroLoader()),
     );
-    WalletManager.openModal();
+    //WalletManager.openModal();
   }
 
   public close(): void {

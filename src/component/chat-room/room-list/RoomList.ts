@@ -4,6 +4,7 @@ import { Room } from "../../../Room.js";
 import WalletManager from "../../../WalletManager.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
+import AuthManager from "../../../AuthManager.js";
 
 export default class RoomList extends DomNode {
   private _currentRoom?: Room;
@@ -14,8 +15,8 @@ export default class RoomList extends DomNode {
   constructor() {
     super(".room-list");
     this.loadRooms();
-    this.onDelegate(WalletManager, "connect", () => this.loadRooms());
-    this.onDelegate(WalletManager, "disconnect", () => this.loadRooms());
+    this.onDelegate(AuthManager, "login", () => this.loadRooms());
+    this.onDelegate(AuthManager, "logout", () => this.loadRooms());
   }
 
   public active(): void {

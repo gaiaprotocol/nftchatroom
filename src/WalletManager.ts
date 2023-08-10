@@ -51,6 +51,10 @@ class WalletManager extends EventContainer {
     this.web3modal.openModal();
   }
 
+  public closeModal() {
+    this.web3modal.closeModal();
+  }
+
   public get address() {
     return getAccount().address;
   }

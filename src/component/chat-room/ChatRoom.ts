@@ -1,9 +1,10 @@
 import { BrowserInfo, DomNode, el, Store } from "common-dapp-module";
+import { Room } from "../../Room.js";
 import MessageList from "./message-list/MessageList.js";
+import MessageInput from "./MessageInput.js";
 import RoomList from "./room-list/RoomList.js";
 import Toolbar from "./Toolbar.js";
 import UserList from "./user-list/UserList.js";
-import { Room } from "../../Room.js";
 
 export default class ChatRoom extends DomNode {
   private settingStore: Store = new Store("setting");
@@ -29,7 +30,11 @@ export default class ChatRoom extends DomNode {
       el(
         "main",
         this.roomList = new RoomList(),
-        this.messageList = new MessageList(),
+        el(
+          ".message-container",
+          this.messageList = new MessageList(),
+          new MessageInput(),
+        ),
         this.userList = new UserList(),
       ),
     );
@@ -94,10 +99,11 @@ export default class ChatRoom extends DomNode {
   }
 
   public set room(room: Room) {
-    console.log(room);
-    const roomId = room.type === "general" ? room.uri : `${room.chain}:${room.address}`;
-    this.userList.loadUsers(roomId);
-    this.messageList.loadMessages(roomId);
+    const roomId = room.type === "general"
+      ? room.uri
+      : `${room.chain}:${room.address}`;
+    this.userList.roomId = roomId;
+    this.messageList.roomId = roomId;
     this.roomList.currentRoom = room;
   }
 }

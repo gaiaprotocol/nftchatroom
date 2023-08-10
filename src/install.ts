@@ -1,4 +1,6 @@
 import { msg, Router } from "common-dapp-module";
+import AuthManager from "./AuthManager.js";
+import SupabaseManager from "./SupabaseManager.js";
 import AuthTest from "./view/AuthTest.js";
 import ChatRoomView from "./view/ChatRoomView.js";
 import DesignTest from "./view/DesignTest.js";
@@ -12,6 +14,8 @@ export default async function install() {
   }
 
   WalletManager.init();
+  AuthManager.init();
+  SupabaseManager.connect();
 
   await msg.loadYAMLs({
     en: ["/locales/en.yml"],
