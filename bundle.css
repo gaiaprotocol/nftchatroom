@@ -274,7 +274,7 @@ body {
 .layout > main {
   flex-grow: 1;
 }
-.home-view {
+.chat-room-view {
   height: 100%;
 }
 .about-popup.component {
@@ -388,9 +388,10 @@ body {
   display: none;
   width: 280px;
   background: var(--surface);
+  padding: 8px;
 }
 .room-list.active {
-  display: block;
+  display: flex;
 }
 @media only screen and (max-width: 859px) {
   .room-list {
@@ -400,6 +401,66 @@ body {
     width: 100%;
     height: calc(100% - 58px);
   }
+}
+.room-list > .container {
+  background: var(--button-highlight);
+  box-shadow: var(--border-field);
+  padding: 6px;
+  flex-grow: 1;
+}
+.room-list > .container > li > details > summary {
+  margin-bottom: 3px;
+  user-select: none;
+  cursor: pointer;
+}
+.room-list > .container > li > details > summary:before {
+  text-align: center;
+  display: block;
+  float: left;
+  content: "+";
+  border: 1px solid #808080;
+  width: 11px;
+  height: 11px;
+  line-height: 8px;
+  margin-right: 5px;
+  padding-left: 1px;
+  background-color: #fff;
+}
+.room-list > .container > li > details > summary:focus {
+  outline: 1px dotted #000000;
+}
+.room-list > .container > li > details[open] > summary:before {
+  content: "-";
+}
+.room-list > .container > li > details > ul {
+  margin-bottom: 3px;
+  margin-left: 16px;
+  padding-left: 16px;
+  /* Goes down too far */
+  border-left: 1px dotted #808080;
+}
+.room-list > .container > li > details > ul > li {
+  margin-bottom: 3px;
+  position: relative;
+}
+.room-list > .container > li > details > ul > li::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -16px;
+  top: 6px;
+  width: 12px;
+  border-bottom: 1px dotted #808080;
+}
+.room-list > .container > li > details > ul > li:last-child::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -20px;
+  top: 7px;
+  bottom: 0px;
+  width: 8px;
+  background: var(--button-highlight);
 }
 .user-list {
   display: none;
