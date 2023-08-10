@@ -412,6 +412,7 @@ body {
   margin-bottom: 3px;
   user-select: none;
   cursor: pointer;
+  display: inline;
 }
 .room-list > .container > li > details > summary:before {
   text-align: center;
@@ -461,6 +462,13 @@ body {
   bottom: 0px;
   width: 8px;
   background: var(--button-highlight);
+}
+.room-list > .container > li > details > ul > li > a {
+  user-select: none;
+  cursor: pointer;
+}
+.room-list > .container > li > details > ul > li > a:hover {
+  text-decoration: underline;
 }
 .user-list {
   display: none;
