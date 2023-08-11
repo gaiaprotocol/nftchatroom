@@ -2,9 +2,10 @@
     display   : none;
     width     : 240px;
     background: var(--surface);
+    padding   : 8px;
 
     &.active {
-        display: block;
+        display: flex;
     }
 
     border      : solid transparent;
@@ -18,5 +19,12 @@
         width   : 100%;
         height  : calc(100% - 58px);
         border  : none;
+    }
+
+    >.container {
+        background: var(--button-highlight);
+        box-shadow: var(--border-field);
+        padding   : 6px;
+        flex-grow : 1;
     }
 }

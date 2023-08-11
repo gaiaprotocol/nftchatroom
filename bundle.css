@@ -496,12 +496,13 @@ body {
   display: none;
   width: 240px;
   background: var(--surface);
+  padding: 8px;
   border: solid transparent;
   border-width: 0 0 0 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
 }
 .user-list.active {
-  display: block;
+  display: flex;
 }
 @media only screen and (max-width: 859px) {
   .user-list {
@@ -513,17 +514,32 @@ body {
     border: none;
   }
 }
+.user-list > .container {
+  background: var(--button-highlight);
+  box-shadow: var(--border-field);
+  padding: 6px;
+  flex-grow: 1;
+}
 .chat-room {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 .chat-room > .message-list {
+  display: flex;
+  flex-grow: 1;
+  padding: 8px;
+}
+.chat-room > .message-list > .container {
+  background: var(--button-highlight);
+  box-shadow: var(--border-field);
+  padding: 6px;
   flex-grow: 1;
   overflow-y: auto;
 }
 .chat-room > .message-input {
   padding: 8px;
+  padding-top: 0;
 }
 .chat-room > .message-input > form,
 .chat-room > .message-input > .anonymous-form {
