@@ -32,9 +32,26 @@ export default class Layout extends View {
         this.content = el("main"),
       ),
     );
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", this.setViewportHeight);
+    }
   }
 
+  private setViewportHeight = () => {
+    this.container.style({
+      top: `${window.visualViewport!.offsetTop}px`,
+      height: `${window.visualViewport!.height}px`,
+    });
+  };
+
   public close(): void {
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener(
+        "resize",
+        this.setViewportHeight,
+      );
+    }
     this.container.delete();
     super.close();
   }

@@ -1,7 +1,22 @@
 .message-list {
+    flex-grow     : 1;
+    display       : flex;
+    flex-direction: column;
+    padding       : 8px;
+    min-height    : 0;
+
     >.container {
+        background    : var(--button-highlight);
+        box-shadow    : var(--border-field);
+        padding       : 6px;
+        flex-grow     : 1;
+        overflow-y    : auto;
         display       : flex;
         flex-direction: column;
         gap           : 4px;
+
+        >.blank {
+            flex-grow: 1;
+        }
     }
 }

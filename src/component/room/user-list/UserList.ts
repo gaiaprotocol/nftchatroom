@@ -56,7 +56,7 @@ export default class UserList extends DomNode {
 
   private showUserList(users: {
     [key: string]: {
-      walletAddress: string;
+      walletAddress?: string;
       onlineAt: string;
     }[];
   }) {
@@ -64,8 +64,11 @@ export default class UserList extends DomNode {
     const container = el("ul.container").appendTo(this);
     const addedWalletAddresses = new Set<string>();
     for (const user of Object.values(users)) {
-      if (!addedWalletAddresses.has(user[0].walletAddress)) {
-        container.append(new UserItem(user[0]));
+      if (
+        user[0].walletAddress &&
+        !addedWalletAddresses.has(user[0].walletAddress)
+      ) {
+        container.append(new UserItem(user[0] as any));
         addedWalletAddresses.add(user[0].walletAddress);
       }
     }

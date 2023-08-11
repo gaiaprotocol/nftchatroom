@@ -35,7 +35,7 @@ export default class MessageList extends DomNode {
     this.empty();
     this.loading = false;
 
-    this.container = el("ul.container").appendTo(this);
+    this.container = el("ul.container", el("li.blank")).appendTo(this);
     for (const message of data?.reverse() ?? []) {
       this.addItem(message);
     }
