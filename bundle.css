@@ -435,6 +435,7 @@ img {
   box-shadow: var(--border-field);
   padding: 6px;
   flex-grow: 1;
+  overflow-y: scroll;
 }
 .room-list > .container > li > details > summary {
   margin-bottom: 3px;
