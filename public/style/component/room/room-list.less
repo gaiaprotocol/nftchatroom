@@ -8,12 +8,17 @@
         display: flex;
     }
 
+    border      : solid transparent;
+    border-width: 0 2px 0 0;
+    border-image: url("/icon/groupbox-border.svg") 2 repeat;
+
     @media @phone {
         position: absolute;
         left    : 0;
         top     : 58px;
         width   : 100%;
         height  : calc(100% - 58px);
+        border  : none;
     }
 
     >.container {

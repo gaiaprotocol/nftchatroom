@@ -1,0 +1,65 @@
+.chat-room {
+    display       : flex;
+    flex-direction: column;
+    width         : 100%;
+
+    >.message-list {
+        flex-grow : 1;
+        overflow-y: auto;
+    }
+
+    >.message-input {
+        padding: 8px;
+
+        >form,
+        >.anonymous-form {
+            gap    : 8px;
+            display: flex;
+
+            >input {
+                flex-grow         : 1;
+                padding           : 3px 4px;
+                border            : none;
+                box-shadow        : var(--border-field);
+                background-color  : var(--button-highlight);
+                box-sizing        : border-box;
+                -webkit-appearance: none;
+                -moz-appearance   : none;
+                appearance        : none;
+                border-radius     : 0;
+
+                &::placeholder {
+                    opacity: 0.5;
+                }
+
+                &:disabled {
+                    background-color: var(--surface);
+                }
+            }
+
+            >button {
+                box-sizing   : border-box;
+                border       : none;
+                color        : transparent;
+                text-shadow  : 0 0 var(--text-color);
+                background   : var(--surface);
+                box-shadow   : var(--border-raised-outer), var(--border-raised-inner);
+                border-radius: 0;
+                min-width    : 75px;
+                min-height   : 23px;
+                padding      : 0 12px;
+                text-align   : center;
+
+                &:active {
+                    box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                    text-shadow: 1px 1px var(--text-color);
+                }
+
+                &:focus {
+                    outline       : 1px dotted #000000;
+                    outline-offset: -4px;
+                }
+            }
+        }
+    }
+}

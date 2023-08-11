@@ -1,15 +1,18 @@
 import { DomNode, el, View, ViewParams } from "common-dapp-module";
-import ChatRoom from "../component/chat-room/ChatRoom.js";
+import RoomComponent from "../component/room/RoomComponent.js";
 import Layout from "./Layout.js";
 
-export default class ChatRoomView extends View {
+export default class RoomView extends View {
   private container: DomNode;
-  private chatRoom: ChatRoom;
+  private roomComponent: RoomComponent;
 
   constructor(params: ViewParams) {
     super();
     Layout.append(
-      this.container = el(".chat-room-view", this.chatRoom = new ChatRoom()),
+      this.container = el(
+        ".room-view",
+        this.roomComponent = new RoomComponent(),
+      ),
     );
     if (params.uri) {
       this.enterGeneralRoom(params.uri);
@@ -31,11 +34,11 @@ export default class ChatRoomView extends View {
   }
 
   private enterGeneralRoom(uri: string) {
-    this.chatRoom.room = { type: "general", uri };
+    this.roomComponent.room = { type: "general", uri };
   }
 
   private enterNFTRoom(chain: string, address: string) {
-    this.chatRoom.room = { type: "nft", chain, address };
+    this.roomComponent.room = { type: "nft", chain, address };
   }
 
   public close(): void {

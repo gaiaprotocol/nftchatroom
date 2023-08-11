@@ -1,17 +1,16 @@
 import { BrowserInfo, DomNode, el, Store } from "common-dapp-module";
 import { Room } from "../../Room.js";
-import MessageList from "./message-list/MessageList.js";
-import MessageInput from "./MessageInput.js";
+import ChatRoom from "./chat-room/ChatRoom.js";
 import RoomList from "./room-list/RoomList.js";
 import Toolbar from "./Toolbar.js";
 import UserList from "./user-list/UserList.js";
 
-export default class ChatRoom extends DomNode {
+export default class RoomComponent extends DomNode {
   private settingStore: Store = new Store("setting");
 
   private toolbar: Toolbar;
   private roomList: RoomList;
-  private messageList: MessageList;
+  private chatRoom: ChatRoom;
   private userList: UserList;
 
   private roomListOpened = BrowserInfo.isPhoneSize
@@ -23,7 +22,7 @@ export default class ChatRoom extends DomNode {
     : this.settingStore.get("userListDeactivated") !== true;
 
   constructor() {
-    super(".chat-room");
+    super(".room");
 
     this.append(
       this.toolbar = new Toolbar(),
@@ -31,9 +30,8 @@ export default class ChatRoom extends DomNode {
         "main",
         this.roomList = new RoomList(),
         el(
-          ".message-container",
-          this.messageList = new MessageList(),
-          new MessageInput(),
+          ".container",
+          this.chatRoom = new ChatRoom(),
         ),
         this.userList = new UserList(),
       ),
@@ -103,7 +101,7 @@ export default class ChatRoom extends DomNode {
       ? room.uri
       : `${room.chain}:${room.address}`;
     this.userList.roomId = roomId;
-    this.messageList.roomId = roomId;
+    this.chatRoom.roomId = roomId;
     this.roomList.currentRoom = room;
   }
 }

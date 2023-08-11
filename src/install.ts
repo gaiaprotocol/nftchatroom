@@ -2,7 +2,7 @@ import { msg, Router } from "common-dapp-module";
 import AuthManager from "./AuthManager.js";
 import SupabaseManager from "./SupabaseManager.js";
 import AuthTest from "./view/AuthTest.js";
-import ChatRoomView from "./view/ChatRoomView.js";
+import RoomView from "./view/RoomView.js";
 import DesignTest from "./view/DesignTest.js";
 import Layout from "./view/Layout.js";
 import WalletManager from "./WalletManager.js";
@@ -28,5 +28,5 @@ export default async function install() {
     "", // general room
     "{chain}/{address}", // nft room
     "{uri}", // general room
-  ], ChatRoomView);
+  ], RoomView);
 }
