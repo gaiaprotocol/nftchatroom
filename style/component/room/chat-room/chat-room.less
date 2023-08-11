@@ -11,7 +11,8 @@
     >.message-input {
         padding: 8px;
 
-        >form {
+        >form,
+        >.anonymous-form {
             gap    : 8px;
             display: flex;
 
@@ -30,31 +31,34 @@
                 &::placeholder {
                     opacity: 0.5;
                 }
-            }
-        }
 
-        >button,
-        >form>button {
-            box-sizing   : border-box;
-            border       : none;
-            color        : transparent;
-            text-shadow  : 0 0 var(--text-color);
-            background   : var(--surface);
-            box-shadow   : var(--border-raised-outer), var(--border-raised-inner);
-            border-radius: 0;
-            min-width    : 75px;
-            min-height   : 23px;
-            padding      : 0 12px;
-            text-align   : center;
-
-            &:active {
-                box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
-                text-shadow: 1px 1px var(--text-color);
+                &:disabled {
+                    background-color: var(--surface);
+                }
             }
 
-            &:focus {
-                outline       : 1px dotted #000000;
-                outline-offset: -4px;
+            >button {
+                box-sizing   : border-box;
+                border       : none;
+                color        : transparent;
+                text-shadow  : 0 0 var(--text-color);
+                background   : var(--surface);
+                box-shadow   : var(--border-raised-outer), var(--border-raised-inner);
+                border-radius: 0;
+                min-width    : 75px;
+                min-height   : 23px;
+                padding      : 0 12px;
+                text-align   : center;
+
+                &:active {
+                    box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                    text-shadow: 1px 1px var(--text-color);
+                }
+
+                &:focus {
+                    outline       : 1px dotted #000000;
+                    outline-offset: -4px;
+                }
             }
         }
     }

@@ -525,11 +525,13 @@ body {
 .chat-room > .message-input {
   padding: 8px;
 }
-.chat-room > .message-input > form {
+.chat-room > .message-input > form,
+.chat-room > .message-input > .anonymous-form {
   gap: 8px;
   display: flex;
 }
-.chat-room > .message-input > form > input {
+.chat-room > .message-input > form > input,
+.chat-room > .message-input > .anonymous-form > input {
   flex-grow: 1;
   padding: 3px 4px;
   border: none;
@@ -541,11 +543,16 @@ body {
   appearance: none;
   border-radius: 0;
 }
-.chat-room > .message-input > form > input::placeholder {
+.chat-room > .message-input > form > input::placeholder,
+.chat-room > .message-input > .anonymous-form > input::placeholder {
   opacity: 0.5;
 }
-.chat-room > .message-input > button,
-.chat-room > .message-input > form > button {
+.chat-room > .message-input > form > input:disabled,
+.chat-room > .message-input > .anonymous-form > input:disabled {
+  background-color: var(--surface);
+}
+.chat-room > .message-input > form > button,
+.chat-room > .message-input > .anonymous-form > button {
   box-sizing: border-box;
   border: none;
   color: transparent;
@@ -558,13 +565,13 @@ body {
   padding: 0 12px;
   text-align: center;
 }
-.chat-room > .message-input > button:active,
-.chat-room > .message-input > form > button:active {
+.chat-room > .message-input > form > button:active,
+.chat-room > .message-input > .anonymous-form > button:active {
   box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
   text-shadow: 1px 1px var(--text-color);
 }
-.chat-room > .message-input > button:focus,
-.chat-room > .message-input > form > button:focus {
+.chat-room > .message-input > form > button:focus,
+.chat-room > .message-input > .anonymous-form > button:focus {
   outline: 1px dotted #000000;
   outline-offset: -4px;
 }
