@@ -7,10 +7,10 @@ export default class RoomItem extends DomNode {
     this.append(
       el(
         "a",
-        room.type === "nft" && room.icon
-          ? el("img", { src: room.icon })
+        room.type === "nft" && room.metadata.image
+          ? el("img", { src: room.metadata.image })
           : undefined,
-        room.name,
+        room.type === "nft" ? room.metadata.name : room.name,
         {
           click: () => {
             if (room.type === "general") {

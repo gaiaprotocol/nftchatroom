@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.31.0";
 import { response, serveWithOptions } from "../_shared/cors.ts";
+import { getCollectionInfo, getOwnedNFTCollections } from "../_shared/nft.ts";
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -7,17 +8,26 @@ const supabase = createClient(
 );
 
 interface GeneralRoom {
-  type: "general",
+  type: "general";
   name: string;
   uri: string;
 }
 
 interface NFTRoom {
-  type: "nft",
-  icon: string;
-  name: string;
+  type: "nft";
   chain: string;
   address: string;
+  metadata: {
+    name?: string;
+    description?: string;
+    image?: string;
+    bannerImage?: string;
+    externalLink?: string;
+    discordURL?: string;
+    telegramURL?: string;
+    twitterUsername?: string;
+    slug?: string;
+  };
 }
 
 serveWithOptions(async (req) => {
@@ -35,15 +45,49 @@ serveWithOptions(async (req) => {
       uri: "memes",
     }],
     "favorites": [],
-    "hot": [{
-      type: "nft",
-      icon: "https://i.seadn.io/gcs/files/de65b5f2ac2e2195a453813c6a92580c.png?auto=format&dpr=1&w=3840",
-      name: "The Gods",
-      chain: "ethereum",
-      address: "0x134590acb661da2b318bcde6b39ef5cf8208e372",
-    }],
+    "hot": [],
     "owned": [],
   };
+
+  const { data: dailyMessageAnalysis, error: dailyMessageAnalysisError } =
+    await supabase.from("daily_message_analysis")
+      .select()
+      .eq("date", new Date().toISOString().split("T")[0])
+      .neq("room", "general")
+      .order("message_count", { ascending: false })
+      .limit(10);
+  if (dailyMessageAnalysisError) throw dailyMessageAnalysisError;
+
+  for (const analysis of dailyMessageAnalysis ?? []) {
+    if (analysis.room.includes(":")) {
+      const [chain, address] = analysis.room.split(":");
+      const collection = await getCollectionInfo(chain, address);
+      if (collection) {
+        rooms.hot.push({
+          type: "nft",
+          chain,
+          address,
+          metadata: collection.metadata,
+        });
+      }
+    } else {
+      rooms.hot.push({
+        type: "general",
+        name: analysis.room,
+        uri: analysis.room,
+      });
+    }
+  }
+
+  if (walletAddress) {
+    const collections = await getOwnedNFTCollections(walletAddress);
+    rooms.owned = collections.map((collection) => ({
+      type: "nft",
+      chain: "ethereum",
+      address: collection.address,
+      metadata: collection.metadata,
+    }));
+  }
 
   return response(rooms);
 });

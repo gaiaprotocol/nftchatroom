@@ -6,10 +6,19 @@ export interface GeneralRoom {
 
 export interface NFTRoom {
   type: "nft";
-  icon?: string;
-  name?: string;
   chain: string;
   address: string;
+  metadata: {
+    name?: string;
+    description?: string;
+    image?: string;
+    bannerImage?: string;
+    externalLink?: string;
+    discordURL?: string;
+    telegramURL?: string;
+    twitterUsername?: string;
+    slug?: string;
+  };
 }
 
 export type Room = GeneralRoom | NFTRoom;

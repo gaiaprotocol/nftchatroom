@@ -1,16 +1,16 @@
 import { DomNode, el, RetroLoader } from "common-dapp-module";
 import { get } from "../../../_shared/edgeFunctionFetch.js";
+import AuthManager from "../../../AuthManager.js";
 import { Room } from "../../../Room.js";
 import WalletManager from "../../../WalletManager.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
-import AuthManager from "../../../AuthManager.js";
 
 export default class RoomList extends DomNode {
   private _currentRoom?: Room;
 
   private categories: RoomCategory[] = [];
-  private currentRoomItem?: RoomItem;
+  private currentRoomItems: RoomItem[] = [];
 
   constructor() {
     super(".room-list");
@@ -54,7 +54,12 @@ export default class RoomList extends DomNode {
 
   public set currentRoom(room: Room) {
     this._currentRoom = room;
-    this.currentRoomItem?.inactive();
+
+    for (const roomItem of this.currentRoomItems) {
+      roomItem.inactive();
+    }
+    this.currentRoomItems = [];
+
     for (const category of this.categories) {
       for (const roomItem of category.items) {
         if (
@@ -68,7 +73,7 @@ export default class RoomList extends DomNode {
           ))
         ) {
           roomItem.active();
-          this.currentRoomItem = roomItem;
+          this.currentRoomItems.push(roomItem);
         }
       }
     }
