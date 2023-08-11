@@ -2,14 +2,27 @@
     display       : flex;
     flex-direction: column;
     width         : 100%;
+    min-height    : 0;
 
     >.message-list {
-        flex-grow : 1;
-        overflow-y: auto;
+        flex-grow     : 1;
+        display       : flex;
+        flex-direction: column;
+        padding       : 8px;
+        min-height    : 0;
+
+        >.container {
+            background: var(--button-highlight);
+            box-shadow: var(--border-field);
+            padding   : 6px;
+            flex-grow : 1;
+            overflow-y: auto;
+        }
     }
 
     >.message-input {
-        padding: 8px;
+        padding    : 8px;
+        padding-top: 0;
 
         >form,
         >.anonymous-form {

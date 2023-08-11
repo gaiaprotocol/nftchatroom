@@ -1,5 +1,6 @@
 import { BrowserInfo, DomNode, el, Store } from "common-dapp-module";
 import { Room } from "../../Room.js";
+import WelcomePanel from "./WelcomePanel.js";
 import ChatRoom from "./chat-room/ChatRoom.js";
 import RoomList from "./room-list/RoomList.js";
 import Toolbar from "./Toolbar.js";
@@ -31,6 +32,7 @@ export default class RoomComponent extends DomNode {
         this.roomList = new RoomList(),
         el(
           ".container",
+          //new WelcomePanel(),
           this.chatRoom = new ChatRoom(),
         ),
         this.userList = new UserList(),

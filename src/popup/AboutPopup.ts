@@ -27,7 +27,12 @@ export default class AboutPopup extends Popup {
           el("img", { src: "/images/logo.png" }),
           el(
             "p",
-            "NFTChatRoom.com is a gathering space for all NFT collection holders to come and chat.\nWAGMI!",
+            el("img", { src: "/images/text-logo.png" }),
+            "NFTChatRoom.com is a gathering space for all NFT collection holders to come and chat.\nWAGMI!\n",
+            el("a", "Twitter >> https://twitter.com/nftchatroom", {
+              target: "_blank",
+              href: "https://twitter.com/nftchatroom",
+            }),
           ),
         ),
         el(

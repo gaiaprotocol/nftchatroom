@@ -1,8 +1,9 @@
 .room-list {
-    display   : none;
-    width     : 280px;
-    background: var(--surface);
-    padding   : 8px;
+    flex-shrink: 0;
+    display    : none;
+    width      : 280px;
+    background : var(--surface);
+    padding    : 8px;
 
     &.active {
         display: flex;
@@ -16,6 +17,7 @@
         position: absolute;
         left    : 0;
         top     : 58px;
+        z-index : 1;
         width   : 100%;
         height  : calc(100% - 58px);
         border  : none;

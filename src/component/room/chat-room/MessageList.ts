@@ -1,11 +1,16 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { DomNode, RetroLoader } from "common-dapp-module";
+import { ArrayUtil, DomNode, el, RetroLoader } from "common-dapp-module";
+import ChatMessage from "../../../datamodel/ChatMessage.js";
 import SupabaseManager from "../../../SupabaseManager.js";
+import MessageItem from "./MessageItem.js";
 
 export default class MessageList extends DomNode {
   private _roomId: string | undefined;
   private _channel: RealtimeChannel | undefined;
   private loading: boolean = false;
+
+  private container: DomNode | undefined;
+  private items: MessageItem[] = [];
 
   constructor() {
     super(".message-list");
@@ -20,14 +25,39 @@ export default class MessageList extends DomNode {
 
   private async loadMessages() {
     this.loading = true;
+    this.items = [];
+
     this.empty().append(new RetroLoader());
-    const { data, error } = await SupabaseManager.supabase.from("messages")
+    const { data, error } = await SupabaseManager.supabase.from("chat_messages")
       .select()
       .eq("room", this._roomId)
       .order("created_at", { ascending: false });
     this.empty();
-    console.log(data);
     this.loading = false;
+
+    this.container = el("ul.container").appendTo(this);
+    for (const message of data?.reverse() ?? []) {
+      this.addItem(message);
+    }
+  }
+
+  public findItem(id: number) {
+    return this.items.find((item) => item.message.id === id);
+  }
+
+  public addItem(message: ChatMessage) {
+    const item = new MessageItem(message);
+    this.items.push(item);
+    item.on("delete", () => ArrayUtil.pull(this.items, item));
+
+    if (this.container) {
+      this.container.append(item);
+      this.container.domElement.scrollTo(
+        0,
+        this.container.domElement.scrollHeight,
+      );
+    }
+    return item;
   }
 
   private createChannel() {
@@ -42,10 +72,13 @@ export default class MessageList extends DomNode {
           {
             event: "INSERT",
             schema: "public",
-            table: "messages",
+            table: "chat_messages",
             filter: "room=eq." + this._roomId,
           },
-          (payload) => console.log(payload),
+          (payload: any) => {
+            this.findItem(payload.new.id)?.delete();
+            this.addItem(payload.new);
+          },
         )
         .subscribe();
     }
