@@ -655,4 +655,7 @@ body {
 .message-item > .message {
   flex-grow: 1;
 }
+.message-item.wait > .message {
+  color: #999;
+}
 
