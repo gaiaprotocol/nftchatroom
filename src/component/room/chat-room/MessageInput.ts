@@ -65,6 +65,7 @@ export default class MessageInput extends DomNode {
         .insert([
           {
             room: this.roomId,
+            message_type: MessageType.MESSAGE,
             message,
           },
         ]).select();

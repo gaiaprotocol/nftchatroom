@@ -158,6 +158,8 @@ CREATE POLICY "allow all to owner" ON "public"."favorite_rooms" USING ((("auth".
 
 CREATE POLICY "allow anon access" ON "public"."chat_messages" FOR SELECT USING (true);
 
+CREATE POLICY "allow anon select" ON "public"."user_nft_ownership" FOR SELECT USING (true);
+
 CREATE POLICY "anon select" ON "public"."room_profiles" FOR SELECT USING (true);
 
 CREATE POLICY "anon select" ON "public"."user_details" FOR SELECT USING (true);
