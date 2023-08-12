@@ -12,11 +12,12 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/html";
 import { EventContainer } from "common-dapp-module";
+import AuthManager from "./AuthManager.js";
 import Config from "./Config.js";
 
 class WalletManager extends EventContainer {
   private web3modal: Web3Modal;
-  public connected = false;
+  public _connected = false;
 
   public init() {
     const chains = [mainnet];
@@ -37,11 +38,14 @@ class WalletManager extends EventContainer {
       projectId: Config.walletConnectProjectID,
     }, ethereumClient);
 
-    this.connected = getAccount().address !== undefined;
+    this._connected = getAccount().address !== undefined;
     watchAccount((account) => {
       const connected = account.address !== undefined;
-      if (connected !== this.connected) {
-        this.connected = connected;
+      if (connected !== this._connected) {
+        this._connected = connected;
+        if (!connected) {
+          AuthManager.logout();
+        }
         this.fireEvent(connected ? "connect" : "disconnect");
       }
     });
@@ -55,7 +59,7 @@ class WalletManager extends EventContainer {
     this.web3modal.closeModal();
   }
 
-  public get address() {
+  public get _address() {
     return getAccount().address;
   }
 }

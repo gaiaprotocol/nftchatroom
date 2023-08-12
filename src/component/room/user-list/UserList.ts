@@ -1,7 +1,7 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
 import { DomNode, el, RetroLoader } from "common-dapp-module";
+import AuthManager from "../../../auth/AuthManager.js";
 import SupabaseManager from "../../../SupabaseManager.js";
-import WalletManager from "../../../WalletManager.js";
 import UserItem from "./UserItem.js";
 
 export default class UserList extends DomNode {
@@ -43,9 +43,9 @@ export default class UserList extends DomNode {
         },
       );
       channel.subscribe(async (status) => {
-        if (status === "SUBSCRIBED") {
+        if (status === "SUBSCRIBED" && AuthManager.signed) {
           await channel.track({
-            walletAddress: WalletManager.address,
+            walletAddress: AuthManager.signed.walletAddress,
             onlineAt: new Date().toISOString(),
           });
         }
@@ -71,6 +71,11 @@ export default class UserList extends DomNode {
         container.append(new UserItem(user[0] as any));
         addedWalletAddresses.add(user[0].walletAddress);
       }
+    }
+    if (addedWalletAddresses.size === 0) {
+      container.append(
+        el("li.empty", "There are no users connected to this room."),
+      );
     }
   }
 }

@@ -1,6 +1,10 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.31.0";
+import { verify } from "https://esm.sh/jsonwebtoken@8.5.1";
 import { response, serveWithOptions } from "../_shared/cors.ts";
-import { getCollectionInfo, getOwnedNFTCollections } from "../_shared/nft.ts";
+import {
+  getCollectionInfo,
+  getOwnedNFTCollections,
+} from "../_shared/opensea.ts";
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -32,7 +36,7 @@ interface NFTRoom {
 
 serveWithOptions(async (req) => {
   const u = new URL(req.url);
-  const walletAddress = u.searchParams.get("wallet_address");
+  const token = u.searchParams.get("token");
 
   const rooms: { [category: string]: (GeneralRoom | NFTRoom)[] } = {
     "general": [{
@@ -79,14 +83,21 @@ serveWithOptions(async (req) => {
     }
   }
 
-  if (walletAddress) {
-    const collections = await getOwnedNFTCollections(walletAddress);
-    rooms.owned = collections.map((collection) => ({
-      type: "nft",
-      chain: "ethereum",
-      address: collection.address,
-      metadata: collection.metadata,
-    }));
+  if (token) {
+    const walletAddress = (verify(
+      token,
+      Deno.env.get("JWT_SECRET")!,
+    ) as any)?.wallet_address;
+
+    if (walletAddress) {
+      const collections = await getOwnedNFTCollections(walletAddress);
+      rooms.owned = collections.map((collection) => ({
+        type: "nft",
+        chain: "ethereum",
+        address: collection.address,
+        metadata: collection.metadata,
+      }));
+    }
   }
 
   return response(rooms);

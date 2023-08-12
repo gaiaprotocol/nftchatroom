@@ -1,11 +1,9 @@
 import { msg, Router } from "common-dapp-module";
-import AuthManager from "./AuthManager.js";
+import AuthManager from "./auth/AuthManager.js";
+import WalletManager from "./auth/WalletManager.js";
 import SupabaseManager from "./SupabaseManager.js";
-import AuthTest from "./view/AuthTest.js";
-import RoomView from "./view/RoomView.js";
-import DesignTest from "./view/DesignTest.js";
 import Layout from "./view/Layout.js";
-import WalletManager from "./WalletManager.js";
+import RoomView from "./view/RoomView.js";
 
 export default async function install() {
   if (sessionStorage.__spa_path) {
@@ -14,7 +12,7 @@ export default async function install() {
   }
 
   WalletManager.init();
-  AuthManager.init();
+  await AuthManager.init();
   SupabaseManager.connect();
 
   await msg.loadYAMLs({
@@ -22,8 +20,6 @@ export default async function install() {
   });
 
   Router.route("**", Layout);
-  Router.route("auth-test", AuthTest);
-  Router.route("design-test", DesignTest);
   Router.route([
     "", // general room
     "{chain}/{address}", // nft room

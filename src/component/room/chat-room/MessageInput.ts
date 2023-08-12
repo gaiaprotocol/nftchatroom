@@ -1,7 +1,7 @@
 import { DomNode, el } from "common-dapp-module";
-import AuthManager from "../../../AuthManager.js";
 import SupabaseManager from "../../../SupabaseManager.js";
-import WalletManager from "../../../WalletManager.js";
+import AuthManager from "../../../auth/AuthManager.js";
+import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
 export default class MessageInput extends DomNode {
@@ -10,8 +10,7 @@ export default class MessageInput extends DomNode {
   constructor(private list: MessageList) {
     super(".message-input");
     this.showMessageBox();
-    this.onDelegate(AuthManager, "login", () => this.showMessageBox());
-    this.onDelegate(AuthManager, "logout", () => this.showMessageBox());
+    this.onDelegate(AuthManager, "authChanged", () => this.showMessageBox());
   }
 
   private showMessageBox() {
@@ -42,7 +41,7 @@ export default class MessageInput extends DomNode {
             placeholder: "Please connect wallet to send message.",
           }),
           el("button", "Connect Wallet", {
-            click: () => AuthManager.login(),
+            click: () => new SignInPopup(),
           }),
         ),
       );
@@ -50,10 +49,10 @@ export default class MessageInput extends DomNode {
   }
 
   private async sendMessage(message: string) {
-    if (this.roomId && WalletManager.address) {
+    if (this.roomId && AuthManager.signed) {
       const item = this.list.addItem({
         id: -1,
-        author: WalletManager.address,
+        author: AuthManager.signed.walletAddress,
         message,
       });
       item.wait();

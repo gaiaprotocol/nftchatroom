@@ -11,6 +11,7 @@ class AuthManager extends EventContainer {
   public get token(): string | undefined {
     return this.store.get("token");
   }
+
   public signed = this.token !== undefined;
 
   public init() {
@@ -23,7 +24,7 @@ class AuthManager extends EventContainer {
   }
 
   private async sign(remember: boolean = false) {
-    const walletAddress = WalletManager.address;
+    const walletAddress = WalletManager._address;
     const nonceResponse = await get(
       `new-nonce?wallet_address=${walletAddress}`,
     );
@@ -52,11 +53,18 @@ class AuthManager extends EventContainer {
 
   public async login() {
     WalletManager.openModal();
-    if (!WalletManager.connected) {
+    if (!WalletManager._connected) {
       this.waitingWalletConnect = true;
     } else {
       this.sign();
     }
+  }
+
+  public logout() {
+    this.store.delete("token");
+    this.signed = false;
+    this.fireEvent("logout");
+    SupabaseManager.connect();
   }
 }
 

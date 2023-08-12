@@ -3,7 +3,7 @@ import { Room } from "../../Room.js";
 import WelcomePanel from "./WelcomePanel.js";
 import ChatRoom from "./chat-room/ChatRoom.js";
 import RoomList from "./room-list/RoomList.js";
-import Toolbar from "./Toolbar.js";
+import Toolbar from "./toolbar/Toolbar.js";
 import UserList from "./user-list/UserList.js";
 
 export default class RoomComponent extends DomNode {

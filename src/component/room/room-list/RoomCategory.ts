@@ -1,5 +1,6 @@
 import { DomNode, el, StringUtil } from "common-dapp-module";
-import AuthManager from "../../../AuthManager.js";
+import AuthManager from "../../../auth/AuthManager.js";
+import SignInPopup from "../../../popup/SignInPopup.js";
 import { Room } from "../../../Room.js";
 import RoomItem from "./RoomItem.js";
 
@@ -19,14 +20,14 @@ export default class RoomCategory extends DomNode {
       this.items.push(item);
     }
     if (
-      AuthManager.signed !== true &&
+      AuthManager.signed === undefined &&
       (category === "favorites" || category === "owned")
     ) {
       list.append(
         el(
           "li",
           el("a", "Connect Wallet...", {
-            click: () => AuthManager.login(),
+            click: () => new SignInPopup(),
           }),
         ),
       );

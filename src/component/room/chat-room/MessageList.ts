@@ -10,6 +10,7 @@ export default class MessageList extends DomNode {
   private loading: boolean = false;
 
   private container: DomNode | undefined;
+  private emptyMessage: DomNode | undefined;
   private items: MessageItem[] = [];
 
   constructor() {
@@ -35,7 +36,11 @@ export default class MessageList extends DomNode {
     this.empty();
     this.loading = false;
 
-    this.container = el("ul.container", el("li.blank")).appendTo(this);
+    this.container = el(
+      "ul.container",
+      el("li.blank"),
+      this.emptyMessage = el("li.empty", "There are no messages in this room. Write the first message!"),
+    ).appendTo(this);
     for (const message of data?.reverse() ?? []) {
       this.addItem(message);
     }
@@ -46,6 +51,10 @@ export default class MessageList extends DomNode {
   }
 
   public addItem(message: ChatMessage) {
+
+    this.emptyMessage?.delete();
+    this.emptyMessage = undefined;
+
     const item = new MessageItem(message);
     this.items.push(item);
     item.on("delete", () => ArrayUtil.pull(this.items, item));

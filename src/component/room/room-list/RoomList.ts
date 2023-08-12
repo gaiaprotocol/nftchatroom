@@ -1,8 +1,7 @@
 import { DomNode, el, RetroLoader } from "common-dapp-module";
 import { get } from "../../../_shared/edgeFunctionFetch.js";
-import AuthManager from "../../../AuthManager.js";
+import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../Room.js";
-import WalletManager from "../../../WalletManager.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
 
@@ -15,8 +14,7 @@ export default class RoomList extends DomNode {
   constructor() {
     super(".room-list");
     this.loadRooms();
-    this.onDelegate(AuthManager, "login", () => this.loadRooms());
-    this.onDelegate(AuthManager, "logout", () => this.loadRooms());
+    this.onDelegate(AuthManager, "authChanged", () => this.loadRooms());
   }
 
   public active(): void {
@@ -32,7 +30,9 @@ export default class RoomList extends DomNode {
 
     this.empty().append(new RetroLoader());
     const roomsResponse = await get(
-      `get-rooms?wallet_address=${WalletManager.address}`,
+      AuthManager.signed === undefined
+        ? "get-rooms"
+        : `get-rooms?token=${AuthManager.signed.token}`,
     );
     const roomsData: { [category: string]: Room[] } = await roomsResponse
       .json();

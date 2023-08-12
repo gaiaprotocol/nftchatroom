@@ -1,5 +1,5 @@
 import { DomNode, el } from "common-dapp-module";
-import AuthManager from "../../AuthManager.js";
+import ConnectWalletButton from "./ConnectWalletButton.js";
 
 export default class Toolbar extends DomNode {
   private roomListButton: DomNode;
@@ -14,12 +14,7 @@ export default class Toolbar extends DomNode {
         "Rooms",
         { click: () => this.fireEvent("toggleRoomList") },
       ),
-      el(
-        "button",
-        el("img", { src: "/images/toolbar/connect-wallet.png" }),
-        "Connect Wallet",
-        { click: () => AuthManager.login() },
-      ),
+      new ConnectWalletButton(),
       this.userListButton = el(
         "button",
         el("img", { src: "/images/toolbar/user-list.png" }),
