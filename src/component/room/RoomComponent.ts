@@ -33,7 +33,6 @@ export default class RoomComponent extends DomNode {
         this.roomList = new RoomList(),
         el(
           ".container",
-          //new WelcomePanel(),
           this.chatRoom = new ChatRoom(),
         ),
         this.userList = new UserList(),
@@ -107,25 +106,33 @@ export default class RoomComponent extends DomNode {
     this.chatRoom.roomId = roomId;
     this.roomList.currentRoom = room;
 
-    if (room.type === "nft") {
+    if (room.type === "general") {
+      //TODO: set info
+    } else if (room.type === "nft") {
       this.checkNFTOwned(roomId);
     }
   }
 
   private async checkNFTOwned(roomId: string) {
     this.chatRoom.checkingNFTOwned();
-    if (AuthManager.signed) {
-      const reponse = await get(
-        `check-nft-owned?token=${AuthManager.signed.token}&room=${roomId}`,
-      );
-      if (reponse.status !== 200) {
-        console.log(await reponse.json());
-        return;
-      }
-      const data = await reponse.json();
-      this.chatRoom.setNFTOwned(data.owned, data.collection);
-    } else {
-      this.chatRoom.setNFTOwned(false);
+    const reponse = await get(
+      AuthManager.signed
+        ? `check-nft-owned?token=${AuthManager.signed.token}&room=${roomId}`
+        : `check-nft-owned?room=${roomId}`,
+    );
+    if (reponse.status !== 200) {
+      console.log(await reponse.json());
+      return;
     }
+    const data = await reponse.json();
+    this.chatRoom.setNFTOwned(data.owned, data.collection);
+  }
+
+  private async addRoomToFavorite(roomId: string) {
+    //TODO:
+  }
+
+  private async removeRoomFromFavorite(roomId: string) {
+    //TODO:
   }
 }

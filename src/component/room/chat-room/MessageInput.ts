@@ -1,6 +1,7 @@
 import { DomNode, el } from "common-dapp-module";
 import SupabaseManager from "../../../SupabaseManager.js";
 import AuthManager from "../../../auth/AuthManager.js";
+import { MessageType } from "../../../datamodel/ChatMessage.js";
 import NFTCollection from "../../../datamodel/NFTCollection.js";
 import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
@@ -54,6 +55,7 @@ export default class MessageInput extends DomNode {
       const item = this.list.addItem({
         id: -1,
         author: AuthManager.signed.walletAddress,
+        message_type: MessageType.MESSAGE,
         message,
       });
       item.wait();
@@ -96,8 +98,7 @@ export default class MessageInput extends DomNode {
           ".anonymous-form",
           el("input", {
             disabled: true,
-            placeholder:
-              `You don't own ${collection?.metadata.name} NFT.`,
+            placeholder: `You don't own ${collection?.metadata.name} NFT.`,
           }),
           el("button", "Buy NFT", {
             click: () =>
