@@ -1,11 +1,4 @@
-export interface GeneralRoom {
-  type: "general";
-  name?: string;
-  uri: string;
-}
-
-export interface NFTRoom {
-  type: "nft";
+export default interface NFTCollection {
   chain: string;
   address: string;
   metadata: {
@@ -20,5 +13,3 @@ export interface NFTRoom {
     slug?: string;
   };
 }
-
-export type Room = GeneralRoom | NFTRoom;

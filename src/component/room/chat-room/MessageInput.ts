@@ -1,6 +1,7 @@
 import { DomNode, el } from "common-dapp-module";
 import SupabaseManager from "../../../SupabaseManager.js";
 import AuthManager from "../../../auth/AuthManager.js";
+import NFTCollection from "../../../datamodel/NFTCollection.js";
 import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
@@ -71,6 +72,41 @@ export default class MessageInput extends DomNode {
         item.message.id = id;
         item.done();
       }
+    }
+  }
+
+  public checkingNFTOwned() {
+    this.empty().append(
+      el(
+        ".anonymous-form",
+        el("input", {
+          disabled: true,
+          placeholder: `Verifying if you own this NFT...`,
+        }),
+      ),
+    );
+  }
+
+  public setNFTOwned(b: boolean, collection?: NFTCollection) {
+    if (b) {
+      this.showMessageBox();
+    } else {
+      this.empty().append(
+        el(
+          ".anonymous-form",
+          el("input", {
+            disabled: true,
+            placeholder:
+              `You don't own ${collection?.metadata.name} NFT.`,
+          }),
+          el("button", "Buy NFT", {
+            click: () =>
+              window.open(
+                `https://opensea.io/collection/${collection?.metadata.slug}`,
+              ),
+          }),
+        ),
+      );
     }
   }
 }

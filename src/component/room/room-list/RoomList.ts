@@ -1,7 +1,7 @@
 import { DomNode, el, RetroLoader } from "common-dapp-module";
 import { get } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
-import { Room } from "../../../Room.js";
+import { Room } from "../../../datamodel/Room.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
 

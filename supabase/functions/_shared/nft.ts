@@ -1,3 +1,8 @@
+import { Contract, ethers } from "https://esm.sh/ethers@6.7.0";
+import ParsingNFTDataArtifact from "./abi/parsing-nft-data/ParsingNFTData.json" assert {
+  type: "json"
+};
+
 const CONTRACT_ADDRESSES: {
   [chain: string]: string;
 } = {
@@ -8,8 +13,61 @@ const CONTRACT_ADDRESSES: {
   "klaytn": "0x8A98A038dcA75091225EE0a1A11fC20Aa23832A0",
 };
 
-function getProvider() {
+function getProvider(chain: string) {
+  if (chain === "ethereum" || chain === "mainnet") {
+    return new ethers.InfuraProvider(
+      "mainnet",
+      Deno.env.get("INFURA_API_KEY")!,
+    );
+  } else if (chain === "polygon") {
+    return new ethers.JsonRpcProvider(
+      "https://polygon-rpc.com/",
+    );
+  } else if (chain === "bnb") {
+    return new ethers.JsonRpcProvider(
+      "https://bsc-dataseed.binance.org/",
+    );
+  } else if (chain === "bifrost") {
+    return new ethers.JsonRpcProvider(
+      "https://public-01.mainnet.thebifrost.io/rpc",
+    );
+  } else if (chain === "klaytn") {
+    return new ethers.JsonRpcProvider(
+      "https://public-en-cypress.klaytn.net",
+    );
+  }
 }
 
-function getContract() {
+function getContract(chain: string) {
+  if (CONTRACT_ADDRESSES[chain]) {
+    const provider = getProvider(chain);
+    if (provider) {
+      return new Contract(
+        CONTRACT_ADDRESSES[chain],
+        ParsingNFTDataArtifact.abi,
+        provider,
+      );
+    }
+  }
 }
+
+export const getBalance: (
+  chain: string,
+  address: string,
+  owner: string,
+) => Promise<number> = async (
+  chain: string,
+  address: string,
+  owner: string,
+) => {
+  const contract = getContract(chain);
+  if (contract) {
+    return Number(
+      (await contract.getERC721BalanceList_OneToken(
+        address,
+        [owner],
+      ))[0],
+    );
+  }
+  return 0;
+};

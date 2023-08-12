@@ -1,5 +1,5 @@
 import { DomNode, el, Router } from "common-dapp-module";
-import { Room } from "../../../Room.js";
+import { Room } from "../../../datamodel/Room.js";
 
 export default class RoomItem extends DomNode {
   constructor(public room: Room) {

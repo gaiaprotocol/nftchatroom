@@ -1,6 +1,7 @@
 import { BrowserInfo, DomNode, el, Store } from "common-dapp-module";
-import { Room } from "../../Room.js";
-import WelcomePanel from "./WelcomePanel.js";
+import { get } from "../../_shared/edgeFunctionFetch.js";
+import AuthManager from "../../auth/AuthManager.js";
+import { Room } from "../../datamodel/Room.js";
 import ChatRoom from "./chat-room/ChatRoom.js";
 import RoomList from "./room-list/RoomList.js";
 import Toolbar from "./toolbar/Toolbar.js";
@@ -105,5 +106,26 @@ export default class RoomComponent extends DomNode {
     this.userList.roomId = roomId;
     this.chatRoom.roomId = roomId;
     this.roomList.currentRoom = room;
+
+    if (room.type === "nft") {
+      this.checkNFTOwned(roomId);
+    }
+  }
+
+  private async checkNFTOwned(roomId: string) {
+    this.chatRoom.checkingNFTOwned();
+    if (AuthManager.signed) {
+      const reponse = await get(
+        `check-nft-owned?token=${AuthManager.signed.token}&room=${roomId}`,
+      );
+      if (reponse.status !== 200) {
+        console.log(await reponse.json());
+        return;
+      }
+      const data = await reponse.json();
+      this.chatRoom.setNFTOwned(data.owned, data.collection);
+    } else {
+      this.chatRoom.setNFTOwned(false);
+    }
   }
 }
