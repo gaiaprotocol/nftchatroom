@@ -8,6 +8,15 @@ class AuthManager extends EventContainer {
   public signed: {
     token: string;
     walletAddress: string;
+    user?: {
+      ens?: string;
+      pfp?: {
+        chain: string;
+        address: string;
+        tokenId: string;
+        url: string;
+      };
+    };
   } | undefined;
 
   public async init() {
@@ -23,6 +32,7 @@ class AuthManager extends EventContainer {
         this.signed = {
           token,
           walletAddress: data.walletAddress,
+          user: data.user,
         };
       } else {
         this.store.delete("token");
@@ -59,6 +69,7 @@ class AuthManager extends EventContainer {
     this.signed = {
       token: tokenData.token,
       walletAddress,
+      user: tokenData.user,
     };
     this.fireEvent("authChanged");
   }

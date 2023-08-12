@@ -1,7 +1,8 @@
-import { Contract, ethers } from "https://esm.sh/ethers@6.7.0";
+import { Contract } from "https://esm.sh/ethers@6.7.0";
 import ParsingNFTDataArtifact from "./abi/parsing-nft-data/ParsingNFTData.json" assert {
-  type: "json"
+  type: "json",
 };
+import { getProvider } from "./blockchain.ts";
 
 const CONTRACT_ADDRESSES: {
   [chain: string]: string;
@@ -12,31 +13,6 @@ const CONTRACT_ADDRESSES: {
   "bifrost": "0xdC5323d27c611D978E33B65ef9E1eA49fd9a0199",
   "klaytn": "0x8A98A038dcA75091225EE0a1A11fC20Aa23832A0",
 };
-
-function getProvider(chain: string) {
-  if (chain === "ethereum" || chain === "mainnet") {
-    return new ethers.InfuraProvider(
-      "mainnet",
-      Deno.env.get("INFURA_API_KEY")!,
-    );
-  } else if (chain === "polygon") {
-    return new ethers.JsonRpcProvider(
-      "https://polygon-rpc.com/",
-    );
-  } else if (chain === "bnb") {
-    return new ethers.JsonRpcProvider(
-      "https://bsc-dataseed.binance.org/",
-    );
-  } else if (chain === "bifrost") {
-    return new ethers.JsonRpcProvider(
-      "https://public-01.mainnet.thebifrost.io/rpc",
-    );
-  } else if (chain === "klaytn") {
-    return new ethers.JsonRpcProvider(
-      "https://public-en-cypress.klaytn.net",
-    );
-  }
-}
 
 function getContract(chain: string) {
   if (CONTRACT_ADDRESSES[chain]) {
