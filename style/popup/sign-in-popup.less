@@ -1,4 +1,4 @@
-.about-popup.component {
+.sign-in-popup.component {
     max-width     : 440px;
     width         : 90%;
     margin        : auto;
@@ -8,11 +8,6 @@
     box-shadow    : var(--border-window-outer), var(--border-window-inner);
     background    : var(--surface);
     padding       : 3px;
-
-    >header {
-        position: sticky;
-        top     : 0;
-    }
 
     >main {
         display    : flex;
@@ -31,9 +26,12 @@
             border-image: url("/icon/groupbox-border.svg") 2 repeat;
             line-height : 1.5em;
 
-            >a {
-                color          : var(--link-blue);
-                text-decoration: underline;
+            >ol {
+                >li {
+                    list-style-type: decimal;
+                    margin-left    : 16px;
+                    padding        : 8px 0;
+                }
             }
         }
     }
@@ -42,7 +40,7 @@
         padding        : 0 8px 8px 8px;
         display        : flex;
         justify-content: flex-end;
-        gap            : 16px;
+        gap            : 6px;
 
         >button {
             box-sizing : border-box;
@@ -56,7 +54,7 @@
             padding    : 0 12px;
             text-align : center;
 
-            &:active {
+            &:active:not(:disabled) {
                 box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
                 text-shadow: 1px 1px var(--text-color);
             }
@@ -65,14 +63,10 @@
                 outline       : 1px dotted #000000;
                 outline-offset: -4px;
             }
-        }
-    }
 
-    >.status-bar {
-        >.status {
-            >a {
-                text-decoration: underline;
-                cursor         : pointer;
+            &:disabled {
+                color      : var(--button-shadow);
+                text-shadow: 1px 1px 0 var(--button-highlight);
             }
         }
     }

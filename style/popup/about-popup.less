@@ -1,0 +1,79 @@
+.about-popup.component {
+    max-width     : 440px;
+    width         : 90%;
+    margin        : auto;
+    display       : flex;
+    flex-direction: column;
+    overflow-y    : auto;
+    box-shadow    : var(--border-window-outer), var(--border-window-inner);
+    background    : var(--surface);
+    padding       : 3px;
+
+    >header {
+        position: sticky;
+        top     : 0;
+    }
+
+    >main {
+        display    : flex;
+        padding    : 8px;
+        gap        : 8px;
+        align-items: start;
+
+        >img {
+            width: 80px;
+        }
+
+        >p {
+            padding     : 8px 0 8px 8px;
+            border      : solid transparent;
+            border-width: 0 0 0 2px;
+            border-image: url("/icon/groupbox-border.svg") 2 repeat;
+            line-height : 1.5em;
+
+            >a {
+                color          : var(--link-blue);
+                text-decoration: underline;
+            }
+        }
+    }
+
+    >footer {
+        padding        : 0 8px 8px 8px;
+        display        : flex;
+        justify-content: flex-end;
+        gap            : 6px;
+
+        >button {
+            box-sizing : border-box;
+            border     : none;
+            color      : transparent;
+            text-shadow: 0 0 var(--text-color);
+            background : var(--surface);
+            box-shadow : var(--border-raised-outer), var(--border-raised-inner);
+            min-width  : 75px;
+            min-height : 23px;
+            padding    : 0 12px;
+            text-align : center;
+
+            &:active {
+                box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                text-shadow: 1px 1px var(--text-color);
+            }
+
+            &:focus {
+                outline       : 1px dotted #000000;
+                outline-offset: -4px;
+            }
+        }
+    }
+
+    >.status-bar {
+        >.status {
+            >a {
+                text-decoration: underline;
+                cursor         : pointer;
+            }
+        }
+    }
+}

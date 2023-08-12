@@ -194,7 +194,7 @@ img {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 999999;
+  z-index: 999998;
   width: 100%;
   height: 100%;
   background-image: url("/images/popup-background.png");
@@ -266,6 +266,41 @@ img {
 .loader.retro-component.index-2 {
   padding: 8px;
 }
+.checkbox.retro-component > input[type="checkbox"]:focus + label {
+  outline: 1px dotted #000000;
+}
+.checkbox.retro-component > input[type="checkbox"] + label {
+  position: relative;
+  margin-left: var(--checkbox-total-width);
+  line-height: 13px;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+.checkbox.retro-component > input[type="checkbox"] + label::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * (var(--checkbox-total-width-precalc)));
+  display: inline-block;
+  width: var(--checkbox-width);
+  height: var(--checkbox-width);
+  background: var(--button-highlight);
+  box-shadow: var(--border-field);
+  margin-right: var(--radio-label-spacing);
+}
+.checkbox.retro-component > input[type="checkbox"]:active + label::before {
+  background: var(--surface);
+}
+.checkbox.retro-component > input[type="checkbox"]:checked + label::after {
+  content: "";
+  display: block;
+  width: var(--checkmark-width);
+  height: var(--checkmark-width);
+  position: absolute;
+  top: var(--checkmark-top);
+  left: calc(-1 * (var(--checkbox-total-width-precalc)) + var(--checkmark-left));
+  background: url("/icon/checkmark.svg");
+}
 .layout {
   position: fixed;
   left: 0;
@@ -322,7 +357,7 @@ img {
   padding: 0 8px 8px 8px;
   display: flex;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 6px;
 }
 .about-popup.component > footer > button {
   box-sizing: border-box;
@@ -347,6 +382,125 @@ img {
 .about-popup.component > .status-bar > .status > a {
   text-decoration: underline;
   cursor: pointer;
+}
+.sign-in-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.sign-in-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.sign-in-popup.component > main > img {
+  width: 80px;
+}
+.sign-in-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.sign-in-popup.component > main > p > ol > li {
+  list-style-type: decimal;
+  margin-left: 16px;
+  padding: 8px 0;
+}
+.sign-in-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.sign-in-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.sign-in-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.sign-in-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.sign-in-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.my-info-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.my-info-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.my-info-popup.component > main > img {
+  width: 80px;
+}
+.my-info-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.my-info-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.my-info-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.my-info-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.my-info-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.my-info-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
 }
 .room {
   height: 100%;
@@ -385,6 +539,7 @@ img {
   align-items: center;
   padding: 4px 8px;
   min-width: 54px;
+  gap: 2px;
 }
 @media only screen and (min-width: 860px) {
   .toolbar > button:hover {
@@ -405,6 +560,9 @@ img {
 }
 .toolbar > button:last-of-type {
   margin-left: auto;
+}
+.toolbar > button > img {
+  height: 32px;
 }
 .room-list {
   flex-shrink: 0;
@@ -547,6 +705,9 @@ img {
   gap: 4px;
   overflow-y: scroll;
 }
+.user-list > .container > .empty {
+  color: var(--button-shadow);
+}
 .user-item {
   display: flex;
   align-items: center;
@@ -576,6 +737,7 @@ img {
 .chat-room > .message-input > .anonymous-form > input {
   flex-grow: 1;
   padding: 3px 4px;
+  min-height: 23px;
   border: none;
   box-shadow: var(--border-field);
   background-color: var(--button-highlight);
@@ -636,6 +798,9 @@ img {
 }
 .message-list > .container > .blank {
   flex-grow: 1;
+}
+.message-list > .container > .empty {
+  color: var(--button-shadow);
 }
 .message-item {
   display: flex;
