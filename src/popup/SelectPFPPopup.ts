@@ -5,19 +5,17 @@ import {
   Popup,
   RetroTitleBar,
 } from "common-dapp-module";
-import AuthManager from "../auth/AuthManager.js";
-import EditMyInfoPopup from "./EditMyInfoPopup.js";
 
-export default class MyInfoPopup extends Popup {
+export default class SelectPFPPopup extends Popup {
   public content: DomNode;
 
-  constructor() {
+  constructor(collection?: string) {
     super({ barrierDismissible: true });
     this.append(
       this.content = new Component(
-        ".my-info-popup",
+        ".select-pfp-popup",
         new RetroTitleBar({
-          title: "My Info",
+          title: "Select Profile Picture",
           buttons: [{
             type: "close",
             click: () => this.delete(),
@@ -27,29 +25,18 @@ export default class MyInfoPopup extends Popup {
         el(
           "footer",
           el(
-            "button.edit-button",
+            "button.save-button",
             {
               click: () => {
                 this.delete();
-                new EditMyInfoPopup();
               },
             },
-            "Edit",
+            "Save",
           ),
           el(
-            "button.sign-out-button",
-            {
-              click: () => {
-                AuthManager.signOut();
-                this.delete();
-              },
-            },
-            "Sign Out",
-          ),
-          el(
-            "button.confirm-button",
+            "button.cancel-button",
             { click: () => this.delete() },
-            "OK",
+            "Cancel",
           ),
         ),
       ),

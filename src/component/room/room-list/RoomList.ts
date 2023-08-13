@@ -4,6 +4,7 @@ import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../datamodel/Room.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
+import AddFavoritePopup from "../../../popup/AddFavoritePopup.js";
 
 export default class RoomList extends DomNode {
   private _currentRoom?: Room;
@@ -50,6 +51,14 @@ export default class RoomList extends DomNode {
     if (this._currentRoom) {
       this.currentRoom = this._currentRoom;
     }
+
+    el(
+      "button.add-favorite",
+      "Add NFT to Favorites",
+      {
+        click: () => new AddFavoritePopup(),
+      },
+    ).appendTo(this);
   }
 
   public set currentRoom(room: Room) {

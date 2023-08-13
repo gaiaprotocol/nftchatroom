@@ -554,6 +554,234 @@ img {
   color: var(--button-shadow);
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
+.edit-my-info-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.edit-my-info-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.edit-my-info-popup.component > main > img {
+  width: 80px;
+}
+.edit-my-info-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.edit-my-info-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.edit-my-info-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.edit-my-info-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.edit-my-info-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.edit-my-info-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.select-pfp-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.select-pfp-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.select-pfp-popup.component > main > img {
+  width: 80px;
+}
+.select-pfp-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.select-pfp-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.select-pfp-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.select-pfp-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.select-pfp-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.select-pfp-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.room-profile-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.room-profile-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.room-profile-popup.component > main > img {
+  width: 80px;
+}
+.room-profile-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.room-profile-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.room-profile-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.room-profile-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.room-profile-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.room-profile-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.user-info-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.user-info-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.user-info-popup.component > main > img {
+  width: 80px;
+}
+.user-info-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.user-info-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.user-info-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.user-info-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.user-info-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.user-info-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
 .select-emoji-popup.component {
   max-width: 420px;
   width: 90%;
@@ -639,6 +867,63 @@ img {
   color: var(--button-shadow);
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
+.add-favorite-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.add-favorite-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.add-favorite-popup.component > main > img {
+  width: 80px;
+}
+.add-favorite-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.add-favorite-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.add-favorite-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.add-favorite-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.add-favorite-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.add-favorite-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
 .room {
   height: 100%;
   display: flex;
@@ -660,9 +945,24 @@ img {
 .room > main > .container > .chat-room {
   flex-grow: 1;
 }
-.welcome-panel {
-  padding: 8px;
-  padding-bottom: 0;
+.tabs {
+  display: flex;
+}
+.tabs > .tab {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: var(--border-tab);
+  color: #222;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.tabs > .tab.active {
+  padding-bottom: 2px;
+  margin-top: -2px;
+  background-color: var(--surface);
+  position: relative;
+  z-index: 8;
+  margin-left: -3px;
 }
 .toolbar {
   border: solid transparent;
@@ -713,6 +1013,8 @@ img {
 }
 .room-list.active {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 @media only screen and (max-width: 859px) {
   .room-list {
@@ -807,6 +1109,37 @@ img {
   color: var(--button-highlight);
   font-weight: bold;
 }
+.room-list > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.room-list > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.room-list > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.room-list > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.room-list > button > img {
+  height: 16px;
+}
 .user-list {
   flex-shrink: 0;
   display: none;
@@ -861,12 +1194,71 @@ img {
   width: 100%;
   min-height: 0;
 }
+.chat-room > header {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  padding: 6px 4px 0 6px;
+  display: flex;
+  gap: 8px;
+}
+.chat-room > header > h1 {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding-bottom: 6px;
+}
+.chat-room > header > h1 > img {
+  height: 16px;
+}
+.chat-room > header > .tabs {
+  flex-grow: 1;
+}
+.chat-room > header > .favorite-button {
+  margin-top: -2px;
+}
 .chat-room > .message-input {
   padding: 8px;
   padding-top: 0;
+  display: flex;
+  gap: 8px;
+}
+.chat-room > .message-input > input.upload {
+  display: none;
+}
+.chat-room > .message-input > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  border-radius: 0;
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.chat-room > .message-input > button:active {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.chat-room > .message-input > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.chat-room > .message-input > button.emoji,
+.chat-room > .message-input > button.upload {
+  min-width: 23px;
+  padding: 0;
+}
+.chat-room > .message-input > button.emoji > img,
+.chat-room > .message-input > button.upload > img {
+  display: block;
+  margin: auto;
+  height: 16px;
 }
 .chat-room > .message-input > form,
 .chat-room > .message-input > .anonymous-form {
+  flex-grow: 1;
   gap: 8px;
   display: flex;
 }
@@ -892,10 +1284,6 @@ img {
 .chat-room > .message-input > .anonymous-form > input:disabled {
   background-color: var(--surface);
 }
-.chat-room > .message-input > form > input.upload,
-.chat-room > .message-input > .anonymous-form > input.upload {
-  display: none;
-}
 .chat-room > .message-input > form > button,
 .chat-room > .message-input > .anonymous-form > button {
   box-sizing: border-box;
@@ -920,19 +1308,34 @@ img {
   outline: 1px dotted #000000;
   outline-offset: -4px;
 }
-.chat-room > .message-input > form > button.emoji,
-.chat-room > .message-input > .anonymous-form > button.emoji,
-.chat-room > .message-input > form > button.upload,
-.chat-room > .message-input > .anonymous-form > button.upload {
-  min-width: 23px;
-  padding: 0;
+.favorite-button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  height: 23px;
+  padding: 0 6px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 }
-.chat-room > .message-input > form > button.emoji > img,
-.chat-room > .message-input > .anonymous-form > button.emoji > img,
-.chat-room > .message-input > form > button.upload > img,
-.chat-room > .message-input > .anonymous-form > button.upload > img {
-  display: block;
-  margin: auto;
+Ø .favorite-button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.favorite-button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.favorite-button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.favorite-button > img {
   height: 16px;
 }
 .message-list {

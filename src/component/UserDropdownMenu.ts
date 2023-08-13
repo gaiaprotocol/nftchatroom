@@ -1,4 +1,5 @@
 import { RetroDropdownMenu } from "common-dapp-module";
+import UserInfoPopup from "../popup/UserInfoPopup.js";
 
 export default class UserDropdownMenu extends RetroDropdownMenu {
   constructor(x: number, y: number, walletAddress: string) {
@@ -9,7 +10,7 @@ export default class UserDropdownMenu extends RetroDropdownMenu {
         {
           label: "Profile",
           click: () => {
-            console.log("Profile");
+            new UserInfoPopup(walletAddress);
             this.delete();
           },
         },

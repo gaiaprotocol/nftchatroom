@@ -22,94 +22,88 @@ export default class MessageInput extends DomNode {
       let input: DomNode<HTMLInputElement>;
 
       this.empty().append(
-        el(
-          "form",
-          el("button.emoji", el("img", { src: "/images/chatroom/emoji.png" }), {
-            click: (event) => {
-              event.preventDefault();
-              new SelectEmojiPopup(this.list);
-            },
-          }),
-          uploadInput = el("input.upload", {
-            type: "file",
-            accept: "image/*",
-            change: async (event) => {
-              uploadButton.domElement.disabled = true;
-              uploadButton.empty().append(
-                el("img", { src: "/images/loader/small-loader.gif" }),
-              );
+        el("button.emoji", el("img", { src: "/images/chatroom/emoji.png" }), {
+          click: () => new SelectEmojiPopup(this.list),
+        }),
+        uploadInput = el("input.upload", {
+          type: "file",
+          accept: "image/*",
+          change: async (event) => {
+            uploadButton.domElement.disabled = true;
+            uploadButton.empty().append(
+              el("img", { src: "/images/loader/small-loader.gif" }),
+            );
 
-              const file = event.target.files?.[0];
-              if (AuthManager.signed && file) {
-                const { data: uploadData, error: uploadError } =
+            const file = event.target.files?.[0];
+            if (AuthManager.signed && file) {
+              const { data: uploadData, error: uploadError } =
+                await SupabaseManager.supabase
+                  .storage
+                  .from("upload_files")
+                  .upload(
+                    `${AuthManager.signed.walletAddress}/${uuidv4()}_${file.name}`,
+                    file,
+                  );
+              if (uploadError) {
+                console.error(uploadError);
+              }
+              if (uploadData) {
+                const { data: getURLData, error: getURLError } =
                   await SupabaseManager.supabase
                     .storage
                     .from("upload_files")
-                    .upload(
-                      `${AuthManager.signed.walletAddress}/${uuidv4()}_${file.name}`,
-                      file,
-                    );
-                if (uploadError) {
-                  console.error(uploadError);
+                    .createSignedUrl(uploadData.path, 60 * 60 * 24 * 7); // 7 days
+
+                if (getURLError) {
+                  console.error(getURLError);
                 }
-                if (uploadData) {
-                  const { data: getURLData, error: getURLError } =
+                if (getURLData) {
+                  const fileInfo: UploadedFile = {
+                    url: getURLData.signedUrl,
+                    fileName: file.name,
+                    fileType: file.type,
+                    fileSize: file.size,
+                  };
+
+                  const { data: getThumbnailData, error: getThumbnailError } =
                     await SupabaseManager.supabase
                       .storage
                       .from("upload_files")
-                      .createSignedUrl(uploadData.path, 60 * 60 * 24 * 7); // 7 days
-
-                  if (getURLError) {
-                    console.error(getURLError);
+                      .createSignedUrl(uploadData.path, 60 * 60 * 24 * 7, {
+                        transform: {
+                          width: 32,
+                          height: 32,
+                        },
+                      }); // 7 days
+                  if (getThumbnailError) {
+                    console.error(getThumbnailError);
                   }
-                  if (getURLData) {
-                    const fileInfo: UploadedFile = {
-                      url: getURLData.signedUrl,
-                      fileName: file.name,
-                      fileType: file.type,
-                      fileSize: file.size,
-                    };
 
-                    const { data: getThumbnailData, error: getThumbnailError } =
-                      await SupabaseManager.supabase
-                        .storage
-                        .from("upload_files")
-                        .createSignedUrl(uploadData.path, 60 * 60 * 24 * 7, {
-                          transform: {
-                            width: 32,
-                            height: 32,
-                          },
-                        }); // 7 days
-                    if (getThumbnailError) {
-                      console.error(getThumbnailError);
-                    }
-
-                    if (getThumbnailData) {
-                      fileInfo.thumbnailURL = getThumbnailData.signedUrl;
-                    }
-
-                    await this.sendFile(fileInfo);
+                  if (getThumbnailData) {
+                    fileInfo.thumbnailURL = getThumbnailData.signedUrl;
                   }
+
+                  await this.sendFile(fileInfo);
                 }
               }
+            }
 
-              uploadInput.domElement.value = "";
-              uploadButton.domElement.disabled = false;
-              uploadButton.empty().append(
-                el("img", { src: "/images/chatroom/upload.png" }),
-              );
-            },
-          }),
-          uploadButton = el(
-            "button.upload",
-            el("img", { src: "/images/chatroom/upload.png" }),
-            {
-              click: (event) => {
-                event.preventDefault();
-                uploadInput.domElement.click();
-              },
-            },
-          ),
+            uploadInput.domElement.value = "";
+            uploadButton.domElement.disabled = false;
+            uploadButton.empty().append(
+              el("img", { src: "/images/chatroom/upload.png" }),
+            );
+          },
+        }),
+        uploadButton = el(
+          "button.upload",
+          el("img", { src: "/images/chatroom/upload.png" }),
+          {
+            click: () => uploadInput.domElement.click(),
+          },
+        ),
+        el(
+          "form",
           input = el("input", {
             placeholder: "Type your message here...",
             autocomplete: "off",

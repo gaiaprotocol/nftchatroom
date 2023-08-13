@@ -6,7 +6,9 @@
     padding    : 8px;
 
     &.active {
-        display: flex;
+        display       : flex;
+        flex-direction: column;
+        gap           : 8px;
     }
 
     border      : solid transparent;
@@ -121,6 +123,42 @@
                     }
                 }
             }
+        }
+    }
+
+    >button {
+        box-sizing     : border-box;
+        border         : none;
+        color          : transparent;
+        text-shadow    : 0 0 var(--text-color);
+        background     : var(--surface);
+        box-shadow     : var(--border-raised-outer), var(--border-raised-inner);
+        min-width      : 75px;
+        min-height     : 23px;
+        padding        : 0 12px;
+        text-align     : center;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+        gap            : 4px;
+
+        &:active:not(:disabled) {
+            box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+            text-shadow: 1px 1px var(--text-color);
+        }
+
+        &:focus {
+            outline       : 1px dotted #000000;
+            outline-offset: -4px;
+        }
+
+        &:disabled {
+            color      : var(--button-shadow);
+            text-shadow: 1px 1px 0 var(--button-highlight);
+        }
+
+        >img {
+            height: 16px;
         }
     }
 }

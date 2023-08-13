@@ -6,16 +6,16 @@ import {
     RetroTitleBar,
   } from "common-dapp-module";
   
-  export default class RoomProfilePopup extends Popup {
+  export default class AddFavoritePopup extends Popup {
     public content: DomNode;
   
     constructor() {
       super({ barrierDismissible: true });
       this.append(
         this.content = new Component(
-          ".room-profile-popup",
+          ".add-favorite-popup",
           new RetroTitleBar({
-            title: "Room Profile",
+            title: "Add NFT to Favorites",
             buttons: [{
               type: "close",
               click: () => this.delete(),
@@ -25,13 +25,13 @@ import {
           el(
             "footer",
             el(
-              "button.save-button",
+              "button.add-button",
               {
                 click: () => {
                   this.delete();
                 },
               },
-              "Save",
+              "Add",
             ),
             el(
               "button.cancel-button",

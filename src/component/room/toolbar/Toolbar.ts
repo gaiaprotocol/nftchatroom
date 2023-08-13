@@ -15,6 +15,12 @@ export default class Toolbar extends DomNode {
         { click: () => this.fireEvent("toggleRoomList") },
       ),
       new ConnectWalletButton(),
+      el(
+        "button",
+        el("img", { src: "/images/toolbar/docs.png" }),
+        "Docs",
+        { click: () => {} },
+      ),
       this.userListButton = el(
         "button",
         el("img", { src: "/images/toolbar/user-list.png" }),
