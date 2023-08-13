@@ -33,6 +33,11 @@ export default class AboutPopup extends Popup {
               target: "_blank",
               href: "https://twitter.com/nftchatroom",
             }),
+            "\n",
+            el("a", "GitHub >> https://github.com/gaiaprotocol/nftchatroom", {
+              target: "_blank",
+              href: "https://github.com/gaiaprotocol/nftchatroom",
+            }),
           ),
         ),
         el(

@@ -22,7 +22,7 @@ export default class DocsPopup extends Popup {
           }],
         }),
         el(
-          "header",
+          ".toolbar",
           el("button", "New Window", {
             click: () => window.open("http://docs.nftchatroom.com/"),
           }),

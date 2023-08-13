@@ -980,6 +980,33 @@ img {
   position: sticky;
   top: 0;
 }
+.docs-popup.component > .toolbar {
+  padding: 4px;
+}
+.docs-popup.component > .toolbar > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.docs-popup.component > .toolbar > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.docs-popup.component > .toolbar > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.docs-popup.component > .toolbar > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
 .docs-popup.component > iframe {
   flex-grow: 1;
   border: none;
@@ -1106,13 +1133,13 @@ img {
   z-index: 1;
   margin-left: -3px;
 }
-.toolbar {
+.room > .toolbar {
   border: solid transparent;
   border-width: 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   display: flex;
 }
-.toolbar > button {
+.room > .toolbar > button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1121,7 +1148,7 @@ img {
   gap: 2px;
 }
 @media only screen and (min-width: 860px) {
-  .toolbar > button:hover {
+  .room > .toolbar > button:hover {
     border: none;
     color: transparent;
     text-shadow: 0 0 var(--text-color);
@@ -1129,18 +1156,18 @@ img {
     box-shadow: var(--border-raised-outer), var(--border-raised-inner);
   }
 }
-.toolbar > button.on,
-.toolbar > button:active {
+.room > .toolbar > button.on,
+.room > .toolbar > button:active {
   box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
 }
-.toolbar > button:focus {
+.room > .toolbar > button:focus {
   outline: 1px dotted #000000;
   outline-offset: -4px;
 }
-.toolbar > button:last-of-type {
+.room > .toolbar > button:last-of-type {
   margin-left: auto;
 }
-.toolbar > button > img {
+.room > .toolbar > button > img {
   height: 32px;
 }
 .room-list {
