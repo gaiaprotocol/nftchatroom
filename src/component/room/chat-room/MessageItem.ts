@@ -1,16 +1,27 @@
 import { DomNode, el, Jazzicon, StringUtil } from "common-dapp-module";
 import ChatMessage, { UploadedFile } from "../../../datamodel/ChatMessage.js";
 import OpenMoji from "../../../openmoji/OpenMoji.js";
+import UserDropdownMenu from "../../UserDropdownMenu.js";
 
 export default class MessageItem extends DomNode {
   constructor(public message: ChatMessage) {
     super("li.message-item");
     this.append(
       el(
-        "span.author",
+        "a.author",
         new Jazzicon(message.author),
         StringUtil.shortenEthereumAddress(message.author),
         ":",
+        {
+          click: (event) => {
+            event.stopPropagation();
+            new UserDropdownMenu(
+              event.clientX,
+              event.clientY,
+              message.author,
+            );
+          },
+        },
       ),
       !message.message ? undefined : el("span.message", message.message),
       !message.rich ? undefined : this.getRich(message.rich),

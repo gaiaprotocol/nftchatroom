@@ -301,6 +301,23 @@ img {
   left: calc(-1 * (var(--checkbox-total-width-precalc)) + var(--checkmark-left));
   background: url("/icon/checkmark.svg");
 }
+.dropdown-menu.retro-component {
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  width: 180px;
+  padding: 4px;
+}
+.dropdown-menu.retro-component > li {
+  height: 16px;
+  cursor: pointer;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+.dropdown-menu.retro-component > li:hover {
+  background-color: var(--dialog-blue);
+  color: var(--button-highlight);
+}
 .layout {
   position: fixed;
   left: 0;
