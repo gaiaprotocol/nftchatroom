@@ -49,7 +49,7 @@ CREATE TABLE "public"."chat_messages" (
     "message" "text",
     "message_type" smallint DEFAULT '0'::smallint NOT NULL,
     "rich" "jsonb",
-    "auther_ens" "text" DEFAULT ''::"text",
+    "author_ens" "text" DEFAULT ''::"text",
     "author_pfp" "jsonb",
     CONSTRAINT "chat_messages_message_check" CHECK (("length"("message") > 0))
 );

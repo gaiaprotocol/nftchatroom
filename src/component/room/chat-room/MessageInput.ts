@@ -10,6 +10,7 @@ import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
 export default class MessageInput extends DomNode {
+  private collection?: NFTCollection;
   public profile: { pfp?: { image_url?: string } } | undefined;
 
   constructor(private list: MessageList) {
@@ -28,7 +29,18 @@ export default class MessageInput extends DomNode {
           ? el(
             "button.room-profile",
             el("img", { src: "/images/chatroom/profile.png" }),
-            { click: () => new RoomProfilePopup(this.list.roomId!) },
+            {
+              click: () => {
+                const popup = new RoomProfilePopup(this.list.roomId!);
+                popup.on(
+                  "save",
+                  (newProfile) => {
+                    this.setNFTOwned(!!newProfile.pfp, this.collection, newProfile);
+                    this.fireEvent("saveRoomProfile", newProfile);
+                  },
+                );
+              },
+            },
           )
           : undefined,
         el("button.emoji", el("img", { src: "/images/chatroom/emoji.png" }), {
@@ -245,6 +257,7 @@ export default class MessageInput extends DomNode {
     collection?: NFTCollection,
     profile?: any,
   ) {
+    this.collection = collection;
     this.profile = profile;
 
     if (owned || !AuthManager.signed) {
