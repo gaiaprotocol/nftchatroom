@@ -1,4 +1,5 @@
 import {
+  Alert,
   Component,
   DomNode,
   el,
@@ -82,6 +83,17 @@ export default class SignInPopup extends Popup {
     this.signInButton.domElement.disabled = !WalletManager.connected;
     this.onDelegate(WalletManager, "accountChanged", () => {
       this.signInButton.domElement.disabled = !WalletManager.connected;
+    });
+
+    this.checkbox.on("change", () => {
+      if (this.checkbox.checked) {
+        new Alert({
+          title: "Caution",
+          message:
+            "By checking the 'Stay Signed In' option, you are allowing this device to remain connected to your crypto wallet on NFTChatRoom.com. This can be convenient but poses a risk if your device is lost, stolen, or accessed by unauthorized individuals. Please ensure the security of your device and consider logging out after each session if using a public or shared computer.",
+          confirmTitle: "I Understand",
+        });
+      }
     });
   }
 }

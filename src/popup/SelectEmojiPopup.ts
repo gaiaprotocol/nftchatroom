@@ -21,7 +21,7 @@ export default class SelectEmojiPopup extends Popup {
 
   private selectedEmoji: string | undefined;
 
-  constructor(private list: MessageList) {
+  constructor(private list: MessageList, private profile?: any) {
     super({ barrierDismissible: false });
 
     let main;
@@ -128,6 +128,8 @@ export default class SelectEmojiPopup extends Popup {
             rich: {
               emojis: [`openmoji:${emoji}`],
             },
+            author_ens: AuthManager.signed.user?.ens,
+            author_pfp: this.profile?.pfp,
           },
         ]).select();
       if (error) {

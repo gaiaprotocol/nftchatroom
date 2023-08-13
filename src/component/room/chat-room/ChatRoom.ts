@@ -24,8 +24,12 @@ export default class ChatRoom extends DomNode {
     this.messageInput.checkingNFTOwned();
   }
 
-  public setNFTOwned(b: boolean, collection?: NFTCollection) {
-    this.messageInput.setNFTOwned(b, collection);
+  public setNFTOwned(
+    b: boolean,
+    collection?: NFTCollection,
+    profile?: any,
+  ) {
+    this.messageInput.setNFTOwned(b, collection, profile);
   }
 
   public active(): void {

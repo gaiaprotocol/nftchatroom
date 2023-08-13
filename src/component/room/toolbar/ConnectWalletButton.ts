@@ -20,7 +20,9 @@ export default class ConnectWalletButton extends DomNode {
     this.empty();
     if (AuthManager.signed) {
       this.append(
-        new Jazzicon(AuthManager.signed.walletAddress),
+        AuthManager.signed.user?.pfp?.image_url
+          ? el("img", { src: AuthManager.signed.user.pfp.image_url })
+          : new Jazzicon(AuthManager.signed.walletAddress),
         AuthManager.signed.user?.ens ??
           StringUtil.shortenEthereumAddress(AuthManager.signed.walletAddress),
       );

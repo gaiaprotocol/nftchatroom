@@ -15,16 +15,67 @@
         gap        : 8px;
         align-items: start;
 
-        >img {
-            width: 80px;
+        >.pfp {
+            display       : flex;
+            flex-direction: column;
+            width         : 80px;
+
+            >.image-wrapper {
+                >img {
+                    width : 80px;
+                    height: 80px;
+                }
+            }
+
+            >button,
+            >.image-wrapper>.no-pfp {
+                margin-top : 8px;
+                box-sizing : border-box;
+                border     : none;
+                color      : transparent;
+                text-shadow: 0 0 var(--text-color);
+                background : var(--surface);
+                box-shadow : var(--border-raised-outer), var(--border-raised-inner);
+                min-width  : 75px;
+                min-height : 23px;
+                padding    : 0 12px;
+                text-align : center;
+
+                &:active:not(:disabled) {
+                    box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                    text-shadow: 1px 1px var(--text-color);
+                }
+
+                &:focus {
+                    outline       : 1px dotted #000000;
+                    outline-offset: -4px;
+                }
+
+                &:disabled {
+                    color      : var(--button-shadow);
+                    text-shadow: 1px 1px 0 var(--button-highlight);
+                }
+            }
+
+            >.image-wrapper>.no-pfp {
+                margin-top: 0;
+                width     : 80px;
+                height    : 80px;
+                padding   : 0;
+            }
         }
 
-        >p {
-            padding     : 8px 0 8px 8px;
+        >.info {
+            padding     : 0 0 8px 8px;
             border      : solid transparent;
             border-width: 0 0 0 2px;
             border-image: url("/icon/groupbox-border.svg") 2 repeat;
             line-height : 1.5em;
+            min-height  : 110px;
+
+            >h1 {
+                font-weight: bold;
+            }
         }
     }
 

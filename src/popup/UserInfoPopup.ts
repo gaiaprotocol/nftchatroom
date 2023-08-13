@@ -2,14 +2,18 @@ import {
   Component,
   DomNode,
   el,
+  Jazzicon,
   Popup,
+  RetroLoader,
   RetroTitleBar,
 } from "common-dapp-module";
+import { get } from "../_shared/edgeFunctionFetch.js";
 
 export default class UserInfoPopup extends Popup {
   public content: DomNode;
+  private body: DomNode;
 
-  constructor(walletAddress: string) {
+  constructor(private walletAddress: string, private room: string) {
     super({ barrierDismissible: true });
     this.append(
       this.content = new Component(
@@ -21,7 +25,7 @@ export default class UserInfoPopup extends Popup {
             click: () => this.delete(),
           }],
         }),
-        el("main"),
+        this.body = el("main"),
         el(
           "footer",
           el(
@@ -30,6 +34,42 @@ export default class UserInfoPopup extends Popup {
             "OK",
           ),
         ),
+      ),
+    );
+    this.load();
+  }
+
+  private async load() {
+    this.body.empty().append(new RetroLoader());
+    const response = await get(
+      `get-user-info?wallet_address=${this.walletAddress}&room=${this.room}`,
+    );
+    if (response.status !== 200) {
+      console.log(await response.json());
+      return;
+    }
+    const data = await response.json();
+    this.body.empty().append(
+      el(
+        ".pfp",
+        data.pfp?.image_url
+          ? el("img", { src: data.pfp.image_url })
+          : new Jazzicon(this.walletAddress),
+        !data.pfp ? undefined : el("button", "OpenSea", {
+          click: () =>
+            window.open(
+              `https://opensea.io/assets/${data.pfp.chain}/${data.pfp.address}/${data.pfp.token_id}`,
+            ),
+        }),
+      ),
+      el(
+        ".info",
+        el(
+          "h1",
+          data.ens ? data.ens : this.walletAddress,
+        ),
+        data.ens ? el("h2", this.walletAddress) : undefined,
+        el("p", data.introduction ?? "No introduction"),
       ),
     );
   }

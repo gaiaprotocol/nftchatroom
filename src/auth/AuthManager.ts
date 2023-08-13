@@ -11,10 +11,7 @@ class AuthManager extends EventContainer {
     user?: {
       ens?: string;
       pfp?: {
-        chain: string;
-        address: string;
-        tokenId: string;
-        url: string;
+        image_url?: string;
       };
     };
   } | undefined;
@@ -22,12 +19,12 @@ class AuthManager extends EventContainer {
   public async init() {
     const token = this.store.get<string>("token");
     if (token) {
-      const reponse = await get(`check-token?token=${token}`);
-      if (reponse.status !== 200) {
-        console.log(await reponse.json());
+      const response = await get(`check-token?token=${token}`);
+      if (response.status !== 200) {
+        console.log(await response.json());
         return;
       }
-      const data = await reponse.json();
+      const data = await response.json();
       if (data.walletAddress) {
         this.signed = {
           token,
@@ -72,6 +69,18 @@ class AuthManager extends EventContainer {
       user: tokenData.user,
     };
     this.fireEvent("authChanged");
+  }
+
+  public setUserInfo(user: {
+    ens?: string;
+    pfp?: {
+      image_url?: string;
+    };
+  }) {
+    if (this.signed) {
+      this.signed.user = user;
+      this.fireEvent("authChanged");
+    }
   }
 
   public signOut() {

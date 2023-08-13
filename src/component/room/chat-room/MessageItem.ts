@@ -4,13 +4,17 @@ import OpenMoji from "../../../openmoji/OpenMoji.js";
 import UserDropdownMenu from "../../UserDropdownMenu.js";
 
 export default class MessageItem extends DomNode {
-  constructor(public message: ChatMessage) {
+  constructor(room: string, public message: ChatMessage) {
     super("li.message-item");
     this.append(
       el(
         "a.author",
-        new Jazzicon(message.author),
-        StringUtil.shortenEthereumAddress(message.author),
+        message.author_pfp?.image_url
+          ? el("img", { src: message.author_pfp.image_url })
+          : new Jazzicon(message.author),
+        message.author_ens
+          ? message.author_ens
+          : StringUtil.shortenEthereumAddress(message.author),
         ":",
         {
           click: (event) => {
@@ -19,6 +23,7 @@ export default class MessageItem extends DomNode {
               event.clientX,
               event.clientY,
               message.author,
+              room,
             );
           },
         },

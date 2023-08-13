@@ -1,4 +1,4 @@
-import { Contract } from "https://esm.sh/ethers@6.7.0";
+import { Contract, ethers } from "https://esm.sh/ethers@6.7.0";
 import ParsingNFTDataArtifact from "./abi/parsing-nft-data/ParsingNFTData.json" assert {
   type: "json",
 };
@@ -46,4 +46,23 @@ export const getBalance: (
     );
   }
   return 0;
+};
+
+export const getOwners: (
+  chain: string,
+  address: string,
+  tokenIds: bigint[],
+) => Promise<string[]> = async (
+  chain: string,
+  address: string,
+  tokenIds: bigint[],
+) => {
+  const contract = getContract(chain);
+  if (contract) {
+    return await contract.getERC721HolderList(
+      address,
+      tokenIds,
+    );
+  }
+  return tokenIds.map(() => ethers.ZeroAddress);
 };

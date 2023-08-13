@@ -4,15 +4,17 @@ import SupabaseManager from "../../../SupabaseManager.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { MessageType, UploadedFile } from "../../../datamodel/ChatMessage.js";
 import NFTCollection from "../../../datamodel/NFTCollection.js";
+import RoomProfilePopup from "../../../popup/RoomProfilePopup.js";
 import SelectEmojiPopup from "../../../popup/SelectEmojiPopup.js";
 import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
 export default class MessageInput extends DomNode {
+  private profile: { pfp?: { url: string } } | undefined;
+
   constructor(private list: MessageList) {
     super(".message-input");
     this.showMessageBox();
-    this.onDelegate(AuthManager, "authChanged", () => this.showMessageBox());
   }
 
   private showMessageBox() {
@@ -23,7 +25,7 @@ export default class MessageInput extends DomNode {
 
       this.empty().append(
         el("button.emoji", el("img", { src: "/images/chatroom/emoji.png" }), {
-          click: () => new SelectEmojiPopup(this.list),
+          click: () => new SelectEmojiPopup(this.list, this.profile),
         }),
         uploadInput = el("input.upload", {
           type: "file",
@@ -152,6 +154,7 @@ export default class MessageInput extends DomNode {
         message,
       });
       item.wait();
+
       const { data, error } = await SupabaseManager.supabase.from(
         "chat_messages",
       )
@@ -160,6 +163,8 @@ export default class MessageInput extends DomNode {
             room: this.list.roomId,
             message_type: MessageType.MESSAGE,
             message,
+            author_ens: AuthManager.signed.user?.ens,
+            author_pfp: this.profile?.pfp,
           },
         ]).select();
       if (error) {
@@ -195,6 +200,8 @@ export default class MessageInput extends DomNode {
             rich: {
               files: [file],
             },
+            author_ens: AuthManager.signed.user?.ens,
+            author_pfp: this.profile?.pfp,
           },
         ]).select();
       if (error) {
@@ -221,9 +228,38 @@ export default class MessageInput extends DomNode {
     );
   }
 
-  public setNFTOwned(b: boolean, collection?: NFTCollection) {
-    if (b || !AuthManager.signed) {
+  public setNFTOwned(
+    owned: boolean,
+    collection?: NFTCollection,
+    profile?: any,
+  ) {
+    this.profile = profile;
+
+    if (owned || !AuthManager.signed) {
       this.showMessageBox();
+    } else if (profile === undefined) {
+      this.empty().append(
+        el(
+          ".anonymous-form",
+          el("input", {
+            disabled: true,
+            placeholder: "Please set your room profile.",
+          }),
+          el("button", "Set Room Profile"),
+          {
+            click: () => {
+              if (this.list.roomId) {
+                const popup = new RoomProfilePopup(this.list.roomId);
+                popup.on(
+                  "save",
+                  (newProfile) =>
+                    this.setNFTOwned(!!newProfile.pfp, collection, newProfile),
+                );
+              }
+            },
+          },
+        ),
+      );
     } else {
       this.empty().append(
         el(
@@ -232,12 +268,13 @@ export default class MessageInput extends DomNode {
             disabled: true,
             placeholder: `You don't own ${collection?.metadata.name} NFT.`,
           }),
-          el("button", "Buy NFT", {
+          el("button", "Buy NFT"),
+          {
             click: () =>
               window.open(
                 `https://opensea.io/collection/${collection?.metadata.slug}`,
               ),
-          }),
+          },
         ),
       );
     }

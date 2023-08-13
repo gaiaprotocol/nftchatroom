@@ -31,6 +31,8 @@ export default class RoomComponent extends DomNode {
     ? false
     : this.settingStore.get("userListDeactivated") !== true;
 
+  private currentRoomId?: string;
+
   constructor() {
     super(".room");
 
@@ -86,6 +88,12 @@ export default class RoomComponent extends DomNode {
     this.toolbar.on("toggleUserList", () => {
       this.userListOpened ? this.deactivateUserList() : this.activateUserList();
     });
+
+    this.onDelegate(AuthManager, "authChanged", () => {
+      if (this.currentRoomId?.includes(":")) {
+        this.checkNFTOwned(this.currentRoomId);
+      }
+    });
   }
 
   private activateRoomList(): void {
@@ -135,6 +143,8 @@ export default class RoomComponent extends DomNode {
     const roomId = room.type === "general"
       ? room.uri
       : `${room.chain}:${room.address}`;
+    this.currentRoomId = roomId;
+
     this.userList.roomId = roomId;
     this.chatRoom.roomId = roomId;
     this.roomList.currentRoom = room;
@@ -156,6 +166,7 @@ export default class RoomComponent extends DomNode {
   private async checkNFTOwned(roomId: string) {
     this.roomTitle.text = "Loading...";
     this.chatRoom.checkingNFTOwned();
+
     const response = await get(
       AuthManager.signed
         ? `check-nft-owned?token=${AuthManager.signed.token}&room=${roomId}`
@@ -165,8 +176,13 @@ export default class RoomComponent extends DomNode {
       console.log(await response.json());
       return;
     }
+
     const data = await response.json();
-    this.chatRoom.setNFTOwned(data.owned, data.collection);
+    this.chatRoom.setNFTOwned(data.owned, data.collection, data.profile);
+    if (data.profile?.pfp) {
+      this.userList.createChannel(data.profile.pfp);
+    }
+
     if (data.collection?.metadata) {
       this.roomTitle.empty().append(
         !data.collection.metadata.image

@@ -26,9 +26,11 @@ const supabase = createClient(
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
 );
 
-export async function getOwnedNFTs(owner: string) {
+export async function getOwnedNFTs(owner: string, address?: string) {
   const result = await fetch(
-    `https://api.opensea.io/api/v1/assets?owner=${owner}&limit=200`,
+    address
+      ? `https://api.opensea.io/api/v1/assets?owner=${owner}&asset_contract_address=${address}&limit=200`
+      : `https://api.opensea.io/api/v1/assets?owner=${owner}&limit=200`,
     {
       headers: {
         "X-API-KEY": openSeaKey,

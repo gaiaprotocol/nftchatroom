@@ -26,7 +26,7 @@ export default class UserList extends DomNode {
     this.createChannel();
   }
 
-  private createChannel() {
+  public createChannel(pfp?: { url: string }) {
     if (this._channel !== undefined) {
       SupabaseManager.supabase.removeChannel(this._channel);
     }
@@ -43,9 +43,15 @@ export default class UserList extends DomNode {
         },
       );
       channel.subscribe(async (status) => {
-        if (status === "SUBSCRIBED" && AuthManager.signed) {
+        if (
+          status === "SUBSCRIBED" && AuthManager.signed && (
+            this._roomId?.includes(":") !== true || pfp !== undefined
+          )
+        ) {
           await channel.track({
+            ens: AuthManager.signed.user?.ens,
             walletAddress: AuthManager.signed.walletAddress,
+            pfp: pfp ? pfp : AuthManager.signed.user?.pfp,
             onlineAt: new Date().toISOString(),
           });
         }
@@ -68,7 +74,7 @@ export default class UserList extends DomNode {
         user[0].walletAddress &&
         !addedWalletAddresses.has(user[0].walletAddress)
       ) {
-        container.append(new UserItem(user[0] as any));
+        container.append(new UserItem(user[0] as any, this._roomId!));
         addedWalletAddresses.add(user[0].walletAddress);
       }
     }

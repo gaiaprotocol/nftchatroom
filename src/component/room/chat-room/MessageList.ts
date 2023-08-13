@@ -61,7 +61,7 @@ export default class MessageList extends DomNode {
     this.emptyMessage?.delete();
     this.emptyMessage = undefined;
 
-    const item = new MessageItem(message);
+    const item = new MessageItem(this._roomId!, message);
     this.items.push(item);
     item.on("delete", () => ArrayUtil.pull(this.items, item));
 
