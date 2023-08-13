@@ -24,6 +24,10 @@ export default class MessageList extends DomNode {
     this.createChannel();
   }
 
+  public get roomId() {
+    return this._roomId;
+  }
+
   private async loadMessages() {
     this.loading = true;
     this.items = [];
@@ -39,7 +43,10 @@ export default class MessageList extends DomNode {
     this.container = el(
       "ul.container",
       el("li.blank"),
-      this.emptyMessage = el("li.empty", "There are no messages in this room. Write the first message!"),
+      this.emptyMessage = el(
+        "li.empty",
+        "There are no messages in this room. Write the first message!",
+      ),
     ).appendTo(this);
     for (const message of data?.reverse() ?? []) {
       this.addItem(message);
@@ -51,7 +58,6 @@ export default class MessageList extends DomNode {
   }
 
   public addItem(message: ChatMessage) {
-
     this.emptyMessage?.delete();
     this.emptyMessage = undefined;
 

@@ -1,0 +1,98 @@
+.select-emoji-popup.component {
+    max-width     : 420px;
+    width         : 90%;
+    margin        : auto;
+    display       : flex;
+    flex-direction: column;
+    box-shadow    : var(--border-window-outer), var(--border-window-inner);
+    background    : var(--surface);
+    padding       : 3px;
+    min-height    : 0;
+
+    >main {
+        padding   : 8px 4px 4px 8px;
+        overflow-y: auto;
+
+        >button {
+            box-sizing   : border-box;
+            border       : none;
+            color        : transparent;
+            text-shadow  : 0 0 var(--text-color);
+            background   : var(--surface);
+            box-shadow   : var(--border-raised-outer), var(--border-raised-inner);
+            margin-right : 4px;
+            margin-bottom: 4px;
+            min-width    : 46px;
+            min-height   : 46px;
+
+            &:active:not(:disabled) {
+                box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                text-shadow: 1px 1px var(--text-color);
+            }
+
+            &:focus {
+                outline       : 1px dotted #000000;
+                outline-offset: -4px;
+            }
+
+            &:disabled {
+                color      : var(--button-shadow);
+                text-shadow: 1px 1px 0 var(--button-highlight);
+            }
+
+            &.selected {
+                box-shadow      : var(--border-sunken-outer), var(--border-sunken-inner);
+                text-shadow     : 1px 1px var(--text-color);
+                background-color: #fff;
+            }
+
+            >img {
+                display: block;
+                width  : 32px;
+                height : 32px;
+                margin : auto;
+
+                &.loading {
+                    background-image   : url("/images/loader/small-loader.gif");
+                    background-size    : 32px 32px;
+                    background-position: -2px center;
+                }
+            }
+        }
+    }
+
+    >footer {
+        padding        : 8px;
+        display        : flex;
+        justify-content: flex-end;
+        gap            : 6px;
+
+        >button {
+            box-sizing : border-box;
+            border     : none;
+            color      : transparent;
+            text-shadow: 0 0 var(--text-color);
+            background : var(--surface);
+            box-shadow : var(--border-raised-outer), var(--border-raised-inner);
+            min-width  : 75px;
+            min-height : 23px;
+            padding    : 0 12px;
+            text-align : center;
+
+            &:active:not(:disabled) {
+                box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                text-shadow: 1px 1px var(--text-color);
+            }
+
+            &:focus {
+                outline       : 1px dotted #000000;
+                outline-offset: -4px;
+            }
+
+            &:disabled {
+                color      : var(--button-shadow);
+                text-shadow: 1px 1px 0 var(--button-highlight);
+            }
+        }
+    }
+}

@@ -1,10 +1,10 @@
 import { DomNode, el, Jazzicon, StringUtil } from "common-dapp-module";
 import ChatMessage, { UploadedFile } from "../../../datamodel/ChatMessage.js";
+import OpenMoji from "../../../openmoji/OpenMoji.js";
 
 export default class MessageItem extends DomNode {
   constructor(public message: ChatMessage) {
     super("li.message-item");
-    console.log(message);
     this.append(
       el(
         "span.author",
@@ -44,7 +44,11 @@ export default class MessageItem extends DomNode {
     if (rich.emojis) {
       return el(
         "div.emojis",
-        ...rich.emojis.map((emoji) => el("span.emoji", emoji)),
+        ...rich.emojis.map((emoji) =>
+          el("img.emoji", {
+            src: OpenMoji.getEmojiURL(emoji.substring(emoji.indexOf(":") + 1)),
+          })
+        ),
       );
     }
     return undefined;

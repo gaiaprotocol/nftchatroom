@@ -4,12 +4,11 @@ import SupabaseManager from "../../../SupabaseManager.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { MessageType, UploadedFile } from "../../../datamodel/ChatMessage.js";
 import NFTCollection from "../../../datamodel/NFTCollection.js";
+import SelectEmojiPopup from "../../../popup/SelectEmojiPopup.js";
 import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
 export default class MessageInput extends DomNode {
-  public roomId: string | undefined;
-
   constructor(private list: MessageList) {
     super(".message-input");
     this.showMessageBox();
@@ -28,6 +27,7 @@ export default class MessageInput extends DomNode {
           el("button.emoji", el("img", { src: "/images/chatroom/emoji.png" }), {
             click: (event) => {
               event.preventDefault();
+              new SelectEmojiPopup(this.list);
             },
           }),
           uploadInput = el("input.upload", {
@@ -152,7 +152,7 @@ export default class MessageInput extends DomNode {
   }
 
   private async sendMessage(message: string) {
-    if (this.roomId && AuthManager.signed) {
+    if (this.list.roomId && AuthManager.signed) {
       const item = this.list.addItem({
         id: -1,
         author: AuthManager.signed.walletAddress,
@@ -165,7 +165,7 @@ export default class MessageInput extends DomNode {
       )
         .insert([
           {
-            room: this.roomId,
+            room: this.list.roomId,
             message_type: MessageType.MESSAGE,
             message,
           },
@@ -183,7 +183,7 @@ export default class MessageInput extends DomNode {
   }
 
   private async sendFile(file: UploadedFile) {
-    if (this.roomId && AuthManager.signed) {
+    if (this.list.roomId && AuthManager.signed) {
       const item = this.list.addItem({
         id: -1,
         author: AuthManager.signed.walletAddress,
@@ -198,7 +198,7 @@ export default class MessageInput extends DomNode {
       )
         .insert([
           {
-            room: this.roomId,
+            room: this.list.roomId,
             message_type: MessageType.FILE_UPLOAD,
             rich: {
               files: [file],

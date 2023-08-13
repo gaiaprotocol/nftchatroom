@@ -502,6 +502,91 @@ img {
   color: var(--button-shadow);
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
+.select-emoji-popup.component {
+  max-width: 420px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+  min-height: 0;
+}
+.select-emoji-popup.component > main {
+  padding: 8px 4px 4px 8px;
+  overflow-y: auto;
+}
+.select-emoji-popup.component > main > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  margin-right: 4px;
+  margin-bottom: 4px;
+  min-width: 46px;
+  min-height: 46px;
+}
+.select-emoji-popup.component > main > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.select-emoji-popup.component > main > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.select-emoji-popup.component > main > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.select-emoji-popup.component > main > button.selected {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+  background-color: #fff;
+}
+.select-emoji-popup.component > main > button > img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: auto;
+}
+.select-emoji-popup.component > main > button > img.loading {
+  background-image: url("/images/loader/small-loader.gif");
+  background-size: 32px 32px;
+  background-position: -2px center;
+}
+.select-emoji-popup.component > footer {
+  padding: 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.select-emoji-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.select-emoji-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.select-emoji-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.select-emoji-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
 .room {
   height: 100%;
   display: flex;
@@ -847,6 +932,10 @@ img {
 }
 .message-item > .files > .file > a:focus {
   outline: 1px dotted var(--link-blue);
+}
+.message-item > .emojis > .emoji {
+  width: 32px;
+  height: 32px;
 }
 .message-item.wait > .message {
   color: #999;
