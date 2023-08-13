@@ -48,7 +48,9 @@ CREATE TABLE "public"."chat_messages" (
     "author" "text" DEFAULT ("auth"."jwt"() ->> 'wallet_address'::"text") NOT NULL,
     "message" "text",
     "message_type" smallint DEFAULT '0'::smallint NOT NULL,
-    "rich" "json",
+    "rich" "jsonb",
+    "auther_ens" "text" DEFAULT ''::"text",
+    "author_pfp" "jsonb",
     CONSTRAINT "chat_messages_message_check" CHECK (("length"("message") > 0))
 );
 
@@ -82,7 +84,7 @@ ALTER TABLE "public"."favorite_rooms" OWNER TO "postgres";
 CREATE TABLE "public"."nft_collections" (
     "chain" "text" NOT NULL,
     "address" "text" NOT NULL,
-    "metadata" "json" DEFAULT '{}'::"json" NOT NULL,
+    "metadata" "jsonb" NOT NULL,
     "editors" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
@@ -100,7 +102,7 @@ ALTER TABLE "public"."nonce" OWNER TO "postgres";
 CREATE TABLE "public"."room_profiles" (
     "wallet_address" "text" DEFAULT ("auth"."jwt"() ->> 'wallet_address'::"text") NOT NULL,
     "room" "text" NOT NULL,
-    "pfp" "json",
+    "pfp" "jsonb",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
@@ -109,7 +111,7 @@ ALTER TABLE "public"."room_profiles" OWNER TO "postgres";
 CREATE TABLE "public"."user_details" (
     "wallet_address" "text" DEFAULT ("auth"."jwt"() ->> 'wallet_address'::"text") NOT NULL,
     "ens" "text",
-    "pfp" "json",
+    "pfp" "jsonb",
     "introduction" "text",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "ens_updated_at" timestamp with time zone,
@@ -123,7 +125,8 @@ CREATE TABLE "public"."user_nft_ownership" (
     "nft" "text" NOT NULL,
     "owned" boolean NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
+    "updated_at" timestamp with time zone,
+    "token_id" "text" NOT NULL
 );
 
 ALTER TABLE "public"."user_nft_ownership" OWNER TO "postgres";
@@ -150,7 +153,7 @@ ALTER TABLE ONLY "public"."user_details"
     ADD CONSTRAINT "user_details_pkey" PRIMARY KEY ("wallet_address");
 
 ALTER TABLE ONLY "public"."user_nft_ownership"
-    ADD CONSTRAINT "user_nft_ownership_pkey" PRIMARY KEY ("wallet_address", "nft");
+    ADD CONSTRAINT "user_nft_ownership_pkey" PRIMARY KEY ("wallet_address", "nft", "token_id");
 
 CREATE TRIGGER "increment_today_message_count" AFTER INSERT ON "public"."chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."increment_today_message_count"();
 
@@ -170,9 +173,9 @@ ALTER TABLE "public"."daily_message_analysis" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."favorite_rooms" ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "insert" ON "public"."user_details" FOR INSERT WITH CHECK ((("ens" = NULL::"text") AND ("json_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address")));
+CREATE POLICY "insert" ON "public"."user_details" FOR INSERT WITH CHECK ((("ens" = NULL::"text") AND ("jsonb_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address")));
 
-CREATE POLICY "new message" ON "public"."chat_messages" FOR INSERT WITH CHECK (((("length"("message") > 0) OR ("json_typeof"("rich") <> 'null'::"text")) AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "author") AND ((NOT (POSITION((':'::"text") IN ("room")) > 0)) OR (( SELECT "user_nft_ownership"."owned"
+CREATE POLICY "new message" ON "public"."chat_messages" FOR INSERT WITH CHECK (((("length"("message") > 0) OR ("jsonb_typeof"("rich") <> 'null'::"text")) AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "author") AND ((NOT (POSITION((':'::"text") IN ("room")) > 0)) OR (( SELECT "user_nft_ownership"."owned"
    FROM "public"."user_nft_ownership"
   WHERE (("user_nft_ownership"."wallet_address" = ("auth"."jwt"() ->> 'wallet_address'::"text")) AND ("user_nft_ownership"."nft" = "chat_messages"."room"))
  LIMIT 1) = true))));
@@ -183,7 +186,7 @@ ALTER TABLE "public"."nonce" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."room_profiles" ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "update" ON "public"."user_details" FOR UPDATE USING ((("ens" = NULL::"text") AND ("json_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address"))) WITH CHECK ((("ens" = NULL::"text") AND ("json_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address")));
+CREATE POLICY "update" ON "public"."user_details" FOR UPDATE USING ((("ens" = NULL::"text") AND ("jsonb_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address"))) WITH CHECK ((("ens" = NULL::"text") AND ("jsonb_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address")));
 
 ALTER TABLE "public"."user_details" ENABLE ROW LEVEL SECURITY;
 
