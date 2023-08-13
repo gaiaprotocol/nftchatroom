@@ -17,6 +17,13 @@
             align-items   : center;
             padding-bottom: 6px;
 
+            @media @phone {
+                white-space  : nowrap;
+                text-overflow: ellipsis;
+                overflow     : hidden;
+                max-width    : 120px;
+            }
+
             >img {
                 height: 16px;
             }
