@@ -203,6 +203,60 @@ img {
   overflow-y: scroll;
   padding: 20px 0;
 }
+.alert.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.alert.component > h1 {
+  display: flex;
+  padding: 3px 2px 3px 3px;
+  background: linear-gradient(90deg, navy, #1084d0);
+  align-items: center;
+  flex-grow: 1;
+  color: #fff;
+  font-weight: bold;
+}
+.alert.component > p {
+  padding: 8px;
+  line-height: 1.5em;
+}
+.alert.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.alert.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.alert.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.alert.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.alert.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
 .title-bar.retro-component {
   display: flex;
   padding: 3px 2px 3px 3px;
@@ -514,15 +568,50 @@ img {
   gap: 8px;
   align-items: start;
 }
-.my-info-popup.component > main > img {
+.my-info-popup.component > main > .pfp {
+  display: flex;
+  flex-direction: column;
   width: 80px;
 }
-.my-info-popup.component > main > p {
-  padding: 8px 0 8px 8px;
+.my-info-popup.component > main > .pfp > img {
+  width: 80px;
+  height: 80px;
+}
+.my-info-popup.component > main > .pfp > button {
+  margin-top: 8px;
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.my-info-popup.component > main > .pfp > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.my-info-popup.component > main > .pfp > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.my-info-popup.component > main > .pfp > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.my-info-popup.component > main > .info {
+  padding: 0 0 8px 8px;
   border: solid transparent;
   border-width: 0 0 0 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
+  min-height: 110px;
+}
+.my-info-popup.component > main > .info > h1 {
+  font-weight: bold;
 }
 .my-info-popup.component > footer {
   padding: 0 8px 8px 8px;
@@ -571,15 +660,69 @@ img {
   gap: 8px;
   align-items: start;
 }
-.edit-my-info-popup.component > main > img {
+.edit-my-info-popup.component > main > .pfp {
+  display: flex;
+  flex-direction: column;
   width: 80px;
 }
-.edit-my-info-popup.component > main > p {
-  padding: 8px 0 8px 8px;
+.edit-my-info-popup.component > main > .pfp > .image-wrapper > img {
+  width: 80px;
+  height: 80px;
+}
+.edit-my-info-popup.component > main > .pfp > button {
+  margin-top: 8px;
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.edit-my-info-popup.component > main > .pfp > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.edit-my-info-popup.component > main > .pfp > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.edit-my-info-popup.component > main > .pfp > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.edit-my-info-popup.component > main > .info {
+  flex-grow: 1;
+  padding: 0 0 8px 8px;
   border: solid transparent;
   border-width: 0 0 0 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+}
+.edit-my-info-popup.component > main > .info > h1 {
+  font-weight: bold;
+}
+.edit-my-info-popup.component > main > .info > textarea {
+  flex-grow: 1;
+  padding: 3px 4px;
+  border: none;
+  box-shadow: var(--border-field);
+  background-color: var(--button-highlight);
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  width: 100%;
+}
+.edit-my-info-popup.component > main > .info > textarea::placeholder {
+  opacity: 0.5;
 }
 .edit-my-info-popup.component > footer {
   padding: 0 8px 8px 8px;
@@ -621,22 +764,51 @@ img {
   box-shadow: var(--border-window-outer), var(--border-window-inner);
   background: var(--surface);
   padding: 3px;
+  min-height: 0;
 }
 .select-pfp-popup.component > main {
-  display: flex;
-  padding: 8px;
-  gap: 8px;
-  align-items: start;
+  padding: 8px 4px 4px 8px;
+  overflow-y: auto;
 }
-.select-pfp-popup.component > main > img {
-  width: 80px;
+.select-pfp-popup.component > main > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  margin-right: 4px;
+  margin-bottom: 4px;
+  min-width: 46px;
+  min-height: 46px;
 }
-.select-pfp-popup.component > main > p {
-  padding: 8px 0 8px 8px;
-  border: solid transparent;
-  border-width: 0 0 0 2px;
-  border-image: url("/icon/groupbox-border.svg") 2 repeat;
-  line-height: 1.5em;
+.select-pfp-popup.component > main > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.select-pfp-popup.component > main > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.select-pfp-popup.component > main > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.select-pfp-popup.component > main > button.selected {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+  background-color: #fff;
+}
+.select-pfp-popup.component > main > button > img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: auto;
+}
+.select-pfp-popup.component > main > button > img.loading {
+  background-image: url("/images/loader/small-loader.gif");
+  background-size: 32px 32px;
+  background-position: -2px center;
 }
 .select-pfp-popup.component > footer {
   padding: 0 8px 8px 8px;
@@ -685,15 +857,60 @@ img {
   gap: 8px;
   align-items: start;
 }
-.room-profile-popup.component > main > img {
+.room-profile-popup.component > main > .pfp {
+  display: flex;
+  flex-direction: column;
   width: 80px;
 }
-.room-profile-popup.component > main > p {
-  padding: 8px 0 8px 8px;
+.room-profile-popup.component > main > .pfp > .image-wrapper > img {
+  width: 80px;
+  height: 80px;
+}
+.room-profile-popup.component > main > .pfp > button,
+.room-profile-popup.component > main > .pfp > .image-wrapper > .no-pfp {
+  margin-top: 8px;
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.room-profile-popup.component > main > .pfp > button:active:not(:disabled),
+.room-profile-popup.component > main > .pfp > .image-wrapper > .no-pfp:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.room-profile-popup.component > main > .pfp > button:focus,
+.room-profile-popup.component > main > .pfp > .image-wrapper > .no-pfp:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.room-profile-popup.component > main > .pfp > button:disabled,
+.room-profile-popup.component > main > .pfp > .image-wrapper > .no-pfp:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.room-profile-popup.component > main > .pfp > .image-wrapper > .no-pfp {
+  margin-top: 0;
+  width: 80px;
+  height: 80px;
+  padding: 0;
+}
+.room-profile-popup.component > main > .info {
+  padding: 0 0 8px 8px;
   border: solid transparent;
   border-width: 0 0 0 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
+  min-height: 110px;
+}
+.room-profile-popup.component > main > .info > h1 {
+  font-weight: bold;
 }
 .room-profile-popup.component > footer {
   padding: 0 8px 8px 8px;
@@ -742,15 +959,50 @@ img {
   gap: 8px;
   align-items: start;
 }
-.user-info-popup.component > main > img {
+.user-info-popup.component > main > .pfp {
+  display: flex;
+  flex-direction: column;
   width: 80px;
 }
-.user-info-popup.component > main > p {
-  padding: 8px 0 8px 8px;
+.user-info-popup.component > main > .pfp > img {
+  width: 80px;
+  height: 80px;
+}
+.user-info-popup.component > main > .pfp > button {
+  margin-top: 8px;
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.user-info-popup.component > main > .pfp > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.user-info-popup.component > main > .pfp > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.user-info-popup.component > main > .pfp > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.user-info-popup.component > main > .info {
+  padding: 0 0 8px 8px;
   border: solid transparent;
   border-width: 0 0 0 2px;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
+  min-height: 110px;
+}
+.user-info-popup.component > main > .info > h1 {
+  font-weight: bold;
 }
 .user-info-popup.component > footer {
   padding: 0 8px 8px 8px;
