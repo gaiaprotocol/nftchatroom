@@ -335,6 +335,41 @@ img {
 .room-view {
   height: 100%;
 }
+@keyframes loading {
+  0% {
+    background-position-x: -512px;
+  }
+  100% {
+    background-position-x: 512px;
+  }
+}
+.booting-popup.component {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/images/booting-background.jpg");
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.booting-popup.component > .logo {
+  width: 50%;
+  max-width: 325px;
+}
+.booting-popup.component > .loading-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(0.25turn, transparent, #4d7fbe 45% 55%, transparent);
+  animation: loading steps(16) 2s infinite;
+}
 .about-popup.component {
   max-width: 440px;
   width: 90%;
@@ -516,6 +551,63 @@ img {
   outline-offset: -4px;
 }
 .my-info-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.user-info-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.user-info-popup.component > main {
+  display: flex;
+  padding: 8px;
+  gap: 8px;
+  align-items: start;
+}
+.user-info-popup.component > main > img {
+  width: 80px;
+}
+.user-info-popup.component > main > p {
+  padding: 8px 0 8px 8px;
+  border: solid transparent;
+  border-width: 0 0 0 2px;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+  line-height: 1.5em;
+}
+.user-info-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.user-info-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.user-info-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.user-info-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.user-info-popup.component > footer > button:disabled {
   color: var(--button-shadow);
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
@@ -829,9 +921,47 @@ img {
 .chat-room > .message-input {
   padding: 8px;
   padding-top: 0;
+  display: flex;
+  gap: 8px;
+}
+.chat-room > .message-input > input.upload {
+  display: none;
+}
+.chat-room > .message-input > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  border-radius: 0;
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.chat-room > .message-input > button:active {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.chat-room > .message-input > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.chat-room > .message-input > button.emoji,
+.chat-room > .message-input > button.upload {
+  min-width: 23px;
+  padding: 0;
+}
+.chat-room > .message-input > button.emoji > img,
+.chat-room > .message-input > button.upload > img {
+  display: block;
+  margin: auto;
+  height: 16px;
 }
 .chat-room > .message-input > form,
 .chat-room > .message-input > .anonymous-form {
+  flex-grow: 1;
   gap: 8px;
   display: flex;
 }
@@ -857,10 +987,6 @@ img {
 .chat-room > .message-input > .anonymous-form > input:disabled {
   background-color: var(--surface);
 }
-.chat-room > .message-input > form > input.upload,
-.chat-room > .message-input > .anonymous-form > input.upload {
-  display: none;
-}
 .chat-room > .message-input > form > button,
 .chat-room > .message-input > .anonymous-form > button {
   box-sizing: border-box;
@@ -884,21 +1010,6 @@ img {
 .chat-room > .message-input > .anonymous-form > button:focus {
   outline: 1px dotted #000000;
   outline-offset: -4px;
-}
-.chat-room > .message-input > form > button.emoji,
-.chat-room > .message-input > .anonymous-form > button.emoji,
-.chat-room > .message-input > form > button.upload,
-.chat-room > .message-input > .anonymous-form > button.upload {
-  min-width: 23px;
-  padding: 0;
-}
-.chat-room > .message-input > form > button.emoji > img,
-.chat-room > .message-input > .anonymous-form > button.emoji > img,
-.chat-room > .message-input > form > button.upload > img,
-.chat-room > .message-input > .anonymous-form > button.upload > img {
-  display: block;
-  margin: auto;
-  height: 16px;
 }
 .message-list {
   flex-grow: 1;

@@ -7,11 +7,54 @@
     >.message-input {
         padding    : 8px;
         padding-top: 0;
+        display    : flex;
+        gap        : 8px;
+
+        >input.upload {
+            display: none;
+        }
+
+        >button {
+            box-sizing   : border-box;
+            border       : none;
+            color        : transparent;
+            text-shadow  : 0 0 var(--text-color);
+            background   : var(--surface);
+            box-shadow   : var(--border-raised-outer), var(--border-raised-inner);
+            border-radius: 0;
+            min-width    : 75px;
+            min-height   : 23px;
+            padding      : 0 12px;
+            text-align   : center;
+
+            &:active {
+                box-shadow : var(--border-sunken-outer), var(--border-sunken-inner);
+                text-shadow: 1px 1px var(--text-color);
+            }
+
+            &:focus {
+                outline       : 1px dotted #000000;
+                outline-offset: -4px;
+            }
+
+            &.emoji,
+            &.upload {
+                min-width: 23px;
+                padding  : 0;
+
+                >img {
+                    display: block;
+                    margin : auto;
+                    height : 16px;
+                }
+            }
+        }
 
         >form,
         >.anonymous-form {
-            gap    : 8px;
-            display: flex;
+            flex-grow: 1;
+            gap      : 8px;
+            display  : flex;
 
             >input {
                 flex-grow         : 1;
@@ -32,10 +75,6 @@
 
                 &:disabled {
                     background-color: var(--surface);
-                }
-
-                &.upload {
-                    display: none;
                 }
             }
 
@@ -60,18 +99,6 @@
                 &:focus {
                     outline       : 1px dotted #000000;
                     outline-offset: -4px;
-                }
-
-                &.emoji,
-                &.upload {
-                    min-width: 23px;
-                    padding  : 0;
-
-                    >img {
-                        display: block;
-                        margin : auto;
-                        height : 16px;
-                    }
                 }
             }
         }

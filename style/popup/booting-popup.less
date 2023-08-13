@@ -1,0 +1,43 @@
+@keyframes loading {
+    0% {
+        background-position-x: -512px;
+    }
+
+    100% {
+        background-position-x: 512px;
+    }
+}
+
+.booting-popup.component {
+    position           : fixed;
+    left               : 0;
+    top                : 0;
+    width              : 100%;
+    height             : 100%;
+    background-image   : url("/images/booting-background.jpg");
+    background-size    : cover;
+    background-position: center center;
+    display            : flex;
+    flex-direction     : column;
+    justify-content    : center;
+    align-items        : center;
+
+    >.logo {
+        width    : 50%;
+        max-width: 325px;
+    }
+
+    >.loading-bar {
+        position: absolute;
+        left    : 0;
+        bottom  : 0;
+        width   : 100%;
+        height  : 12px;
+        background: linear-gradient(0.25turn,
+                transparent,
+                #4d7fbe 45% 55%,
+                transparent);
+
+        animation: loading steps(16) 2s infinite;
+    }
+}
