@@ -137,9 +137,10 @@ export default class MessageInput extends DomNode {
             disabled: true,
             placeholder: "Please connect wallet to send message.",
           }),
-          el("button", "Connect Wallet", {
+          el("button", "Connect Wallet"),
+          {
             click: () => new SignInPopup(),
-          }),
+          },
         ),
       );
     }
