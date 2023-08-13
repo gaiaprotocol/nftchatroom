@@ -1654,11 +1654,13 @@ img {
   outline: 1px dotted #000000;
   outline-offset: -4px;
 }
+.chat-room > .message-input > button.room-profile,
 .chat-room > .message-input > button.emoji,
 .chat-room > .message-input > button.upload {
   min-width: 23px;
   padding: 0;
 }
+.chat-room > .message-input > button.room-profile > img,
 .chat-room > .message-input > button.emoji > img,
 .chat-room > .message-input > button.upload > img {
   display: block;
