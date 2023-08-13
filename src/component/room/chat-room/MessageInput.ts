@@ -264,8 +264,10 @@ export default class MessageInput extends DomNode {
                 const popup = new RoomProfilePopup(this.list.roomId);
                 popup.on(
                   "save",
-                  (newProfile) =>
-                    this.setNFTOwned(!!newProfile.pfp, collection, newProfile),
+                  (newProfile) => {
+                    this.setNFTOwned(!!newProfile.pfp, collection, newProfile);
+                    this.fireEvent("saveRoomProfile", newProfile);
+                  },
                 );
               }
             },

@@ -89,6 +89,8 @@ export default class RoomComponent extends DomNode {
       this.userListOpened ? this.deactivateUserList() : this.activateUserList();
     });
 
+    this.chatRoom.on("saveRoomProfile", (roomProfile) => this.userList.createChannel(roomProfile.pfp));
+
     this.onDelegate(AuthManager, "authChanged", () => {
       if (this.currentRoomId?.includes(":")) {
         this.checkNFTOwned(this.currentRoomId);

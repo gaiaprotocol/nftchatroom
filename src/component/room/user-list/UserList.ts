@@ -26,7 +26,7 @@ export default class UserList extends DomNode {
     this.createChannel();
   }
 
-  public createChannel(pfp?: { url: string }) {
+  public createChannel(pfp?: { image_url?: string }) {
     if (this._channel !== undefined) {
       SupabaseManager.supabase.removeChannel(this._channel);
     }

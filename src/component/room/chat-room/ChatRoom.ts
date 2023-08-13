@@ -15,6 +15,11 @@ export default class ChatRoom extends DomNode {
       this.messageList = new MessageList(),
       this.messageInput = new MessageInput(this.messageList),
     );
+
+    this.messageInput.on(
+      "saveRoomProfile",
+      (roomProfile) => this.fireEvent("saveRoomProfile", roomProfile),
+    );
   }
 
   public set roomId(roomId: string | undefined) {
