@@ -11,3 +11,7 @@ export interface NFTRoom extends NFTCollection {
 }
 
 export type Room = GeneralRoom | NFTRoom;
+
+export function getRoomId(room: Room) {
+  return room.type === "general" ? room.uri : `${room.chain}:${room.address}`;
+}

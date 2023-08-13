@@ -4,27 +4,71 @@
     margin        : auto;
     display       : flex;
     flex-direction: column;
-    overflow-y    : auto;
     box-shadow    : var(--border-window-outer), var(--border-window-inner);
     background    : var(--surface);
     padding       : 3px;
+    min-height    : 0;
 
     >main {
-        display    : flex;
-        padding    : 8px;
-        gap        : 8px;
-        align-items: start;
+        display       : flex;
+        flex-direction: column;
+        padding       : 8px;
+        gap           : 6px;
+        overflow-y    : auto;
 
-        >img {
-            width: 80px;
+        >.field {
+            display       : flex;
+            flex-direction: column;
+            gap           : 6px;
+            align-items   : flex-start;
+
+            >select {
+                padding            : 3px 4px;
+                border             : none;
+                box-shadow         : var(--border-field);
+                background-color   : var(--button-highlight);
+                box-sizing         : border-box;
+                border-radius      : 0;
+                height             : 21px;
+                appearance         : none;
+                -webkit-appearance : none;
+                -moz-appearance    : none;
+                position           : relative;
+                padding-right      : 32px;
+                background-image   : url("/icon/button-down.svg");
+                background-position: top 2px right 2px;
+                background-repeat  : no-repeat;
+                border-radius      : 0;
+            }
+
+            >input {
+                padding           : 3px 4px;
+                border            : none;
+                box-shadow        : var(--border-field);
+                background-color  : var(--button-highlight);
+                box-sizing        : border-box;
+                -webkit-appearance: none;
+                -moz-appearance   : none;
+                appearance        : none;
+                border-radius     : 0;
+                width             : 100%;
+            }
         }
 
-        >p {
-            padding     : 8px 0 8px 8px;
-            border      : solid transparent;
-            border-width: 0 0 0 2px;
-            border-image: url("/icon/groupbox-border.svg") 2 repeat;
-            line-height : 1.5em;
+        >.info {
+            box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+            padding   : 2px;
+
+            &:empty:before {
+                display: block;
+                padding: 2px;
+                content: "No information available";
+            }
+
+            >.loading {
+                display: block;
+                padding: 2px;
+            }
         }
     }
 

@@ -21,7 +21,13 @@ export default class DocsPopup extends Popup {
             click: () => this.delete(),
           }],
         }),
-        el("main"),
+        el(
+          "header",
+          el("button", "New Window", {
+            click: () => window.open("http://docs.nftchatroom.com/"),
+          }),
+        ),
+        el("iframe", { src: "http://docs.nftchatroom.com/" }),
       ),
     );
   }

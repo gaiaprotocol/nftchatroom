@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.31.0";
 import { verify } from "https://esm.sh/jsonwebtoken@8.5.1";
-import { response, serveWithOptions } from "../_shared/cors.ts";
+import { response, responseError, serveWithOptions } from "../_shared/cors.ts";
+import general_rooms from "../_shared/general_rooms.ts";
 import {
   getCollectionInfo,
   getOwnedNFTCollections,
@@ -90,6 +91,38 @@ serveWithOptions(async (req) => {
     ) as any)?.wallet_address;
 
     if (walletAddress) {
+      const { data: selectData, error: selectError } = await supabase
+        .from("favorite_rooms")
+        .select()
+        .eq("wallet_address", walletAddress);
+      if (selectError) {
+        return responseError(selectError);
+      }
+
+      for (const room of selectData[0]?.rooms ?? []) {
+        if (room.includes(":")) {
+          const [chain, address] = room.split(":");
+          const collection = await getCollectionInfo(chain, address);
+          if (collection) {
+            rooms.favorites.push({
+              type: "nft",
+              chain,
+              address,
+              metadata: collection.metadata,
+            });
+          }
+        } else {
+          const roomInfo = general_rooms[room];
+          if (roomInfo) {
+            rooms.favorites.push({
+              type: "general",
+              name: roomInfo.name,
+              uri: room,
+            });
+          }
+        }
+      }
+
       const collections = await getOwnedNFTCollections(walletAddress);
       rooms.owned = collections.map((collection) => ({
         type: "nft",

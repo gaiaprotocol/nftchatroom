@@ -2,9 +2,10 @@ import { DomNode, el, RetroLoader } from "common-dapp-module";
 import { get } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../datamodel/Room.js";
+import FavoriteManager from "../../../FavoriteManager.js";
+import AddFavoritePopup from "../../../popup/AddFavoritePopup.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
-import AddFavoritePopup from "../../../popup/AddFavoritePopup.js";
 
 export default class RoomList extends DomNode {
   private _currentRoom?: Room;
@@ -16,6 +17,37 @@ export default class RoomList extends DomNode {
     super(".room-list");
     this.loadRooms();
     this.onDelegate(AuthManager, "authChanged", () => this.loadRooms());
+    this.onDelegate(
+      FavoriteManager,
+      "add",
+      (room: Room) => {
+        const item = this.categories.find((c) => c.category === "favorites")
+          ?.add(room);
+        if (item) {
+          if (
+            this._currentRoom?.type === room.type && ((
+              room.type === "general" &&
+              room.uri === (this._currentRoom as any).uri
+            ) || (
+              room.type === "nft" &&
+              room.chain === (this._currentRoom as any).chain &&
+              room.address === (this._currentRoom as any).address
+            ))
+          ) {
+            item.active();
+            this.currentRoomItems.push(item);
+          }
+        }
+      },
+    );
+    this.onDelegate(
+      FavoriteManager,
+      "remove",
+      (roomId: string) =>
+        this.categories.find((c) => c.category === "favorites")?.remove(
+          roomId,
+        ),
+    );
   }
 
   public active(): void {
@@ -28,6 +60,7 @@ export default class RoomList extends DomNode {
 
   private async loadRooms(): Promise<void> {
     this.categories = [];
+    FavoriteManager.clear();
 
     this.empty().append(new RetroLoader());
     const roomsResponse = await get(
@@ -46,6 +79,12 @@ export default class RoomList extends DomNode {
       );
       categoryNode.on("select", () => this.fireEvent("select"));
       this.categories.push(categoryNode);
+
+      if (category === "favorites") {
+        for (const room of rooms) {
+          FavoriteManager.add(room);
+        }
+      }
     }
 
     if (this._currentRoom) {

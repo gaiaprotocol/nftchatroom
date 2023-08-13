@@ -6,7 +6,7 @@ import { Room } from "../../datamodel/Room.js";
 import ChatRoom from "./chat-room/ChatRoom.js";
 import FavoriteButton from "./chat-room/FavoriteButton.js";
 import RoomList from "./room-list/RoomList.js";
-import RoomInfoComponent from "./RoomInfoComponent.js";
+import RoomInfoTab from "./RoomInfoTab.js";
 import Tabs from "./tab/Tabs.js";
 import Toolbar from "./toolbar/Toolbar.js";
 import UserList from "./user-list/UserList.js";
@@ -19,7 +19,7 @@ export default class RoomComponent extends DomNode {
   private header: DomNode;
   private roomTitle: DomNode;
   private favoriteButton: FavoriteButton | undefined;
-  private info: RoomInfoComponent;
+  private info: RoomInfoTab;
   private chatRoom: ChatRoom;
   private userList: UserList;
 
@@ -50,7 +50,7 @@ export default class RoomComponent extends DomNode {
               { id: "chat", label: "ChatRoom" },
             ]),
           ),
-          this.info = new RoomInfoComponent(),
+          this.info = new RoomInfoTab(),
           this.chatRoom = new ChatRoom(),
         ),
         this.userList = new UserList(),
@@ -156,16 +156,16 @@ export default class RoomComponent extends DomNode {
   private async checkNFTOwned(roomId: string) {
     this.roomTitle.text = "Loading...";
     this.chatRoom.checkingNFTOwned();
-    const reponse = await get(
+    const response = await get(
       AuthManager.signed
         ? `check-nft-owned?token=${AuthManager.signed.token}&room=${roomId}`
         : `check-nft-owned?room=${roomId}`,
     );
-    if (reponse.status !== 200) {
-      console.log(await reponse.json());
+    if (response.status !== 200) {
+      console.log(await response.json());
       return;
     }
-    const data = await reponse.json();
+    const data = await response.json();
     this.chatRoom.setNFTOwned(data.owned, data.collection);
     if (data.collection?.metadata) {
       this.roomTitle.empty().append(
@@ -179,13 +179,8 @@ export default class RoomComponent extends DomNode {
       type: "nft",
       ...data.collection,
     };
-  }
-
-  private async addRoomToFavorite(roomId: string) {
-    //TODO:
-  }
-
-  private async removeRoomFromFavorite(roomId: string) {
-    //TODO:
+    if (this.favoriteButton) {
+      this.favoriteButton.room = this.info.room;
+    }
   }
 }

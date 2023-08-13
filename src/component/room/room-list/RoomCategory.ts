@@ -1,29 +1,29 @@
-import { DomNode, el, StringUtil } from "common-dapp-module";
+import { ArrayUtil, DomNode, el, StringUtil } from "common-dapp-module";
 import AuthManager from "../../../auth/AuthManager.js";
+import { getRoomId, Room } from "../../../datamodel/Room.js";
 import SignInPopup from "../../../popup/SignInPopup.js";
-import { Room } from "../../../datamodel/Room.js";
 import RoomItem from "./RoomItem.js";
 
 export default class RoomCategory extends DomNode {
+  private list: DomNode;
   public items: RoomItem[] = [];
 
-  constructor(category: string, rooms: Room[]) {
+  constructor(public category: string, rooms: Room[]) {
     super("li.room-category");
 
     const details = el("details", { open: "open" }).appendTo(this);
     details.append(el("summary", StringUtil.toTitleCase(category)));
 
-    const list = el("ul").appendTo(details);
+    this.list = el("ul").appendTo(details);
     for (const room of rooms) {
-      const item = new RoomItem(room).appendTo(list);
-      item.on("select", () => this.fireEvent("select"));
-      this.items.push(item);
+      this.add(room);
     }
+
     if (
       AuthManager.signed === undefined &&
       (category === "favorites" || category === "owned")
     ) {
-      list.append(
+      this.list.append(
         el(
           "li",
           el("a", "Connect Wallet...", {
@@ -31,6 +31,26 @@ export default class RoomCategory extends DomNode {
           }),
         ),
       );
+    }
+  }
+
+  public add(room: Room) {
+    const item = this.items.find((item) =>
+      getRoomId(item.room) === getRoomId(room)
+    );
+    if (!item) {
+      const item = new RoomItem(room).appendTo(this.list);
+      item.on("select", () => this.fireEvent("select"));
+      this.items.push(item);
+      return item;
+    }
+  }
+
+  public remove(roomId: string): void {
+    const item = this.items.find((item) => getRoomId(item.room) === roomId);
+    if (item) {
+      item.delete();
+      ArrayUtil.pull(this.items, item);
     }
   }
 }

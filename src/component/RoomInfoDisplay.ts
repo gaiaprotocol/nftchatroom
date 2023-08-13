@@ -1,22 +1,10 @@
 import { DomNode, el } from "common-dapp-module";
-import Constants from "../../Constants.js";
-import { Room } from "../../datamodel/Room.js";
+import Constants from "../Constants.js";
+import { Room } from "../datamodel/Room.js";
 
-export default class RoomInfoComponent extends DomNode {
-  constructor() {
+export default class RoomInfoDisplay extends DomNode {
+  constructor(room: Room) {
     super(".room-info");
-  }
-
-  public active(): void {
-    this.addClass("active");
-  }
-
-  public inactive(): void {
-    this.deleteClass("active");
-  }
-
-  public set room(room: Room) {
-    this.empty();
     if (room.type === "general") {
       const roomInfo = Constants.GENERAL_ROOMS[room.uri];
       if (roomInfo) {
