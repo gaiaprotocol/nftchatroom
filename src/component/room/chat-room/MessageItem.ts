@@ -1,9 +1,10 @@
 import { DomNode, el, Jazzicon, StringUtil } from "common-dapp-module";
-import ChatMessage from "../../../datamodel/ChatMessage.js";
+import ChatMessage, { UploadedFile } from "../../../datamodel/ChatMessage.js";
 
 export default class MessageItem extends DomNode {
   constructor(public message: ChatMessage) {
     super("li.message-item");
+    console.log(message);
     this.append(
       el(
         "span.author",
@@ -11,8 +12,42 @@ export default class MessageItem extends DomNode {
         StringUtil.shortenEthereumAddress(message.author),
         ":",
       ),
-      el("span.message", message.message),
+      !message.message ? undefined : el("span.message", message.message),
+      !message.rich ? undefined : this.getRich(message.rich),
     );
+  }
+
+  private getRich(rich: {
+    files?: UploadedFile[];
+    emojis?: string[];
+  }) {
+    if (rich.files) {
+      return el(
+        "div.files",
+        ...rich.files.map((file) =>
+          el(
+            "div.file",
+            el("a", { href: file.url, target: "_blank" }, file.fileName),
+            " ",
+            el("span.file-size", `(${file.fileSize} bytes)`),
+            ...(!file.thumbnailURL ? [] : [
+              "\n",
+              el("a", el("img", { src: file.thumbnailURL }), {
+                href: file.url,
+                target: "_blank",
+              }),
+            ]),
+          )
+        ),
+      );
+    }
+    if (rich.emojis) {
+      return el(
+        "div.emojis",
+        ...rich.emojis.map((emoji) => el("span.emoji", emoji)),
+      );
+    }
+    return undefined;
   }
 
   public wait() {

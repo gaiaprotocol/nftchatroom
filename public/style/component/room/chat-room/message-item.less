@@ -21,6 +21,19 @@
         flex-grow: 1;
     }
 
+    >.files {
+        >.file {
+            >a {
+                color          : var(--link-blue);
+                text-decoration: underline;
+
+                &:focus {
+                    outline: 1px dotted var(--link-blue);
+                }
+            }
+        }
+    }
+
     &.wait {
         >.message {
             color: #999;

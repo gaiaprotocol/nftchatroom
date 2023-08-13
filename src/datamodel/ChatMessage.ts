@@ -6,9 +6,12 @@ export enum MessageType {
 
 type Emoji = string;
 
-interface UploadedFile {
+export interface UploadedFile {
   url: string;
-  name: string;
+  thumbnailURL?: string;
+  fileName: string;
+  fileType: string;
+  fileSize: number;
 }
 
 export default interface ChatMessage {
