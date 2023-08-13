@@ -53,8 +53,16 @@ export default class SignInPopup extends Popup {
             "button.sign-in-button",
             {
               click: async () => {
-                await AuthManager.signIn(this.checkbox.checked);
-                this.delete();
+                try {
+                  this.signInButton.domElement.disabled = true;
+                  this.signInButton.text = "Signing In...";
+                  await AuthManager.signIn(this.checkbox.checked);
+                  this.delete();
+                } catch (error) {
+                  console.error(error);
+                  this.signInButton.domElement.disabled = false;
+                  this.signInButton.text = "Sign In";
+                }
               },
             },
             "Sign In",
