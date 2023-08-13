@@ -5,7 +5,7 @@ export default class FavoriteButton extends DomNode {
     super("button.favorite-button");
     this.append(
       el("img", { src: "/images/add-icon.png" }),
-      "Add NFT to Favorites",
+      "Add to Favorites",
     );
   }
 }
