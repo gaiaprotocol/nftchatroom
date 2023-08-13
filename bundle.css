@@ -755,6 +755,10 @@ img {
 .chat-room > .message-input > .anonymous-form > input:disabled {
   background-color: var(--surface);
 }
+.chat-room > .message-input > form > input.upload,
+.chat-room > .message-input > .anonymous-form > input.upload {
+  display: none;
+}
 .chat-room > .message-input > form > button,
 .chat-room > .message-input > .anonymous-form > button {
   box-sizing: border-box;
@@ -778,6 +782,21 @@ img {
 .chat-room > .message-input > .anonymous-form > button:focus {
   outline: 1px dotted #000000;
   outline-offset: -4px;
+}
+.chat-room > .message-input > form > button.emoji,
+.chat-room > .message-input > .anonymous-form > button.emoji,
+.chat-room > .message-input > form > button.upload,
+.chat-room > .message-input > .anonymous-form > button.upload {
+  min-width: 23px;
+  padding: 0;
+}
+.chat-room > .message-input > form > button.emoji > img,
+.chat-room > .message-input > .anonymous-form > button.emoji > img,
+.chat-room > .message-input > form > button.upload > img,
+.chat-room > .message-input > .anonymous-form > button.upload > img {
+  display: block;
+  margin: auto;
+  height: 16px;
 }
 .message-list {
   flex-grow: 1;
@@ -821,6 +840,13 @@ img {
 }
 .message-item > .message {
   flex-grow: 1;
+}
+.message-item > .files > .file > a {
+  color: var(--link-blue);
+  text-decoration: underline;
+}
+.message-item > .files > .file > a:focus {
+  outline: 1px dotted var(--link-blue);
 }
 .message-item.wait > .message {
   color: #999;
