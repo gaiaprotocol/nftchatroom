@@ -92,6 +92,8 @@ export default class RoomComponent extends DomNode {
     this.onDelegate(AuthManager, "authChanged", () => {
       if (this.currentRoomId?.includes(":")) {
         this.checkNFTOwned(this.currentRoomId);
+      } else {
+        this.chatRoom.showMessageBox();
       }
     });
   }

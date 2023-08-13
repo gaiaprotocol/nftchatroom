@@ -39,4 +39,8 @@ export default class ChatRoom extends DomNode {
   public inactive(): void {
     this.deleteClass("active");
   }
+
+  public showMessageBox() {
+    this.messageInput.showMessageBox();
+  }
 }

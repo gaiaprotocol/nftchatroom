@@ -17,7 +17,7 @@ export default class MessageInput extends DomNode {
     this.showMessageBox();
   }
 
-  private showMessageBox() {
+  public showMessageBox() {
     if (AuthManager.signed) {
       let uploadInput: DomNode<HTMLInputElement>;
       let uploadButton: DomNode<HTMLButtonElement>;
