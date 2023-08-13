@@ -16,6 +16,40 @@
             flex-direction: column;
             min-height    : 0;
 
+            >header {
+                box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+                display   : flex;
+                padding   : 6px 4px 0 6px;
+                display   : flex;
+                gap       : 8px;
+
+                >h1 {
+                    display       : flex;
+                    gap           : 4px;
+                    align-items   : center;
+                    padding-bottom: 6px;
+
+                    @media @phone {
+                        white-space  : nowrap;
+                        text-overflow: ellipsis;
+                        overflow     : hidden;
+                        max-width    : 120px;
+                    }
+
+                    >img {
+                        height: 16px;
+                    }
+                }
+
+                >.tabs {
+                    flex-grow: 1;
+                }
+
+                >.favorite-button {
+                    margin-top: -2px;
+                }
+            }
+
             >.chat-room {
                 flex-grow: 1;
             }
