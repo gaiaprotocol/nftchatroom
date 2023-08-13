@@ -950,6 +950,9 @@ img {
 .message-item > .files > .file > a:focus {
   outline: 1px dotted var(--link-blue);
 }
+.message-item > .files > .file > a > img {
+  height: 32px;
+}
 .message-item > .emojis > .emoji {
   width: 32px;
   height: 32px;
