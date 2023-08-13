@@ -13,6 +13,7 @@ export default class SignInPopup extends Popup {
   public content: DomNode;
   private checkbox: RetroCheckbox;
   private signInButton: DomNode<HTMLButtonElement>;
+  private okButton: DomNode<HTMLButtonElement>;
 
   constructor() {
     super({ barrierDismissible: false });
@@ -56,18 +57,20 @@ export default class SignInPopup extends Popup {
                 try {
                   this.signInButton.domElement.disabled = true;
                   this.signInButton.text = "Signing In...";
+                  this.okButton.domElement.disabled = true;
                   await AuthManager.signIn(this.checkbox.checked);
                   this.delete();
                 } catch (error) {
                   console.error(error);
                   this.signInButton.domElement.disabled = false;
                   this.signInButton.text = "Sign In";
+                  this.okButton.domElement.disabled = false;
                 }
               },
             },
             "Sign In",
           ),
-          el(
+          this.okButton = el(
             "button.confirm-button",
             { click: () => this.delete() },
             "OK",

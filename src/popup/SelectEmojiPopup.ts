@@ -4,6 +4,7 @@ import {
   el,
   Popup,
   RetroTitleBar,
+  Store,
 } from "common-dapp-module";
 import AuthManager from "../auth/AuthManager.js";
 import MessageList from "../component/room/chat-room/MessageList.js";
@@ -12,6 +13,8 @@ import OpenMoji from "../openmoji/OpenMoji.js";
 import SupabaseManager from "../SupabaseManager.js";
 
 export default class SelectEmojiPopup extends Popup {
+  private settingStore = new Store("select-emoji-popup-setting");
+
   public content: DomNode;
   private sendButton: DomNode<HTMLButtonElement>;
   private selectedEmojiButton: DomNode<HTMLButtonElement> | undefined;
@@ -20,6 +23,8 @@ export default class SelectEmojiPopup extends Popup {
 
   constructor(private list: MessageList) {
     super({ barrierDismissible: false });
+
+    let main;
     this.append(
       this.content = new Component(
         ".select-emoji-popup",
@@ -30,7 +35,7 @@ export default class SelectEmojiPopup extends Popup {
             click: () => this.delete(),
           }],
         }),
-        el(
+        main = el(
           "main",
           ...OpenMoji.list.map((o) => {
             const img = el<HTMLImageElement>("img.loading", {
@@ -56,6 +61,12 @@ export default class SelectEmojiPopup extends Popup {
             img.domElement.onload = () => img.deleteClass("loading");
             return button;
           }),
+          {
+            scroll: (event) => {
+              const target = event.target as HTMLElement;
+              this.settingStore.set("scrollTop", target.scrollTop);
+            },
+          },
         ),
         el(
           "footer",
@@ -90,6 +101,10 @@ export default class SelectEmojiPopup extends Popup {
     );
 
     this.sendButton.domElement.disabled = true;
+
+    if (this.settingStore.get("scrollTop")) {
+      main.domElement.scrollTop = this.settingStore.get("scrollTop")!;
+    }
   }
 
   private async sendEmoji(emoji: string) {

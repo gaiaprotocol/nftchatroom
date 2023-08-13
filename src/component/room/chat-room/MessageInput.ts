@@ -63,8 +63,6 @@ export default class MessageInput extends DomNode {
                     console.error(getURLError);
                   }
                   if (getURLData) {
-                    console.log(getURLData.signedUrl);
-
                     const fileInfo: UploadedFile = {
                       url: getURLData.signedUrl,
                       fileName: file.name,
@@ -230,7 +228,7 @@ export default class MessageInput extends DomNode {
   }
 
   public setNFTOwned(b: boolean, collection?: NFTCollection) {
-    if (b) {
+    if (b || !AuthManager.signed) {
       this.showMessageBox();
     } else {
       this.empty().append(
