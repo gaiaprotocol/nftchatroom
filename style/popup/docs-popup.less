@@ -16,28 +16,9 @@
         top     : 0;
     }
 
-    >main {
-        display    : flex;
-        padding    : 8px;
-        gap        : 8px;
-        align-items: start;
-
-        >img {
-            width: 80px;
-        }
-
-        >p {
-            padding     : 8px 0 8px 8px;
-            border      : solid transparent;
-            border-width: 0 0 0 2px;
-            border-image: url("/icon/groupbox-border.svg") 2 repeat;
-            line-height : 1.5em;
-
-            >a {
-                color          : var(--link-blue);
-                text-decoration: underline;
-            }
-        }
+    >iframe {
+        flex-grow: 1;
+        border   : none;
     }
 
     >.status-bar {
