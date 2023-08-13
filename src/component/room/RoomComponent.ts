@@ -1,9 +1,13 @@
 import { BrowserInfo, DomNode, el, Store } from "common-dapp-module";
 import { get } from "../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../auth/AuthManager.js";
+import Constants from "../../Constants.js";
 import { Room } from "../../datamodel/Room.js";
 import ChatRoom from "./chat-room/ChatRoom.js";
+import FavoriteButton from "./chat-room/FavoriteButton.js";
 import RoomList from "./room-list/RoomList.js";
+import RoomInfoComponent from "./RoomInfoComponent.js";
+import Tabs from "./tab/Tabs.js";
 import Toolbar from "./toolbar/Toolbar.js";
 import UserList from "./user-list/UserList.js";
 
@@ -12,6 +16,10 @@ export default class RoomComponent extends DomNode {
 
   private toolbar: Toolbar;
   private roomList: RoomList;
+  private header: DomNode;
+  private roomTitle: DomNode;
+  private favoriteButton: FavoriteButton | undefined;
+  private info: RoomInfoComponent;
   private chatRoom: ChatRoom;
   private userList: UserList;
 
@@ -26,6 +34,7 @@ export default class RoomComponent extends DomNode {
   constructor() {
     super(".room");
 
+    let tabs;
     this.append(
       this.toolbar = new Toolbar(),
       el(
@@ -33,11 +42,32 @@ export default class RoomComponent extends DomNode {
         this.roomList = new RoomList(),
         el(
           ".container",
+          this.header = el(
+            "header",
+            this.roomTitle = el("h1"),
+            tabs = new Tabs([
+              { id: "info", label: "Info" },
+              { id: "chat", label: "ChatRoom" },
+            ]),
+          ),
+          this.info = new RoomInfoComponent(),
           this.chatRoom = new ChatRoom(),
         ),
         this.userList = new UserList(),
       ),
     );
+
+    tabs.on("select", (id: string) => {
+      this.info.inactive();
+      this.chatRoom.inactive();
+
+      if (id === "info") {
+        this.info.active();
+      } else if (id === "chat") {
+        this.chatRoom.active();
+      }
+    });
+    tabs.select("chat");
 
     this.roomList.on("select", () => {
       if (BrowserInfo.isPhoneSize) {
@@ -99,6 +129,9 @@ export default class RoomComponent extends DomNode {
   }
 
   public set room(room: Room) {
+    this.favoriteButton?.delete();
+    this.favoriteButton = undefined;
+
     const roomId = room.type === "general"
       ? room.uri
       : `${room.chain}:${room.address}`;
@@ -106,14 +139,22 @@ export default class RoomComponent extends DomNode {
     this.chatRoom.roomId = roomId;
     this.roomList.currentRoom = room;
 
+    this.roomTitle.empty();
     if (room.type === "general") {
-      //TODO: set info
+      const roomInfo = Constants.GENERAL_ROOMS[roomId];
+      if (roomInfo) {
+        this.roomTitle.text = roomInfo.name;
+      }
+      this.info.room = { type: "general", uri: roomId };
     } else if (room.type === "nft") {
       this.checkNFTOwned(roomId);
+      this.favoriteButton = new FavoriteButton(roomId);
+      this.header.append(this.favoriteButton);
     }
   }
 
   private async checkNFTOwned(roomId: string) {
+    this.roomTitle.text = "Loading...";
     this.chatRoom.checkingNFTOwned();
     const reponse = await get(
       AuthManager.signed
@@ -126,6 +167,18 @@ export default class RoomComponent extends DomNode {
     }
     const data = await reponse.json();
     this.chatRoom.setNFTOwned(data.owned, data.collection);
+    if (data.collection?.metadata) {
+      this.roomTitle.empty().append(
+        !data.collection.metadata.image
+          ? undefined
+          : el("img", { src: data.collection.metadata.image }),
+        data.collection.metadata.name,
+      );
+    }
+    this.info.room = {
+      type: "nft",
+      ...data.collection,
+    };
   }
 
   private async addRoomToFavorite(roomId: string) {

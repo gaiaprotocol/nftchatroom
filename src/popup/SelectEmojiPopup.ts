@@ -64,7 +64,7 @@ export default class SelectEmojiPopup extends Popup {
           {
             scroll: (event) => {
               const target = event.target as HTMLElement;
-              this.settingStore.set("scrollTop", target.scrollTop);
+              this.settingStore.set("scrollTop", target.scrollTop, true);
             },
           },
         ),

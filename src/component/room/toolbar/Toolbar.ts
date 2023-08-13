@@ -1,4 +1,5 @@
 import { DomNode, el } from "common-dapp-module";
+import DocsPopup from "../../../popup/DocsPopup.js";
 import ConnectWalletButton from "./ConnectWalletButton.js";
 
 export default class Toolbar extends DomNode {
@@ -19,7 +20,7 @@ export default class Toolbar extends DomNode {
         "button",
         el("img", { src: "/images/toolbar/docs.png" }),
         "Docs",
-        { click: () => {} },
+        { click: () => new DocsPopup() },
       ),
       this.userListButton = el(
         "button",
