@@ -24,6 +24,7 @@ export default class ChatRoom extends DomNode {
 
   public set roomId(roomId: string | undefined) {
     this.messageList.roomId = roomId;
+    this.messageInput.showMessageBox();
   }
 
   public checkingNFTOwned() {
