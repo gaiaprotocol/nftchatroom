@@ -172,7 +172,7 @@ ALTER TABLE "public"."favorite_rooms" ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "insert" ON "public"."user_details" FOR INSERT WITH CHECK ((("ens" = NULL::"text") AND ("json_typeof"("pfp") = 'null'::"text") AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "wallet_address")));
 
-CREATE POLICY "new message" ON "public"."chat_messages" FOR INSERT WITH CHECK ((("length"("message") > 0) AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "author") AND ((NOT (POSITION((':'::"text") IN ("room")) > 0)) OR (( SELECT "user_nft_ownership"."owned"
+CREATE POLICY "new message" ON "public"."chat_messages" FOR INSERT WITH CHECK (((("length"("message") > 0) OR ("json_typeof"("rich") <> 'null'::"text")) AND (("auth"."jwt"() ->> 'wallet_address'::"text") = "author") AND ((NOT (POSITION((':'::"text") IN ("room")) > 0)) OR (( SELECT "user_nft_ownership"."owned"
    FROM "public"."user_nft_ownership"
   WHERE (("user_nft_ownership"."wallet_address" = ("auth"."jwt"() ->> 'wallet_address'::"text")) AND ("user_nft_ownership"."nft" = "chat_messages"."room"))
  LIMIT 1) = true))));
