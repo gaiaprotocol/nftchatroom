@@ -53,6 +53,9 @@ export default class SelectPFPPopup extends Popup {
       }
       const data: any[] = await response.json();
       this.body.empty();
+      if (data.length === 0) {
+        this.body.append(el("p", "No NFTs found."));
+      }
       for (const nft of data) {
         const img = el<HTMLImageElement>("img.loading", {
           src: nft.image_url,
@@ -65,8 +68,7 @@ export default class SelectPFPPopup extends Popup {
             img,
             {
               click: () => {
-                this.fireEvent("select", nft),
-                this.delete();
+                this.fireEvent("select", nft), this.delete();
               },
             },
           ),

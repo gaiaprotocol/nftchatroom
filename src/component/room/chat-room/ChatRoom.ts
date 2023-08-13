@@ -1,4 +1,5 @@
 import { DomNode } from "common-dapp-module";
+import AuthManager from "../../../auth/AuthManager.js";
 import NFTCollection from "../../../datamodel/NFTCollection.js";
 import MessageInput from "./MessageInput.js";
 import MessageList from "./MessageList.js";
@@ -38,6 +39,10 @@ export default class ChatRoom extends DomNode {
 
   public inactive(): void {
     this.deleteClass("active");
+  }
+
+  public clearProfile() {
+    this.messageInput.profile = AuthManager.signed?.user;
   }
 
   public showMessageBox() {

@@ -91,6 +91,8 @@ export default class RoomProfilePopup extends Popup {
                     this.pfpWrapper.empty().append(
                       el("img", { src: nft.image_url }),
                     );
+                    this.saveButton.domElement.disabled = !this.roomProfile.pfp
+                      ?.image_url;
                   });
                 },
               }),
@@ -122,7 +124,9 @@ export default class RoomProfilePopup extends Popup {
         ),
       );
 
-      this.saveButton.domElement.disabled = false;
+      if (this.roomProfile.pfp?.image_url) {
+        this.saveButton.domElement.disabled = false;
+      }
     }
   }
 }

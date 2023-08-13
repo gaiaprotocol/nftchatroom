@@ -10,7 +10,7 @@ import SignInPopup from "../../../popup/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
 export default class MessageInput extends DomNode {
-  private profile: { pfp?: { url: string } } | undefined;
+  public profile: { pfp?: { image_url?: string } } | undefined;
 
   constructor(private list: MessageList) {
     super(".message-input");
@@ -24,6 +24,13 @@ export default class MessageInput extends DomNode {
       let input: DomNode<HTMLInputElement>;
 
       this.empty().append(
+        this.list.roomId?.includes(":")
+          ? el(
+            "button.room-profile",
+            el("img", { src: "/images/chatroom/profile.png" }),
+            { click: () => new RoomProfilePopup(this.list.roomId!) },
+          )
+          : undefined,
         el("button.emoji", el("img", { src: "/images/chatroom/emoji.png" }), {
           click: () => new SelectEmojiPopup(this.list, this.profile),
         }),
@@ -153,6 +160,8 @@ export default class MessageInput extends DomNode {
         author: AuthManager.signed.walletAddress,
         message_type: MessageType.MESSAGE,
         message,
+        author_ens: AuthManager.signed.user?.ens,
+        author_pfp: this.profile?.pfp,
       });
       item.wait();
 
@@ -189,6 +198,8 @@ export default class MessageInput extends DomNode {
         rich: {
           files: [file],
         },
+        author_ens: AuthManager.signed.user?.ens,
+        author_pfp: this.profile?.pfp,
       });
       item.wait();
       const { data, error } = await SupabaseManager.supabase.from(

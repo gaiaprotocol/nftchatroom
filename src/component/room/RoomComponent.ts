@@ -93,6 +93,7 @@ export default class RoomComponent extends DomNode {
       if (this.currentRoomId?.includes(":")) {
         this.checkNFTOwned(this.currentRoomId);
       } else {
+        this.chatRoom.clearProfile();
         this.chatRoom.showMessageBox();
       }
     });
@@ -158,6 +159,7 @@ export default class RoomComponent extends DomNode {
         this.roomTitle.text = roomInfo.name;
       }
       this.info.room = { type: "general", uri: roomId };
+      this.chatRoom.clearProfile();
     } else if (room.type === "nft") {
       this.checkNFTOwned(roomId);
       this.favoriteButton = new FavoriteButton(roomId);

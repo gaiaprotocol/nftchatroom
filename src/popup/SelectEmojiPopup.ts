@@ -116,6 +116,8 @@ export default class SelectEmojiPopup extends Popup {
         rich: {
           emojis: [`openmoji:${emoji}`],
         },
+        author_ens: AuthManager.signed.user?.ens,
+        author_pfp: this.profile?.pfp,
       });
       item.wait();
       const { data, error } = await SupabaseManager.supabase.from(
