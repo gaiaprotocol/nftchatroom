@@ -19,20 +19,25 @@ class AuthManager extends EventContainer {
   public async init() {
     const token = this.store.get<string>("token");
     if (token) {
-      const response = await get(`check-token?token=${token}`);
-      if (response.status !== 200) {
-        console.log(await response.json());
-        return;
-      }
-      const data = await response.json();
-      if (data.walletAddress) {
-        this.signed = {
-          token,
-          walletAddress: data.walletAddress,
-          user: data.user,
-        };
-      } else {
+      try {
+        const response = await get(`check-token?token=${token}`);
+        if (response.status !== 200) {
+          console.log(await response.json());
+          return;
+        }
+        const data = await response.json();
+        if (data.walletAddress) {
+          this.signed = {
+            token,
+            walletAddress: data.walletAddress,
+            user: data.user,
+          };
+        } else {
+          this.store.delete("token");
+        }
+      } catch (e) {
         this.store.delete("token");
+        console.error(e);
       }
     }
   }
