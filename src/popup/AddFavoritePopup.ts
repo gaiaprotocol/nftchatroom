@@ -69,7 +69,7 @@ export default class AddFavoritePopup extends Popup {
               click: async () => {
                 if (this.room && AuthManager.signed) {
                   FavoriteManager.add(this.room);
-                  post("add-favorite", {
+                  post("favorite", {
                     token: AuthManager.signed.token,
                     room: `${this.room.chain}:${this.room.address}`,
                   });

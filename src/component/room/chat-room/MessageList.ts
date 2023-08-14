@@ -36,7 +36,8 @@ export default class MessageList extends DomNode {
     const { data, error } = await SupabaseManager.supabase.from("chat_messages")
       .select()
       .eq("room", this._roomId)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(100);
     this.empty();
     this.loading = false;
 

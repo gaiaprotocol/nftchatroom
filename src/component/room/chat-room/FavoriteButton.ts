@@ -1,6 +1,6 @@
 import { DomNode, el } from "common-dapp-module";
 import FavoriteManager from "../../../FavoriteManager.js";
-import { post } from "../../../_shared/edgeFunctionFetch.js";
+import { deleteRequest, post } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../datamodel/Room.js";
 
@@ -55,7 +55,7 @@ export default class FavoriteButton extends DomNode {
   private add(): void {
     if (this.room && AuthManager.signed) {
       FavoriteManager.add(this.room);
-      post("add-favorite", {
+      post("favorite", {
         token: AuthManager.signed.token,
         room: this.room.type === "general"
           ? this.room.uri
@@ -71,7 +71,7 @@ export default class FavoriteButton extends DomNode {
           ? this.room.uri
           : `${this.room.chain}:${this.room.address}`,
       );
-      post("remove-favorite", {
+      deleteRequest("favorite", {
         token: AuthManager.signed.token,
         room: this.room.type === "general"
           ? this.room.uri

@@ -23,3 +23,16 @@ export const post = async (uri: string, body: any) => {
     },
   );
 };
+
+export const deleteRequest = async (uri: string, body: any) => {
+  return await fetch(
+    `${Config.supabaseURL}/functions/v1/${uri}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${Config.supabaseAnonKey}`,
+      },
+      body: JSON.stringify(body),
+    },
+  );
+};

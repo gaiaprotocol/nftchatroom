@@ -54,35 +54,44 @@ serveWithOptions(async (req) => {
     "owned": [],
   };
 
-  const { data: dailyMessageAnalysis, error: dailyMessageAnalysisError } =
-    await supabase.from("daily_message_analysis")
-      .select()
-      .eq("date", new Date().toISOString().split("T")[0])
-      .neq("room", "general")
-      .order("message_count", { ascending: false })
-      .limit(10);
-  if (dailyMessageAnalysisError) throw dailyMessageAnalysisError;
+  const promises: Promise<void>[] = [];
 
-  for (const analysis of dailyMessageAnalysis ?? []) {
-    if (analysis.room.includes(":")) {
-      const [chain, address] = analysis.room.split(":");
-      const collection = await getCollectionInfo(chain, address);
-      if (collection) {
+  // get hot rooms
+  promises.push((async () => {
+    const { data: dailyMessageAnalysis, error: dailyMessageAnalysisError } =
+      await supabase.from("daily_message_analysis")
+        .select()
+        .eq("date", new Date().toISOString().split("T")[0])
+        .neq("room", "general")
+        .order("message_count", { ascending: false })
+        .limit(10);
+    if (dailyMessageAnalysisError) throw dailyMessageAnalysisError;
+
+    const hotPromises: Promise<void>[] = [];
+    for (const analysis of dailyMessageAnalysis ?? []) {
+      if (analysis.room.includes(":")) {
+        hotPromises.push((async () => {
+          const [chain, address] = analysis.room.split(":");
+          const collection = await getCollectionInfo(chain, address);
+          if (collection) {
+            rooms.hot.push({
+              type: "nft",
+              chain,
+              address,
+              metadata: collection.metadata,
+            });
+          }
+        })());
+      } else {
         rooms.hot.push({
-          type: "nft",
-          chain,
-          address,
-          metadata: collection.metadata,
+          type: "general",
+          name: analysis.room,
+          uri: analysis.room,
         });
       }
-    } else {
-      rooms.hot.push({
-        type: "general",
-        name: analysis.room,
-        uri: analysis.room,
-      });
     }
-  }
+    await Promise.all(hotPromises);
+  })());
 
   if (token) {
     const walletAddress = (verify(
@@ -91,47 +100,63 @@ serveWithOptions(async (req) => {
     ) as any)?.wallet_address;
 
     if (walletAddress) {
-      const { data: selectData, error: selectError } = await supabase
-        .from("favorite_rooms")
-        .select()
-        .eq("wallet_address", walletAddress);
-      if (selectError) {
-        return responseError(selectError);
-      }
+      // get favorite rooms
+      promises.push((async () => {
+        const { data: favoriteRoomsData, error: favoriteRoomsError } =
+          await supabase
+            .from("favorite_rooms")
+            .select()
+            .eq("wallet_address", walletAddress);
+        if (favoriteRoomsError) {
+          throw new Error(favoriteRoomsError.message);
+        }
 
-      for (const room of selectData[0]?.rooms ?? []) {
-        if (room.includes(":")) {
-          const [chain, address] = room.split(":");
-          const collection = await getCollectionInfo(chain, address);
-          if (collection) {
-            rooms.favorites.push({
-              type: "nft",
-              chain,
-              address,
-              metadata: collection.metadata,
-            });
-          }
-        } else {
-          const roomInfo = general_rooms[room];
-          if (roomInfo) {
-            rooms.favorites.push({
-              type: "general",
-              name: roomInfo.name,
-              uri: room,
-            });
+        const favoritePromises: Promise<void>[] = [];
+        for (const room of favoriteRoomsData[0]?.rooms ?? []) {
+          if (room.includes(":")) {
+            favoritePromises.push((async () => {
+              const [chain, address] = room.split(":");
+              const collection = await getCollectionInfo(chain, address);
+              if (collection) {
+                rooms.favorites.push({
+                  type: "nft",
+                  chain,
+                  address,
+                  metadata: collection.metadata,
+                });
+              }
+            })());
+          } else {
+            const roomInfo = general_rooms[room];
+            if (roomInfo) {
+              rooms.favorites.push({
+                type: "general",
+                name: roomInfo.name,
+                uri: room,
+              });
+            }
           }
         }
-      }
+        await Promise.all(favoritePromises);
+      })());
 
-      const collections = await getOwnedNFTCollections(walletAddress);
-      rooms.owned = collections.map((collection) => ({
-        type: "nft",
-        chain: "ethereum",
-        address: collection.address,
-        metadata: collection.metadata,
-      }));
+      // get owned nft rooms
+      promises.push((async () => {
+        const collections = await getOwnedNFTCollections(walletAddress);
+        rooms.owned = collections.map((collection) => ({
+          type: "nft",
+          chain: "ethereum",
+          address: collection.address,
+          metadata: collection.metadata,
+        }));
+      })());
     }
   }
 
+  try {
+    await Promise.all(promises);
+  } catch (error) {
+    return responseError(error);
+  }
   return response(rooms);
 });

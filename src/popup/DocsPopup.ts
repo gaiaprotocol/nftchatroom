@@ -24,10 +24,10 @@ export default class DocsPopup extends Popup {
         el(
           ".toolbar",
           el("button", "New Window", {
-            click: () => window.open("http://docs.nftchatroom.com/"),
+            click: () => window.open("https://docs.nftchatroom.com/"),
           }),
         ),
-        el("iframe", { src: "http://docs.nftchatroom.com/" }),
+        el("iframe", { src: "https://docs.nftchatroom.com/" }),
       ),
     );
   }

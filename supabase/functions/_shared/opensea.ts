@@ -104,15 +104,16 @@ export async function getOwnedNFTCollections(owner: string) {
 export async function getCollectionInfo(chain: string, address: string) {
   address = ethers.getAddress(address);
 
-  const existed = await supabase.from("nft_collections").select().eq(
-    "chain",
-    chain,
-  )
+  const { data: selectData } = await supabase.from("nft_collections").select()
+    .eq(
+      "chain",
+      chain,
+    )
     .eq(
       "address",
       address,
-    ).single();
-  if (existed.data) return existed.data;
+    );
+  if (selectData && selectData.length > 0) return selectData[0];
 
   const response = await fetch(
     `https://api.opensea.io/v2/chain/${chain}/contract/${address}/nfts?limit=1`,
@@ -158,6 +159,7 @@ export async function getCollectionInfo(chain: string, address: string) {
         slug: _collection.slug ?? undefined,
       },
     };
+
     await supabase.from("nft_collections").upsert(collection);
     return collection;
   }
