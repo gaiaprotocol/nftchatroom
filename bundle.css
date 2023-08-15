@@ -1216,7 +1216,7 @@ img {
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
 .docs-popup.component {
-  max-width: 800px;
+  max-width: 900px;
   max-height: 800px;
   width: 90%;
   height: 90%;
@@ -1262,6 +1262,12 @@ img {
 .docs-popup.component > iframe {
   flex-grow: 1;
   border: none;
+  background-color: var(--surface);
+}
+.docs-popup.component > iframe.loading {
+  background-image: url("/images/loader/small-loader.gif");
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
 }
 .docs-popup.component > .status-bar > .status > a {
   text-decoration: underline;
