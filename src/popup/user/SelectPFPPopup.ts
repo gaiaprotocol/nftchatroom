@@ -6,8 +6,8 @@ import {
   RetroLoader,
   RetroTitleBar,
 } from "common-dapp-module";
-import { get } from "../_shared/edgeFunctionFetch.js";
-import AuthManager from "../auth/AuthManager.js";
+import { get } from "../../_shared/edgeFunctionFetch.js";
+import AuthManager from "../../auth/AuthManager.js";
 
 export default class SelectPFPPopup extends Popup {
   public content: DomNode;

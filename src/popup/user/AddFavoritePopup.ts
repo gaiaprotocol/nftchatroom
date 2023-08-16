@@ -6,12 +6,12 @@ import {
   RetroTitleBar,
 } from "common-dapp-module";
 import { ethers } from "ethers";
-import { get, post } from "../_shared/edgeFunctionFetch.js";
-import AuthManager from "../auth/AuthManager.js";
-import RoomInfoDisplay from "../component/RoomInfoDisplay.js";
-import NFTCollection from "../datamodel/NFTCollection.js";
-import { NFTRoom } from "../datamodel/Room.js";
-import FavoriteManager from "../FavoriteManager.js";
+import { get, post } from "../../_shared/edgeFunctionFetch.js";
+import AuthManager from "../../auth/AuthManager.js";
+import RoomInfoDisplay from "../../component/RoomInfoDisplay.js";
+import NFTCollection from "../../datamodel/NFTCollection.js";
+import { NFTRoom } from "../../datamodel/Room.js";
+import FavoriteManager from "../../FavoriteManager.js";
 
 export default class AddFavoritePopup extends Popup {
   public content: DomNode;
@@ -45,8 +45,8 @@ export default class AddFavoritePopup extends Popup {
             this.chainSelect = el(
               "select",
               el("option", "Ethereum", { value: "ethereum" }),
-              el("option", "Polygon", { value: "polygon" }),
-              el("option", "BNB", { value: "bnb" }),
+              el("option", "Polygon", { value: "matic" }),
+              el("option", "BNB Chain", { value: "bsc" }),
               el("option", "Bifrost", { value: "bifrost" }),
               el("option", "Klaytn", { value: "klaytn" }),
               { change: () => this.handleInputChange() },

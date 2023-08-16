@@ -6,11 +6,11 @@ import {
   RetroTitleBar,
   Store,
 } from "common-dapp-module";
-import AuthManager from "../auth/AuthManager.js";
-import MessageList from "../component/room/chat-room/MessageList.js";
-import { MessageType } from "../datamodel/ChatMessage.js";
-import OpenMoji from "../openmoji/OpenMoji.js";
-import SupabaseManager from "../SupabaseManager.js";
+import AuthManager from "../../auth/AuthManager.js";
+import MessageList from "../../component/room/chat-room/MessageList.js";
+import { MessageType } from "../../datamodel/ChatMessage.js";
+import OpenMoji from "../../openmoji/OpenMoji.js";
+import SupabaseManager from "../../SupabaseManager.js";
 
 export default class SelectEmojiPopup extends Popup {
   private settingStore = new Store("select-emoji-popup-setting");

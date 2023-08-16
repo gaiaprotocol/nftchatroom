@@ -3,6 +3,7 @@ import FavoriteManager from "../../../FavoriteManager.js";
 import { deleteRequest, post } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../datamodel/Room.js";
+import SignInPopup from "../../../popup/user/SignInPopup.js";
 
 export default class FavoriteButton extends DomNode {
   public room: Room | undefined;
@@ -44,7 +45,9 @@ export default class FavoriteButton extends DomNode {
     });
 
     this.onDom("click", () => {
-      if (FavoriteManager.check(roomId)) {
+      if (!AuthManager.signed) {
+        new SignInPopup();
+      } else if (FavoriteManager.check(roomId)) {
         this.remove();
       } else {
         this.add();

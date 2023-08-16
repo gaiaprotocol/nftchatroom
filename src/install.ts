@@ -1,7 +1,7 @@
 import { msg, Router } from "common-dapp-module";
 import AuthManager from "./auth/AuthManager.js";
 import WalletManager from "./auth/WalletManager.js";
-import BootingPopup from "./popup/BootingPopup.js";
+import BootingPopup from "./popup/common/BootingPopup.js";
 import SupabaseManager from "./SupabaseManager.js";
 import Layout from "./view/Layout.js";
 import RoomView from "./view/RoomView.js";

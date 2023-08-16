@@ -1,7 +1,7 @@
 import { DomNode, el, Jazzicon, StringUtil } from "common-dapp-module";
 import AuthManager from "../../../auth/AuthManager.js";
-import MyInfoPopup from "../../../popup/MyInfoPopup.js";
-import SignInPopup from "../../../popup/SignInPopup.js";
+import MyInfoPopup from "../../../popup/user/MyInfoPopup.js";
+import SignInPopup from "../../../popup/user/SignInPopup.js";
 
 export default class ConnectWalletButton extends DomNode {
   constructor() {

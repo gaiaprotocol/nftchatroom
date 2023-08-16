@@ -3,7 +3,8 @@ import { get } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../datamodel/Room.js";
 import FavoriteManager from "../../../FavoriteManager.js";
-import AddFavoritePopup from "../../../popup/AddFavoritePopup.js";
+import AddFavoritePopup from "../../../popup/user/AddFavoritePopup.js";
+import SignInPopup from "../../../popup/user/SignInPopup.js";
 import RoomCategory from "./RoomCategory.js";
 import RoomItem from "./RoomItem.js";
 
@@ -95,7 +96,13 @@ export default class RoomList extends DomNode {
       "button.add-favorite",
       "Add NFT to Favorites",
       {
-        click: () => new AddFavoritePopup(),
+        click: () => {
+          if (!AuthManager.signed) {
+            new SignInPopup();
+          } else {
+            new AddFavoritePopup();
+          }
+        },
       },
     ).appendTo(this);
   }

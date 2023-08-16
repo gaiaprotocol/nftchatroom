@@ -7,7 +7,7 @@ import {
   RetroLoader,
   RetroTitleBar,
 } from "common-dapp-module";
-import { get } from "../_shared/edgeFunctionFetch.js";
+import { get } from "../../_shared/edgeFunctionFetch.js";
 
 export default class UserInfoPopup extends Popup {
   public content: DomNode;

@@ -1,5 +1,5 @@
 import { RetroDropdownMenu } from "common-dapp-module";
-import UserInfoPopup from "../popup/UserInfoPopup.js";
+import UserInfoPopup from "../popup/user/UserInfoPopup.js";
 
 export default class UserDropdownMenu extends RetroDropdownMenu {
   constructor(x: number, y: number, walletAddress: string, room: string) {

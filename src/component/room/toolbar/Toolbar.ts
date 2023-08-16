@@ -1,5 +1,5 @@
 import { DomNode, el } from "common-dapp-module";
-import DocsPopup from "../../../popup/DocsPopup.js";
+import DocsPopup from "../../../popup/common/DocsPopup.js";
 import ConnectWalletButton from "./ConnectWalletButton.js";
 
 export default class Toolbar extends DomNode {

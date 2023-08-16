@@ -4,9 +4,9 @@ import SupabaseManager from "../../../SupabaseManager.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { MessageType, UploadedFile } from "../../../datamodel/ChatMessage.js";
 import NFTCollection from "../../../datamodel/NFTCollection.js";
-import RoomProfilePopup from "../../../popup/RoomProfilePopup.js";
-import SelectEmojiPopup from "../../../popup/SelectEmojiPopup.js";
-import SignInPopup from "../../../popup/SignInPopup.js";
+import RoomProfilePopup from "../../../popup/room/RoomProfilePopup.js";
+import SelectEmojiPopup from "../../../popup/room/SelectEmojiPopup.js";
+import SignInPopup from "../../../popup/user/SignInPopup.js";
 import MessageList from "./MessageList.js";
 
 export default class MessageInput extends DomNode {

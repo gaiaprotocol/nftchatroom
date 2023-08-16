@@ -7,8 +7,8 @@ import {
   RetroLoader,
   RetroTitleBar,
 } from "common-dapp-module";
-import { get } from "../_shared/edgeFunctionFetch.js";
-import AuthManager from "../auth/AuthManager.js";
+import { get } from "../../_shared/edgeFunctionFetch.js";
+import AuthManager from "../../auth/AuthManager.js";
 import EditMyInfoPopup from "./EditMyInfoPopup.js";
 
 export default class MyInfoPopup extends Popup {

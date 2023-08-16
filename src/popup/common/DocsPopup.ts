@@ -11,6 +11,8 @@ export default class DocsPopup extends Popup {
 
   constructor() {
     super({ barrierDismissible: true });
+
+    let iframe: DomNode<HTMLIFrameElement>;
     this.append(
       this.content = new Component(
         ".docs-popup",
@@ -27,8 +29,11 @@ export default class DocsPopup extends Popup {
             click: () => window.open("https://docs.nftchatroom.com/"),
           }),
         ),
-        el("iframe", { src: "https://docs.nftchatroom.com/" }),
+        iframe = el("iframe.loading", {
+          src: "https://docs.nftchatroom.com/",
+        }),
       ),
     );
+    iframe.onDom("load", () => iframe.deleteClass("loading"));
   }
 }

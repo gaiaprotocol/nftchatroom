@@ -6,8 +6,8 @@ import {
   Popup,
   RetroTitleBar,
 } from "common-dapp-module";
-import { post } from "../_shared/edgeFunctionFetch.js";
-import AuthManager from "../auth/AuthManager.js";
+import { post } from "../../_shared/edgeFunctionFetch.js";
+import AuthManager from "../../auth/AuthManager.js";
 import SelectPFPPopup from "./SelectPFPPopup.js";
 
 export default class EditMyInfoPopup extends Popup {
@@ -40,6 +40,17 @@ export default class EditMyInfoPopup extends Popup {
               profile.pfp?.image_url
                 ? el("img", { src: profile.pfp.image_url })
                 : new Jazzicon(AuthManager.signed!.walletAddress),
+              {
+                click: () => {
+                  const popup = new SelectPFPPopup();
+                  popup.on("select", (nft) => {
+                    profile.pfp = nft;
+                    this.pfpWrapper.empty().append(
+                      el("img", { src: nft.image_url }),
+                    );
+                  });
+                },
+              },
             ),
             el("button", "Change", {
               click: () => {
@@ -78,6 +89,7 @@ export default class EditMyInfoPopup extends Popup {
               click: async () => {
                 if (AuthManager.signed) {
                   this.saveButton.domElement.disabled = true;
+                  this.saveButton.text = "Saving...";
                   await post("set-profile", {
                     token: AuthManager.signed.token,
                     introduction: profile.introduction,

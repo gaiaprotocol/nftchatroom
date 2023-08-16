@@ -20,7 +20,7 @@ class AuthManager extends EventContainer {
     const token = this.store.get<string>("token");
     if (token) {
       try {
-        const response = await get(`check-token?token=${token}`);
+        const response = await post("sign-in", { token });
         if (response.status !== 200) {
           console.log(await response.json());
           return;

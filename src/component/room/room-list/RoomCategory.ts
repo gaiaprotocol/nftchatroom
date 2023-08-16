@@ -1,7 +1,7 @@
 import { ArrayUtil, DomNode, el, StringUtil } from "common-dapp-module";
 import AuthManager from "../../../auth/AuthManager.js";
 import { getRoomId, Room } from "../../../datamodel/Room.js";
-import SignInPopup from "../../../popup/SignInPopup.js";
+import SignInPopup from "../../../popup/user/SignInPopup.js";
 import RoomItem from "./RoomItem.js";
 
 export default class RoomCategory extends DomNode {

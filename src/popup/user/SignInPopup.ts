@@ -7,8 +7,8 @@ import {
   RetroCheckbox,
   RetroTitleBar,
 } from "common-dapp-module";
-import AuthManager from "../auth/AuthManager.js";
-import WalletManager from "../auth/WalletManager.js";
+import AuthManager from "../../auth/AuthManager.js";
+import WalletManager from "../../auth/WalletManager.js";
 
 export default class SignInPopup extends Popup {
   public content: DomNode;

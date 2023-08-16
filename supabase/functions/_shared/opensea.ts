@@ -83,7 +83,7 @@ export async function getOwnedNFTCollections(owner: string) {
       });
     }
   }
-  await supabase.from("nft_collections").upsert(collections);
+  supabase.from("nft_collections").upsert(collections);
   return collections.filter((c) => !blacklist.includes(c.address));
 }
 
@@ -160,7 +160,7 @@ export async function getCollectionInfo(chain: string, address: string) {
       },
     };
 
-    await supabase.from("nft_collections").upsert(collection);
+    supabase.from("nft_collections").upsert(collection);
     return collection;
   }
 }

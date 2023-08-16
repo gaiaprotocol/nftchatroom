@@ -1,5 +1,5 @@
 import { BodyNode, DomNode, el, RetroTitleBar, View } from "common-dapp-module";
-import AboutPopup from "../popup/AboutPopup.js";
+import AboutPopup from "../popup/common/AboutPopup.js";
 
 export default class Layout extends View {
   private static current: Layout;
@@ -33,25 +33,25 @@ export default class Layout extends View {
       ),
     );
 
-    if (window.visualViewport) {
+    /*if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", this.setViewportHeight);
-    }
+    }*/
   }
 
-  private setViewportHeight = () => {
+  /*private setViewportHeight = () => {
     this.container.style({
       top: `${window.visualViewport!.offsetTop}px`,
       height: `${window.visualViewport!.height}px`,
     });
-  };
+  };*/
 
   public close(): void {
-    if (window.visualViewport) {
+    /*if (window.visualViewport) {
       window.visualViewport.removeEventListener(
         "resize",
         this.setViewportHeight,
       );
-    }
+    }*/
     this.container.delete();
     super.close();
   }

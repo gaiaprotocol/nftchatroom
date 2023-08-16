@@ -6,11 +6,11 @@ export function getProvider(chain: string) {
       "mainnet",
       Deno.env.get("INFURA_API_KEY")!,
     );
-  } else if (chain === "polygon") {
+  } else if (chain === "polygon" || chain === "matic") {
     return new ethers.JsonRpcProvider(
       "https://polygon-rpc.com/",
     );
-  } else if (chain === "bnb") {
+  } else if (chain === "bnb" || chain === "bsc") {
     return new ethers.JsonRpcProvider(
       "https://bsc-dataseed.binance.org/",
     );
