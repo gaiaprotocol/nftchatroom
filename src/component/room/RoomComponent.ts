@@ -1,8 +1,8 @@
 import { BrowserInfo, DomNode, el, Store } from "common-dapp-module";
 import { get } from "../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../auth/AuthManager.js";
-import Constants from "../../Constants.js";
 import { Room } from "../../datamodel/Room.js";
+import general_rooms from "../../general_rooms.js";
 import ChatRoom from "./chat-room/ChatRoom.js";
 import FavoriteButton from "./chat-room/FavoriteButton.js";
 import RoomList from "./room-list/RoomList.js";
@@ -89,7 +89,10 @@ export default class RoomComponent extends DomNode {
       this.userListOpened ? this.deactivateUserList() : this.activateUserList();
     });
 
-    this.chatRoom.on("saveRoomProfile", (roomProfile) => this.userList.createChannel(roomProfile.pfp));
+    this.chatRoom.on(
+      "saveRoomProfile",
+      (roomProfile) => this.userList.createChannel(roomProfile.pfp),
+    );
 
     this.onDelegate(AuthManager, "authChanged", () => {
       if (this.currentRoomId?.includes(":")) {
@@ -145,9 +148,7 @@ export default class RoomComponent extends DomNode {
     this.favoriteButton?.delete();
     this.favoriteButton = undefined;
 
-    const roomId = room.type === "general"
-      ? room.uri
-      : `${room.chain}:${room.address}`;
+    const roomId = room.type === "general" ? room.uri : room.nft;
     this.currentRoomId = roomId;
 
     this.userList.roomId = roomId;
@@ -156,7 +157,7 @@ export default class RoomComponent extends DomNode {
 
     this.roomTitle.empty();
     if (room.type === "general") {
-      const roomInfo = Constants.GENERAL_ROOMS[roomId];
+      const roomInfo = general_rooms[roomId];
       if (roomInfo) {
         this.roomTitle.text = roomInfo.name;
       }
@@ -184,6 +185,8 @@ export default class RoomComponent extends DomNode {
     }
 
     const data = await response.json();
+    if (this.currentRoomId !== roomId) return;
+
     this.chatRoom.setNFTOwned(data.owned, data.collection, data.profile);
     if (data.profile?.pfp) {
       this.userList.createChannel(data.profile.pfp);

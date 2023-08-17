@@ -22,7 +22,7 @@ export default class Layout extends View {
           title: el(
             ".title",
             el("img", { src: "/images/title-logo.png" }),
-            el("h1", "NFTChatRoom.com (beta)"),
+            el("h1", "NFTChatRoom.com v1.0"),
           ),
           buttons: [{
             type: "help",

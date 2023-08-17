@@ -44,8 +44,7 @@ export async function getOwnedNFTCollections(owner: string) {
   const nfts = await getOwnedNFTs(owner);
 
   const collections: {
-    chain: string;
-    address: string;
+    nft: string;
     metadata: {
       name?: string;
       description?: string;
@@ -63,11 +62,11 @@ export async function getOwnedNFTCollections(owner: string) {
   for (const nft of nfts) {
     if (nft.asset_contract && nft.asset_contract.schema_name === "ERC721") {
       const address = ethers.getAddress(nft.asset_contract.address);
-      if (collections.find((c) => c.address === address)) continue;
+      const nftPath = `ethereum:${address}`;
+      if (collections.find((c) => c.nft === nftPath)) continue;
 
       collections.push({
-        chain: "ethereum",
-        address,
+        nft: nftPath,
         metadata: {
           name: nft.collection.name ?? undefined,
           description: nft.collection.description ?? undefined,
@@ -83,8 +82,8 @@ export async function getOwnedNFTCollections(owner: string) {
       });
     }
   }
-  supabase.from("nft_collections").upsert(collections);
-  return collections.filter((c) => !blacklist.includes(c.address));
+  await supabase.from("nft_collections").upsert(collections);
+  return collections.filter((c) => !blacklist.includes(c.nft.split(":")[1]));
 }
 
 /*export async function getOwnedNFTsV2(chain: string, owner: string): Promise<{
@@ -104,15 +103,10 @@ export async function getOwnedNFTCollections(owner: string) {
 export async function getCollectionInfo(chain: string, address: string) {
   address = ethers.getAddress(address);
 
+  const nftPath = `${chain}:${address}`;
+
   const { data: selectData } = await supabase.from("nft_collections").select()
-    .eq(
-      "chain",
-      chain,
-    )
-    .eq(
-      "address",
-      address,
-    );
+    .eq("nft", nftPath);
   if (selectData && selectData.length > 0) return selectData[0];
 
   const response = await fetch(
@@ -145,8 +139,7 @@ export async function getCollectionInfo(chain: string, address: string) {
     const data: any = await response.json();
     const _collection = data.collection;
     const collection = {
-      chain,
-      address,
+      nft: nftPath,
       metadata: {
         name: _collection.name ?? undefined,
         description: _collection.description ?? undefined,

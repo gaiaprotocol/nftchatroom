@@ -20,8 +20,7 @@ interface GeneralRoom {
 
 interface NFTRoom {
   type: "nft";
-  chain: string;
-  address: string;
+  nft: string;
   metadata: {
     name?: string;
     description?: string;
@@ -40,15 +39,11 @@ serveWithOptions(async (req) => {
   const token = u.searchParams.get("token");
 
   const rooms: { [category: string]: (GeneralRoom | NFTRoom)[] } = {
-    "general": [{
+    "general": Object.values(general_rooms).map((room) => ({
       type: "general",
-      name: "General",
-      uri: "general",
-    }, {
-      type: "general",
-      name: "Memes",
-      uri: "memes",
-    }],
+      name: room.name,
+      uri: room.uri,
+    })),
     "favorites": [],
     "hot": [],
     "owned": [],
@@ -76,8 +71,7 @@ serveWithOptions(async (req) => {
           if (collection) {
             rooms.hot.push({
               type: "nft",
-              chain,
-              address,
+              nft: collection.nft,
               metadata: collection.metadata,
             });
           }
@@ -120,8 +114,7 @@ serveWithOptions(async (req) => {
               if (collection) {
                 rooms.favorites.push({
                   type: "nft",
-                  chain,
-                  address,
+                  nft: collection.nft,
                   metadata: collection.metadata,
                 });
               }
@@ -145,8 +138,7 @@ serveWithOptions(async (req) => {
         const collections = await getOwnedNFTCollections(walletAddress);
         rooms.owned = collections.map((collection) => ({
           type: "nft",
-          chain: "ethereum",
-          address: collection.address,
+          nft: collection.nft,
           metadata: collection.metadata,
         }));
       })());

@@ -10,14 +10,11 @@ serveWithOptions(async (req) => {
   const u = new URL(req.url);
   const walletAddress = u.searchParams.get("wallet_address");
 
-  const { error: deleteNonceError } = await supabase
+  // delete old nonce
+  await supabase
     .from("nonce")
     .delete()
     .eq("id", walletAddress);
-
-  if (deleteNonceError) {
-    return responseError(deleteNonceError);
-  }
 
   const { data, error } = await supabase
     .from("nonce")

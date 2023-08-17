@@ -22,6 +22,12 @@ export default class Toolbar extends DomNode {
         "Docs",
         { click: () => new DocsPopup() },
       ),
+      el(
+        "button",
+        el("img", { src: "/images/toolbar/settings.png" }),
+        "Settings",
+        //{ click: () => new DocsPopup() },
+      ),
       this.userListButton = el(
         "button",
         el("img", { src: "/images/toolbar/user-list.png" }),

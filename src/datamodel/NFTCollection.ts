@@ -1,6 +1,5 @@
 export default interface NFTCollection {
-  chain: string;
-  address: string;
+  nft: string;
   metadata: {
     name?: string;
     description?: string;

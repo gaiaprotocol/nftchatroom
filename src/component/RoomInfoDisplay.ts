@@ -1,12 +1,12 @@
 import { DomNode, el } from "common-dapp-module";
-import Constants from "../Constants.js";
 import { Room } from "../datamodel/Room.js";
+import general_rooms from "../general_rooms.js";
 
 export default class RoomInfoDisplay extends DomNode {
   constructor(room: Room) {
     super(".room-info");
     if (room.type === "general") {
-      const roomInfo = Constants.GENERAL_ROOMS[room.uri];
+      const roomInfo = general_rooms[room.uri];
       if (roomInfo) {
         this.append(
           el("h1", roomInfo.name),

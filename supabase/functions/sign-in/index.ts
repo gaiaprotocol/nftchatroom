@@ -74,14 +74,11 @@ async function signIn(walletAddress: string, signedMessage: string) {
     throw new Error("Invalid signature");
   }
 
-  const { error: deleteNonceError } = await supabase
+  // Delete nonce
+  supabase
     .from("nonce")
     .delete()
     .eq("id", walletAddress);
-
-  if (deleteNonceError) {
-    throw new Error(deleteNonceError.message);
-  }
 
   // Calculate time for 1 hour ago from current time
   const oneHourAgo = new Date(new Date().getTime() - 60 * 60 * 1000)

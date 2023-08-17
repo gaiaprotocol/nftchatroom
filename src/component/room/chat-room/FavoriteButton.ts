@@ -26,7 +26,7 @@ export default class FavoriteButton extends DomNode {
     this.onDelegate(FavoriteManager, "add", (room: Room) => {
       if (
         (room.type === "general" && room.uri === roomId) ||
-        (room.type === "nft" && `${room.chain}:${room.address}` === roomId)
+        (room.type === "nft" && room.nft === roomId)
       ) {
         this.empty().append(
           el("img", { src: "/images/remove-icon.png" }),
@@ -60,9 +60,7 @@ export default class FavoriteButton extends DomNode {
       FavoriteManager.add(this.room);
       post("favorite", {
         token: AuthManager.signed.token,
-        room: this.room.type === "general"
-          ? this.room.uri
-          : `${this.room.chain}:${this.room.address}`,
+        room: this.room.type === "general" ? this.room.uri : this.room.nft,
       });
     }
   }
@@ -70,15 +68,11 @@ export default class FavoriteButton extends DomNode {
   private remove(): void {
     if (this.room && AuthManager.signed) {
       FavoriteManager.remove(
-        this.room.type === "general"
-          ? this.room.uri
-          : `${this.room.chain}:${this.room.address}`,
+        this.room.type === "general" ? this.room.uri : this.room.nft,
       );
       deleteRequest("favorite", {
         token: AuthManager.signed.token,
-        room: this.room.type === "general"
-          ? this.room.uri
-          : `${this.room.chain}:${this.room.address}`,
+        room: this.room.type === "general" ? this.room.uri : this.room.nft,
       });
     }
   }

@@ -71,7 +71,7 @@ export default class AddFavoritePopup extends Popup {
                   FavoriteManager.add(this.room);
                   post("favorite", {
                     token: AuthManager.signed.token,
-                    room: `${this.room.chain}:${this.room.address}`,
+                    room: this.room.nft,
                   });
                   this.delete();
                 }

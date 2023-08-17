@@ -82,11 +82,11 @@ CREATE TABLE "public"."favorite_rooms" (
 ALTER TABLE "public"."favorite_rooms" OWNER TO "postgres";
 
 CREATE TABLE "public"."nft_collections" (
-    "chain" "text" NOT NULL,
-    "address" "text" NOT NULL,
-    "metadata" "jsonb" NOT NULL,
+    "nft" "text" NOT NULL,
+    "metadata" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
     "editors" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone
 );
 
 ALTER TABLE "public"."nft_collections" OWNER TO "postgres";
@@ -141,7 +141,7 @@ ALTER TABLE ONLY "public"."favorite_rooms"
     ADD CONSTRAINT "favorite_rooms_pkey" PRIMARY KEY ("wallet_address");
 
 ALTER TABLE ONLY "public"."nft_collections"
-    ADD CONSTRAINT "nft_collections_pkey" PRIMARY KEY ("chain", "address");
+    ADD CONSTRAINT "nft_collections_pkey" PRIMARY KEY ("nft");
 
 ALTER TABLE ONLY "public"."nonce"
     ADD CONSTRAINT "nonce_pkey" PRIMARY KEY ("id");

@@ -1,8 +1,9 @@
-import { DomNode, el, RetroLoader } from "common-dapp-module";
+import { DomNode, el } from "common-dapp-module";
+import FavoriteManager from "../../../FavoriteManager.js";
 import { get } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
 import { Room } from "../../../datamodel/Room.js";
-import FavoriteManager from "../../../FavoriteManager.js";
+import general_rooms from "../../../general_rooms.js";
 import AddFavoritePopup from "../../../popup/user/AddFavoritePopup.js";
 import SignInPopup from "../../../popup/user/SignInPopup.js";
 import RoomCategory from "./RoomCategory.js";
@@ -31,8 +32,7 @@ export default class RoomList extends DomNode {
               room.uri === (this._currentRoom as any).uri
             ) || (
               room.type === "nft" &&
-              room.chain === (this._currentRoom as any).chain &&
-              room.address === (this._currentRoom as any).address
+              room.nft === (this._currentRoom as any).nft
             ))
           ) {
             item.active();
@@ -59,11 +59,37 @@ export default class RoomList extends DomNode {
     this.deleteClass("active");
   }
 
-  private async loadRooms(): Promise<void> {
+  private displayLoadingRooms(): void {
     this.categories = [];
     FavoriteManager.clear();
 
-    this.empty().append(new RetroLoader());
+    this.empty();
+    const container = el("ul.container").appendTo(this);
+    const categoryNode = new RoomCategory(
+      "general",
+      Object.values(general_rooms).map((room) => {
+        return { type: "general", ...room };
+      }),
+    ).appendTo(
+      container,
+    );
+    categoryNode.on("select", () => this.fireEvent("select"));
+    this.categories.push(categoryNode);
+
+    for (const category of ["Favorites", "Hot", "Owned"]) {
+      new RoomCategory(category, [], true).appendTo(
+        container,
+      );
+    }
+
+    if (this._currentRoom) {
+      this.currentRoom = this._currentRoom;
+    }
+  }
+
+  private async loadRooms(): Promise<void> {
+    this.displayLoadingRooms();
+
     const roomsResponse = await get(
       AuthManager.signed === undefined
         ? "get-rooms"
@@ -71,8 +97,11 @@ export default class RoomList extends DomNode {
     );
     const roomsData: { [category: string]: Room[] } = await roomsResponse
       .json();
-    this.empty();
 
+    this.categories = [];
+    FavoriteManager.clear();
+
+    this.empty();
     const container = el("ul.container").appendTo(this);
     for (const [category, rooms] of Object.entries(roomsData)) {
       const categoryNode = new RoomCategory(category, rooms).appendTo(
@@ -123,8 +152,7 @@ export default class RoomList extends DomNode {
             room.uri === (roomItem.room as any).uri
           ) || (
             room.type === "nft" &&
-            room.chain === (roomItem.room as any).chain &&
-            room.address === (roomItem.room as any).address
+            room.nft === (roomItem.room as any).nft
           ))
         ) {
           roomItem.active();

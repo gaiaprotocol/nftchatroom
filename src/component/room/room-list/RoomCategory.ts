@@ -8,13 +8,24 @@ export default class RoomCategory extends DomNode {
   private list: DomNode;
   public items: RoomItem[] = [];
 
-  constructor(public category: string, rooms: Room[]) {
+  constructor(public category: string, rooms: Room[], loading = false) {
     super("li.room-category");
 
     const details = el("details", { open: "open" }).appendTo(this);
     details.append(el("summary", StringUtil.toTitleCase(category)));
 
     this.list = el("ul").appendTo(details);
+
+    if (loading) {
+      this.list.append(
+        el(
+          "li.loading",
+          el("img", { src: "/images/loader/small-loader.gif" }),
+          "Loading...",
+        ),
+      );
+    }
+
     for (const room of rooms) {
       this.add(room);
     }

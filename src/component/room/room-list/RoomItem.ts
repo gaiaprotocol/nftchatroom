@@ -16,7 +16,7 @@ export default class RoomItem extends DomNode {
             if (room.type === "general") {
               Router.go(`/${room.uri}`);
             } else {
-              Router.go(`/${room.chain}/${room.address}`);
+              Router.go(`/${room.nft.split(":").join("/")}`);
             }
             this.fireEvent("select");
           },

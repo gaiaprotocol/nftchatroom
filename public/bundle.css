@@ -609,6 +609,7 @@ img {
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
   min-height: 110px;
+  word-break: break-all;
 }
 .my-info-popup.component > main > .info > h1 {
   font-weight: bold;
@@ -704,6 +705,7 @@ img {
   min-height: 110px;
   display: flex;
   flex-direction: column;
+  word-break: break-all;
 }
 .edit-my-info-popup.component > main > .info > h1 {
   font-weight: bold;
@@ -908,6 +910,7 @@ img {
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
   min-height: 110px;
+  word-break: break-all;
 }
 .room-profile-popup.component > main > .info > h1 {
   font-weight: bold;
@@ -1000,6 +1003,7 @@ img {
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
   line-height: 1.5em;
   min-height: 110px;
+  word-break: break-all;
 }
 .user-info-popup.component > main > .info > h1 {
   font-weight: bold;
@@ -1428,6 +1432,11 @@ img {
 .room > .toolbar > button > img {
   height: 32px;
 }
+.room > .toolbar > button.connet-wallet-button {
+  border: solid transparent;
+  border-width: 0 2px 0 0;
+  border-image: url("/icon/groupbox-border.svg") 2 repeat;
+}
 .room-list {
   flex-shrink: 0;
   display: none;
@@ -1535,6 +1544,15 @@ img {
   outline: 1px solid var(--dialog-blue);
   color: var(--button-highlight);
   font-weight: bold;
+}
+.room-list > .container > li > details > ul > li.loading {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.room-list > .container > li > details > ul > li.loading > img {
+  width: 16px;
+  height: 16px;
 }
 .room-list > button {
   box-sizing: border-box;

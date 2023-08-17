@@ -1,4 +1,5 @@
 import { DomNode, el, View, ViewParams } from "common-dapp-module";
+import { ethers } from "ethers";
 import RoomComponent from "../component/room/RoomComponent.js";
 import Layout from "./Layout.js";
 
@@ -38,7 +39,7 @@ export default class RoomView extends View {
   }
 
   private enterNFTRoom(chain: string, address: string) {
-    this.roomComponent.room = { type: "nft", chain, address, metadata: {} };
+    this.roomComponent.room = { type: "nft", nft: `${chain}:${ethers.getAddress(address)}`, metadata: {} };
   }
 
   public close(): void {
