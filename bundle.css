@@ -1530,16 +1530,28 @@ img {
 .room-list > .container > li > details > ul > li > a {
   user-select: none;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 4px;
+  padding-right: 4px;
 }
 .room-list > .container > li > details > ul > li > a > img {
   width: 32px;
   height: 32px;
+  flex-shrink: 0;
 }
 .room-list > .container > li > details > ul > li > a:hover {
   text-decoration: underline;
+}
+.room-list > .container > li > details > ul > li > a > .name {
+  flex-grow: 1;
+}
+.room-list > .container > li > details > ul > li > a > .favorite-count {
+  color: #ff0000;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .room-list > .container > li > details > ul > li.active > a {
   background-color: var(--dialog-blue);
