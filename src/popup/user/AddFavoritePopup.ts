@@ -109,7 +109,7 @@ export default class AddFavoritePopup extends Popup {
     try {
       const address = ethers.getAddress(this.addressInput.domElement.value);
       const response = await get(
-        `get-collection-info?chain=${this.chainSelect.domElement.value}&address=${address}`,
+        `get-collection?chain=${this.chainSelect.domElement.value}&address=${address}`,
       );
       if (response.status !== 200) {
         console.log(await response.json());
@@ -120,8 +120,8 @@ export default class AddFavoritePopup extends Popup {
       if (data) {
         this.room = {
           type: "nft",
-          ...data,
-          favoriteCount: data.favorite_count,
+          ...data.collection,
+          favoriteCount: data.collection.favorite_count,
         } as NFTRoom;
         this.info.empty().append(new RoomInfoDisplay(this.room));
         this.addButton.domElement.disabled = false;

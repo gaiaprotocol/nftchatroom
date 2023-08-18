@@ -96,7 +96,8 @@ export default class RoomComponent extends DomNode {
 
     this.onDelegate(AuthManager, "authChanged", () => {
       if (this.currentRoomId?.includes(":")) {
-        this.checkNFTOwned(this.currentRoomId);
+        const [chain, address] = this.currentRoomId.split(":");
+        this.loadCollectionInfo(chain, address);
       } else {
         this.chatRoom.clearProfile();
         this.chatRoom.showMessageBox();
@@ -164,20 +165,21 @@ export default class RoomComponent extends DomNode {
       this.info.room = { type: "general", uri: roomId };
       this.chatRoom.clearProfile();
     } else if (room.type === "nft") {
-      this.checkNFTOwned(roomId);
+      const [chain, address] = roomId.split(":");
+      this.loadCollectionInfo(chain, address);
       this.favoriteButton = new FavoriteButton(roomId);
       this.header.append(this.favoriteButton);
     }
   }
 
-  private async checkNFTOwned(roomId: string) {
+  private async loadCollectionInfo(chain: string, address: string) {
     this.roomTitle.text = "Loading...";
     this.chatRoom.checkingNFTOwned();
 
     const response = await get(
       AuthManager.signed
-        ? `check-nft-owned?token=${AuthManager.signed.token}&room=${roomId}`
-        : `check-nft-owned?room=${roomId}`,
+        ? `get-collection?chain=${chain}&address=${address}&token=${AuthManager.signed.token}`
+        : `get-collection?chain=${chain}&address=${address}`,
     );
     if (response.status !== 200) {
       console.log(await response.json());
@@ -185,7 +187,7 @@ export default class RoomComponent extends DomNode {
     }
 
     const data = await response.json();
-    if (this.currentRoomId !== roomId) return;
+    if (this.currentRoomId !== `${chain}:${address}`) return;
 
     this.chatRoom.setNFTOwned(data.owned, data.collection, data.profile);
     if (data.profile?.pfp) {

@@ -69,7 +69,7 @@ export default class RoomProfilePopup extends Popup {
 
     if (AuthManager.signed) {
       const response = await get(
-        `get-user-info?wallet_address=${AuthManager.signed.walletAddress}&room=${this.roomId}`,
+        `get-user?wallet_address=${AuthManager.signed.walletAddress}&room=${this.roomId}`,
       );
       if (response.status !== 200) {
         console.log(await response.json());

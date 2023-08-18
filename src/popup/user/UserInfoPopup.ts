@@ -43,8 +43,8 @@ export default class UserInfoPopup extends Popup {
     this.body.empty().append(new RetroLoader());
     const response = await get(
       this.room.includes(":")
-        ? `get-user-info?wallet_address=${this.walletAddress}&room=${this.room}`
-        : `get-user-info?wallet_address=${this.walletAddress}`,
+        ? `get-user?wallet_address=${this.walletAddress}&room=${this.room}`
+        : `get-user?wallet_address=${this.walletAddress}`,
     );
     if (response.status !== 200) {
       console.log(await response.json());

@@ -69,7 +69,7 @@ export default class MyInfoPopup extends Popup {
     this.body.empty().append(new RetroLoader());
     if (AuthManager.signed) {
       const response = await get(
-        `get-user-info?wallet_address=${AuthManager.signed.walletAddress}`,
+        `get-user?wallet_address=${AuthManager.signed.walletAddress}`,
       );
       if (response.status !== 200) {
         console.log(await response.json());

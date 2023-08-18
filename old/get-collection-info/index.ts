@@ -5,6 +5,16 @@ serveWithOptions(async (req) => {
   const u = new URL(req.url);
   const chain = u.searchParams.get("chain");
   const address = u.searchParams.get("address");
+  const token = u.searchParams.get("token");
+
+  const promises: Promise<void>[] = [];
+
+  try {
+    await Promise.all(promises);
+  } catch (error) {
+    return responseError(error);
+  }
+
   if (chain && address) {
     const collection = await getCollectionInfo(chain, address);
     if (collection) {
