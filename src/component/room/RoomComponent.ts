@@ -203,6 +203,7 @@ export default class RoomComponent extends DomNode {
     this.info.room = {
       type: "nft",
       ...data.collection,
+      favoriteCount: data.collection.favorite_count,
     };
     if (this.favoriteButton) {
       this.favoriteButton.room = this.info.room;

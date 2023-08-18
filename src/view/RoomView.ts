@@ -39,7 +39,12 @@ export default class RoomView extends View {
   }
 
   private enterNFTRoom(chain: string, address: string) {
-    this.roomComponent.room = { type: "nft", nft: `${chain}:${ethers.getAddress(address)}`, metadata: {} };
+    this.roomComponent.room = {
+      type: "nft",
+      nft: `${chain}:${ethers.getAddress(address)}`,
+      metadata: {},
+      favoriteCount: 0,
+    };
   }
 
   public close(): void {

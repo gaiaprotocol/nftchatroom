@@ -82,8 +82,11 @@ export async function getOwnedNFTCollections(owner: string) {
       });
     }
   }
-  await supabase.from("nft_collections").upsert(collections);
-  return collections.filter((c) => !blacklist.includes(c.nft.split(":")[1]));
+  const { data: selectData, error } = await supabase.from("nft_collections")
+    .upsert(collections).select();
+  if (error) throw error;
+
+  return selectData.filter((c) => !blacklist.includes(c.nft.split(":")[1]));
 }
 
 /*export async function getOwnedNFTsV2(chain: string, owner: string): Promise<{
@@ -153,7 +156,10 @@ export async function getCollectionInfo(chain: string, address: string) {
       },
     };
 
-    supabase.from("nft_collections").upsert(collection);
-    return collection;
+    const { data: selectData, error } = await supabase.from("nft_collections")
+      .upsert(collection).select();
+    if (error) throw error;
+
+    return selectData[0];
   }
 }

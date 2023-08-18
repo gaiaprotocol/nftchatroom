@@ -9,7 +9,6 @@ import { ethers } from "ethers";
 import { get, post } from "../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../auth/AuthManager.js";
 import RoomInfoDisplay from "../../component/RoomInfoDisplay.js";
-import NFTCollection from "../../datamodel/NFTCollection.js";
 import { NFTRoom } from "../../datamodel/Room.js";
 import FavoriteManager from "../../FavoriteManager.js";
 
@@ -68,7 +67,10 @@ export default class AddFavoritePopup extends Popup {
             {
               click: async () => {
                 if (this.room && AuthManager.signed) {
-                  FavoriteManager.add(this.room);
+                  if (this.room.type === "nft") {
+                    this.room.favoriteCount += 1;
+                  }
+                  FavoriteManager.addNew(this.room);
                   post("favorite", {
                     token: AuthManager.signed.token,
                     room: this.room.nft,
@@ -114,9 +116,13 @@ export default class AddFavoritePopup extends Popup {
         return;
       }
 
-      const data: NFTCollection = await response.json();
+      const data = await response.json();
       if (data) {
-        this.room = { type: "nft", ...data };
+        this.room = {
+          type: "nft",
+          ...data,
+          favoriteCount: data.favorite_count,
+        } as NFTRoom;
         this.info.empty().append(new RoomInfoDisplay(this.room));
         this.addButton.domElement.disabled = false;
       }

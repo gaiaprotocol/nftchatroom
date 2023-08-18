@@ -9,6 +9,11 @@ class FavoriteManager extends EventContainer {
     this.fireEvent("add", room);
   }
 
+  public addNew(room: Room): void {
+    this.add(room);
+    this.fireEvent("addNew", room);
+  }
+
   public remove(roomId: string): void {
     this.favorites = this.favorites.filter((r) => getRoomId(r) !== roomId);
     this.fireEvent("remove", roomId);

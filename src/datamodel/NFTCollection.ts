@@ -11,4 +11,5 @@ export default interface NFTCollection {
     twitterUsername?: string;
     slug?: string;
   };
+  favoriteCount: number;
 }

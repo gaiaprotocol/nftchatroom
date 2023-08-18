@@ -96,19 +96,33 @@
                         }
 
                         >a {
-                            user-select: none;
-                            cursor     : pointer;
-                            display    : inline-flex;
-                            align-items: center;
-                            gap        : 4px;
+                            user-select  : none;
+                            cursor       : pointer;
+                            display      : flex;
+                            align-items  : center;
+                            gap          : 4px;
+                            padding-right: 4px;
 
                             >img {
-                                width : 32px;
-                                height: 32px;
+                                width      : 32px;
+                                height     : 32px;
+                                flex-shrink: 0;
                             }
 
                             &:hover {
                                 text-decoration: underline;
+                            }
+
+                            >.name {
+                                flex-grow: 1;
+                            }
+
+                            >.favorite-count {
+                                color      : #ff0000;
+                                flex-shrink: 0;
+                                display    : flex;
+                                align-items: center;
+                                gap        : 4px;
                             }
                         }
 

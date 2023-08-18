@@ -2,13 +2,13 @@ import { DomNode, el } from "common-dapp-module";
 import FavoriteManager from "../../../FavoriteManager.js";
 import { deleteRequest, post } from "../../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../../auth/AuthManager.js";
-import { Room } from "../../../datamodel/Room.js";
+import { Room, getRoomId } from "../../../datamodel/Room.js";
 import SignInPopup from "../../../popup/user/SignInPopup.js";
 
 export default class FavoriteButton extends DomNode {
   public room: Room | undefined;
 
-  constructor(roomId: string) {
+  constructor(private roomId: string) {
     super("button.favorite-button");
 
     if (FavoriteManager.check(roomId)) {
@@ -18,16 +18,13 @@ export default class FavoriteButton extends DomNode {
       );
     } else {
       this.append(
-        el("img", { src: "/images/add-icon.png" }),
+        el("img", { src: "/images/heart.png" }),
         "Add to Favorites",
       );
     }
 
     this.onDelegate(FavoriteManager, "add", (room: Room) => {
-      if (
-        (room.type === "general" && room.uri === roomId) ||
-        (room.type === "nft" && room.nft === roomId)
-      ) {
+      if (getRoomId(room) === this.roomId) {
         this.empty().append(
           el("img", { src: "/images/remove-icon.png" }),
           "Remove from Favorites",
@@ -36,9 +33,9 @@ export default class FavoriteButton extends DomNode {
     });
 
     this.onDelegate(FavoriteManager, "remove", (roomId: string) => {
-      if (roomId === roomId) {
+      if (roomId === this.roomId) {
         this.empty().append(
-          el("img", { src: "/images/add-icon.png" }),
+          el("img", { src: "/images/heart.png" }),
           "Add to Favorites",
         );
       }
@@ -57,7 +54,7 @@ export default class FavoriteButton extends DomNode {
 
   private add(): void {
     if (this.room && AuthManager.signed) {
-      FavoriteManager.add(this.room);
+      FavoriteManager.addNew(this.room);
       post("favorite", {
         token: AuthManager.signed.token,
         room: this.room.type === "general" ? this.room.uri : this.room.nft,

@@ -24,6 +24,56 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
+CREATE FUNCTION "public"."decrement_favorite_count"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  update nft_collections
+  set
+    favorite_count = favorite_count - 1
+  where
+    nft = old.room;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."decrement_favorite_count"() OWNER TO "postgres";
+
+CREATE FUNCTION "public"."get_hot_rooms"() RETURNS "json"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+begin
+  RETURN(select array_to_json(array_agg(row_to_json(t)))
+  from (
+    select
+      room
+    from
+      daily_message_analysis
+    where
+      date = current_date
+      and room != 'general'
+    order by
+      message_count desc
+    limit
+      10
+  )t);
+end;
+$$;
+
+ALTER FUNCTION "public"."get_hot_rooms"() OWNER TO "postgres";
+
+CREATE FUNCTION "public"."increment_favorite_count"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  update nft_collections
+  set
+    favorite_count = favorite_count + 1
+  where
+    nft = new.room;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."increment_favorite_count"() OWNER TO "postgres";
+
 CREATE FUNCTION "public"."increment_today_message_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
@@ -76,7 +126,7 @@ ALTER TABLE "public"."daily_message_analysis" OWNER TO "postgres";
 CREATE TABLE "public"."favorite_rooms" (
     "wallet_address" "text" DEFAULT ("auth"."jwt"() ->> 'wallet_address'::"text") NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "rooms" "text"[] DEFAULT '{}'::"text"[] NOT NULL
+    "room" "text" NOT NULL
 );
 
 ALTER TABLE "public"."favorite_rooms" OWNER TO "postgres";
@@ -86,7 +136,8 @@ CREATE TABLE "public"."nft_collections" (
     "metadata" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
     "editors" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
+    "updated_at" timestamp with time zone,
+    "favorite_count" integer DEFAULT 0 NOT NULL
 );
 
 ALTER TABLE "public"."nft_collections" OWNER TO "postgres";
@@ -138,7 +189,7 @@ ALTER TABLE ONLY "public"."daily_message_analysis"
     ADD CONSTRAINT "daily_message_analysis_pkey" PRIMARY KEY ("room", "date");
 
 ALTER TABLE ONLY "public"."favorite_rooms"
-    ADD CONSTRAINT "favorite_rooms_pkey" PRIMARY KEY ("wallet_address");
+    ADD CONSTRAINT "favorite_rooms_pkey" PRIMARY KEY ("wallet_address", "room");
 
 ALTER TABLE ONLY "public"."nft_collections"
     ADD CONSTRAINT "nft_collections_pkey" PRIMARY KEY ("nft");
@@ -154,6 +205,10 @@ ALTER TABLE ONLY "public"."user_details"
 
 ALTER TABLE ONLY "public"."user_nft_ownership"
     ADD CONSTRAINT "user_nft_ownership_pkey" PRIMARY KEY ("wallet_address", "nft", "token_id");
+
+CREATE TRIGGER "decrement_favorite_count" AFTER DELETE ON "public"."favorite_rooms" FOR EACH ROW EXECUTE FUNCTION "public"."decrement_favorite_count"();
+
+CREATE TRIGGER "increment_favorite_count" AFTER INSERT ON "public"."favorite_rooms" FOR EACH ROW EXECUTE FUNCTION "public"."increment_favorite_count"();
 
 CREATE TRIGGER "increment_today_message_count" AFTER INSERT ON "public"."chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."increment_today_message_count"();
 
@@ -196,6 +251,18 @@ GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."decrement_favorite_count"() TO "anon";
+GRANT ALL ON FUNCTION "public"."decrement_favorite_count"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."decrement_favorite_count"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."get_hot_rooms"() TO "anon";
+GRANT ALL ON FUNCTION "public"."get_hot_rooms"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_hot_rooms"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."increment_favorite_count"() TO "anon";
+GRANT ALL ON FUNCTION "public"."increment_favorite_count"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."increment_favorite_count"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."increment_today_message_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."increment_today_message_count"() TO "authenticated";

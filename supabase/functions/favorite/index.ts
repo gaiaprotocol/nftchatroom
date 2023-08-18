@@ -17,53 +17,29 @@ serveWithOptions(async (req) => {
     ) as any)?.wallet_address;
 
     if (walletAddress) {
-      const { data: selectData, error: selectError } = await supabase
-        .from("favorite_rooms")
-        .select()
-        .eq("wallet_address", walletAddress);
-      if (selectError) {
-        return responseError(selectError);
-      }
-
       if (room.includes(":")) {
         const [chain, address] = room.split(":");
         room = `${chain}:${ethers.getAddress(address)}`;
       }
 
       if (req.method === "POST") { // add favorite room
-        if (selectData.length === 0) {
-          const { error: insertError } = await supabase
-            .from("favorite_rooms")
-            .insert({
-              wallet_address: walletAddress,
-              rooms: [room],
-            })
-            .eq("wallet_address", walletAddress);
-          if (insertError) {
-            return responseError(insertError);
-          }
-        } else if (!selectData[0].rooms.includes(room)) {
-          const { error: updateError } = await supabase
-            .from("favorite_rooms")
-            .update({
-              rooms: [...selectData[0].rooms, room],
-            })
-            .eq("wallet_address", walletAddress);
-          if (updateError) {
-            return responseError(updateError);
-          }
+        const { error: insertError } = await supabase
+          .from("favorite_rooms")
+          .insert({
+            wallet_address: walletAddress,
+            room,
+          });
+        if (insertError) {
+          return responseError(insertError);
         }
       } else if (req.method === "DELETE") { // remove favorite room
-        if (selectData[0]?.rooms.includes(room)) {
-          const { error: updateError } = await supabase
-            .from("favorite_rooms")
-            .update({
-              rooms: selectData[0].rooms.filter((r: string) => r !== room),
-            })
-            .eq("wallet_address", walletAddress);
-          if (updateError) {
-            return responseError(updateError);
-          }
+        const { error: deleteError } = await supabase
+          .from("favorite_rooms")
+          .delete()
+          .eq("wallet_address", walletAddress)
+          .eq("room", room);
+        if (deleteError) {
+          return responseError(deleteError);
         }
       }
     }

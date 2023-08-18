@@ -32,6 +32,7 @@ interface NFTRoom {
     twitterUsername?: string;
     slug?: string;
   };
+  favoriteCount: number;
 }
 
 serveWithOptions(async (req) => {
@@ -53,17 +54,20 @@ serveWithOptions(async (req) => {
 
   // get hot rooms
   promises.push((async () => {
-    const { data: dailyMessageAnalysis, error: dailyMessageAnalysisError } =
-      await supabase.from("daily_message_analysis")
-        .select()
-        .eq("date", new Date().toISOString().split("T")[0])
-        .neq("room", "general")
-        .order("message_count", { ascending: false })
-        .limit(10);
-    if (dailyMessageAnalysisError) throw dailyMessageAnalysisError;
+    const start1 = Date.now();
+    const { data, error } = await supabase.from("daily_message_analysis")
+      .select()
+      .eq("date", new Date().toISOString().split("T")[0])
+      .neq("room", "general")
+      .order("message_count", { ascending: false })
+      .limit(10);
+    //const { data, error } = await supabase.rpc("get_hot_rooms");
+    if (error) throw error;
+    console.log(`get daily message analysis v2 ${Date.now() - start1}ms`);
 
+    const start2 = Date.now();
     const hotPromises: Promise<void>[] = [];
-    for (const analysis of dailyMessageAnalysis ?? []) {
+    for (const analysis of data ?? []) {
       if (analysis.room.includes(":")) {
         hotPromises.push((async () => {
           const [chain, address] = analysis.room.split(":");
@@ -73,6 +77,7 @@ serveWithOptions(async (req) => {
               type: "nft",
               nft: collection.nft,
               metadata: collection.metadata,
+              favoriteCount: collection.favorite_count,
             });
           }
         })());
@@ -85,6 +90,7 @@ serveWithOptions(async (req) => {
       }
     }
     await Promise.all(hotPromises);
+    console.log(`get hot rooms ${Date.now() - start2}ms`);
   })());
 
   if (token) {
@@ -96,6 +102,7 @@ serveWithOptions(async (req) => {
     if (walletAddress) {
       // get favorite rooms
       promises.push((async () => {
+        const start = Date.now();
         const { data: favoriteRoomsData, error: favoriteRoomsError } =
           await supabase
             .from("favorite_rooms")
@@ -106,7 +113,7 @@ serveWithOptions(async (req) => {
         }
 
         const favoritePromises: Promise<void>[] = [];
-        for (const room of favoriteRoomsData[0]?.rooms ?? []) {
+        for (const room of favoriteRoomsData.map((r) => r.room)) {
           if (room.includes(":")) {
             favoritePromises.push((async () => {
               const [chain, address] = room.split(":");
@@ -116,6 +123,7 @@ serveWithOptions(async (req) => {
                   type: "nft",
                   nft: collection.nft,
                   metadata: collection.metadata,
+                  favoriteCount: collection.favorite_count,
                 });
               }
             })());
@@ -131,16 +139,20 @@ serveWithOptions(async (req) => {
           }
         }
         await Promise.all(favoritePromises);
+        console.log(`get favorite rooms ${Date.now() - start}ms`);
       })());
 
       // get owned nft rooms
       promises.push((async () => {
+        const start = Date.now();
         const collections = await getOwnedNFTCollections(walletAddress);
         rooms.owned = collections.map((collection) => ({
           type: "nft",
           nft: collection.nft,
           metadata: collection.metadata,
+          favoriteCount: collection.favorite_count,
         }));
+        console.log(`get owned nft rooms ${Date.now() - start}ms`);
       })());
     }
   }
