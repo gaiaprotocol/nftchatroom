@@ -945,6 +945,10 @@ img {
   color: var(--button-shadow);
   text-shadow: 1px 1px 0 var(--button-highlight);
 }
+.room-profile-popup.component > .status-bar > .status > a {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .user-info-popup.component {
   max-width: 440px;
   width: 90%;
@@ -1277,6 +1281,96 @@ img {
   text-decoration: underline;
   cursor: pointer;
 }
+.setting-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.setting-popup.component > main {
+  display: flex;
+  padding: 8px;
+}
+.setting-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.setting-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.setting-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.setting-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.setting-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
+.welcome-popup.component {
+  max-width: 440px;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: var(--border-window-outer), var(--border-window-inner);
+  background: var(--surface);
+  padding: 3px;
+}
+.welcome-popup.component > main {
+  display: flex;
+  padding: 8px;
+}
+.welcome-popup.component > footer {
+  padding: 0 8px 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.welcome-popup.component > footer > button {
+  box-sizing: border-box;
+  border: none;
+  color: transparent;
+  text-shadow: 0 0 var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  min-width: 75px;
+  min-height: 23px;
+  padding: 0 12px;
+  text-align: center;
+}
+.welcome-popup.component > footer > button:active:not(:disabled) {
+  box-shadow: var(--border-sunken-outer), var(--border-sunken-inner);
+  text-shadow: 1px 1px var(--text-color);
+}
+.welcome-popup.component > footer > button:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -4px;
+}
+.welcome-popup.component > footer > button:disabled {
+  color: var(--button-shadow);
+  text-shadow: 1px 1px 0 var(--button-highlight);
+}
 .room-info > .banner {
   display: block;
   width: 100%;
@@ -1428,7 +1522,7 @@ img {
 }
 .room > .toolbar > button:last-of-type {
   margin-left: auto;
-  border-width: 0 0 0 2px;
+  border-width: 0 2px 0 0;
   border-image: url("/icon/groupbox-border.svg") 2 repeat;
 }
 .room > .toolbar > button > img {
