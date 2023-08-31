@@ -4,11 +4,13 @@ import {
   el,
   Popup,
   RetroLoader,
+  RetroStatusBar,
   RetroTitleBar,
 } from "common-dapp-module";
 import { get, post } from "../../_shared/edgeFunctionFetch.js";
 import AuthManager from "../../auth/AuthManager.js";
 import SelectPFPPopup from "../user/SelectPFPPopup.js";
+import DocsPopup from "../common/DocsPopup.js";
 
 export default class RoomProfilePopup extends Popup {
   public content: DomNode;
@@ -58,6 +60,18 @@ export default class RoomProfilePopup extends Popup {
             "Cancel",
           ),
         ),
+        new RetroStatusBar({
+          statuses: [
+            el("a", "What is Room Profile?", {
+              click: (event) => {
+                event.preventDefault();
+                new DocsPopup("room-profile");
+              },
+              target: "_blank",
+              href: "https://docs.nftchatroom.com/room-profile",
+            }),
+          ],
+        }),
       ),
     );
     this.load();

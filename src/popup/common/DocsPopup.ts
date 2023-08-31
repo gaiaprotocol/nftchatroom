@@ -9,7 +9,7 @@ import {
 export default class DocsPopup extends Popup {
   public content: DomNode;
 
-  constructor() {
+  constructor(uri?: string) {
     super({ barrierDismissible: true });
 
     let iframe: DomNode<HTMLIFrameElement>;
@@ -30,7 +30,7 @@ export default class DocsPopup extends Popup {
           }),
         ),
         iframe = el("iframe.loading", {
-          src: "https://docs.nftchatroom.com/",
+          src: "https://docs.nftchatroom.com/" + (uri ?? ""),
         }),
       ),
     );

@@ -42,7 +42,8 @@ export default class UserList extends DomNode {
           this.showUserList(newState);
         },
       );
-      channel.subscribe(async (status) => {
+      channel.subscribe(async (status, error) => {
+        console.log(status, error);
         if (
           status === "SUBSCRIBED" && AuthManager.signed && (
             this._roomId?.includes(":") !== true || pfp !== undefined
