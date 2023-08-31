@@ -19,6 +19,7 @@ export default class SettingComponent extends DomNode {
           max: 3,
           step: 0.1,
           value: this.settingStore.get("zoom") ?? 1,
+          touchstart: (event) => event.stopPropagation(),
           input: (event) => this.currentZoomDisplay.text = event.target.value,
           change: (event) => {
             document.documentElement.style.setProperty(
