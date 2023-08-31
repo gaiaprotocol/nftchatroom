@@ -26,7 +26,7 @@ export default class SettingComponent extends DomNode {
               "zoom",
               event.target.value,
             );
-            this.settingStore.set("zoom", event.target.value);
+            this.settingStore.set("zoom", event.target.value, true);
             if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
               new Alert({
                 title: "Warning",
