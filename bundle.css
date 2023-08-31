@@ -1946,6 +1946,7 @@ img {
   flex-direction: column;
   width: 100%;
   padding: 20px;
+  overflow-x: scroll;
 }
 .settings > .zoom-setting {
   display: flex;
