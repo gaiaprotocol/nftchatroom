@@ -15,13 +15,13 @@ export default class MessageList extends DomNode {
 
   constructor() {
     super(".message-list");
-    this.onDelegate(SupabaseManager, "connect", () => this.createChannel());
+    this.onDelegate(SupabaseManager, "connect", () => this.openChannel());
   }
 
   public set roomId(roomId: string | undefined) {
     this._roomId = roomId;
     this.loadMessages();
-    this.createChannel();
+    this.openChannel();
   }
 
   public get roomId() {
@@ -76,7 +76,7 @@ export default class MessageList extends DomNode {
     return item;
   }
 
-  private createChannel() {
+  private openChannel() {
     if (this._channel !== undefined) {
       SupabaseManager.supabase.removeChannel(this._channel);
     }
@@ -98,5 +98,11 @@ export default class MessageList extends DomNode {
         )
         .subscribe();
     }
+  }
+
+  public delete() {
+    this._channel?.unsubscribe();
+    this._channel = undefined;
+    super.delete();
   }
 }

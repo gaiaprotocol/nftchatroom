@@ -75,7 +75,7 @@ async function signIn(walletAddress: string, signedMessage: string) {
   }
 
   // Delete nonce
-  supabase
+  await supabase
     .from("nonce")
     .delete()
     .eq("id", walletAddress);
