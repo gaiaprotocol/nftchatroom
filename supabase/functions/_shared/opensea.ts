@@ -37,6 +37,13 @@ export async function getOwnedNFTs(owner: string, address?: string) {
       },
     },
   );
+  if (result.status !== 200) {
+    await supabase.from("opensea_api_errors")
+      .insert({
+        error_message: await result.text(),
+      });
+    throw new Error("OpenSea API error");
+  }
   return (await result.json()).assets ?? [];
 }
 
@@ -100,6 +107,13 @@ export async function getOwnedNFTCollections(owner: string) {
       },
     },
   );
+  if (result.status !== 200) {
+    await supabase.from("opensea_api_errors")
+      .insert({
+        error_message: await result.text(),
+      });
+    throw new Error("OpenSea API error");
+  }
   return (await result.json()).nfts ?? [];
 }*/
 
@@ -121,7 +135,10 @@ export async function getCollectionInfo(chain: string, address: string) {
     },
   );
   if (response.status !== 200) {
-    console.error(await response.text());
+    await supabase.from("opensea_api_errors")
+      .insert({
+        error_message: await response.text(),
+      });
     throw new Error("OpenSea API error");
   }
   const data: any = await response.json();
@@ -136,7 +153,10 @@ export async function getCollectionInfo(chain: string, address: string) {
       },
     );
     if (response.status !== 200) {
-      console.error(await response.text());
+      await supabase.from("opensea_api_errors")
+        .insert({
+          error_message: await response.text(),
+        });
       throw new Error("OpenSea API error");
     }
     const data: any = await response.json();
